@@ -3,8 +3,6 @@
  */
 package logic.domain;
 
-import parameterHack.domain.DbmsType;
-
 /**
  * <pre>
  * logic.domain

@@ -10,7 +10,6 @@ import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
 
-import logic.BlindSQLInjection;
 
 public class BlindSQLInjectionUI extends JFrame{
 
@@ -69,10 +68,10 @@ public class BlindSQLInjectionUI extends JFrame{
 		public void actionPerformed(ActionEvent e) {
 			// TODO Auto-generated method stub
 			String url = urlField.getText();
-			BlindSQLInjection logic = new BlindSQLInjection();
+			//BlindSQLInjection logic = new BlindSQLInjection();
 			try {
-				String result = logic.sendGet(url);
-				resArea.setText(result);
+				//String result = logic.sendGet(url);
+				//resArea.setText(result);
 			} catch (Exception e1) {
 				// TODO Auto-generated catch block
 				e1.printStackTrace();
