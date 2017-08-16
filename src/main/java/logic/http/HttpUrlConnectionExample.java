@@ -1,4 +1,4 @@
-package logic;
+package logic.http;
 
 import java.io.BufferedReader;
 import java.io.DataOutputStream;

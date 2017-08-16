@@ -42,7 +42,7 @@ public class BlindSQLInjectionUI extends JFrame{
 		
 		resArea = new JTextArea(5, 10);
 		resArea.setLineWrap(true);
-		resPane = new JScrollPane(resArea);
+		resPane = new JScrollPane(resArea); 
 		
 		// btns
 		startBtn = new JButton("Start!");

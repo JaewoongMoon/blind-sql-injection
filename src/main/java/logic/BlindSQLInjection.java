@@ -13,7 +13,9 @@ public class BlindSQLInjection {
 	
 	public static void main(String[] args) {
 		
-		executePost("http://google.com", "");
+		//executePost("http://google.com", "");
+		
+		
 	}
 	
 	public String sendGet(String url) throws Exception {
