@@ -1,5 +1,5 @@
 /**
- * @ HttpUrlResolver.java
+ * @ HttpSoldier.java
  */
 package logic.http;
 
@@ -12,20 +12,33 @@ import java.net.InetSocketAddress;
 import java.net.Proxy;
 import java.net.URL;
 
+import logic.domain.HttpBullet;
+import logic.domain.enumeration.HttpMethod;
+
 /**
  * <pre>
  * logic.http
- * HttpUrlResolver.java 
+ * HttpSoldier.java 
  * </pre>
  *
  * @brief	: 
  * @author	: Jae-Woong Moon(mjw8585@gmail.com)
  * @Date	: 2017/08/16
  */
-public class HttpUrlResolver {
+public class HttpSoldier {
 
 	private final String USER_AGENT = "Mozilla/5.0";
 	Proxy proxy = new Proxy(Proxy.Type.HTTP, new InetSocketAddress("127.0.0.1", 8082));
+	
+	public String send(HttpBullet bullet){
+		if(bullet.getHttpMethod() == HttpMethod.GET){
+			return sendGet(bullet.getUrl());
+		}else if (bullet.getHttpMethod() == HttpMethod.POST){
+			return sendPost(bullet.getUrl(), bullet.getParamName() + "=" + bullet.getParamValue());
+		}else{
+			return "None";
+		}
+	}
 	
 	public String sendGet(String targetURL){
 		HttpURLConnection con = null;

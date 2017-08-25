@@ -1,12 +1,12 @@
 /**
  * @ QueryMaker.java
  */
-package logic.sqlinjection.query;
+package logic.query;
 
-import logic.domain.DbmsType;
+import logic.domain.enumeration.DbmsType;
 import logic.domain.QueryCondition;
-import logic.domain.QueryType;
-import logic.domain.TargetType;
+import logic.domain.enumeration.QueryType;
+import logic.domain.enumeration.TargetType;
 
 /**
  * <pre>
@@ -14,7 +14,7 @@ import logic.domain.TargetType;
  * QueryMaker.java 
  * </pre>
  *
- * @brief	: 基本クエリーをもとにインジェクションクエリーを作るクラス
+ * @brief	: Make query string based on default query string
  * @author	: Jae-Woong Moon(mjw8585@gmail.com)
  * @Date	: 2017/08/16
  */
@@ -86,6 +86,8 @@ public class QueryMaker {
 			else if(targetType == TargetType.TABLE){
 				if(queryType == QueryType.COUNT){
 					return DefaultQueries.MYSQL_TABLE_COUNT_QUERY;
+				}else if(queryType == QueryType.LENGTH){
+					return DefaultQueries.MYSQL_TABLE_LENGTH_QUERY;
 				}
 			}
 		}

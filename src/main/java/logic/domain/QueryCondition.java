@@ -3,6 +3,10 @@
  */
 package logic.domain;
 
+import logic.domain.enumeration.DbmsType;
+import logic.domain.enumeration.QueryType;
+import logic.domain.enumeration.TargetType;
+
 /**
  * <pre>
  * logic.domain
@@ -20,8 +24,8 @@ public class QueryCondition {
 	private String checkVal;
 	private int dbIndex = -1;
 	private int dbNameIndex = -1;
-	private int tableIndex = -1;
 	private String dbName;
+	private int tableIndex = -1;
 	
 	
 	/**
@@ -36,9 +40,7 @@ public class QueryCondition {
 		this.targetType = targetType;
 		this.queryType = queryType;
 	}
-	
-	
-	
+
 	public String getDbName() {
 		return dbName;
 	}

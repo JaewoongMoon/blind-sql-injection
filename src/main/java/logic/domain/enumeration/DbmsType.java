@@ -1,7 +1,7 @@
 /**
  * @ DbmsType.java
  */
-package logic.domain;
+package logic.domain.enumeration;
 
 /**
  * <pre>

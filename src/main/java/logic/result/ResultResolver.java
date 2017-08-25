@@ -1,17 +1,18 @@
 /**
  * @ ResultResolver.java
  */
-package logic.sqlinjection;
+package logic.result;
 
 import java.util.List;
 
-import logic.domain.DbmsType;
+import logic.domain.enumeration.DbmsType;
+import logic.domain.enumeration.HttpQueryType;
 import logic.domain.QueryCondition;
-import logic.domain.QueryType;
-import logic.domain.TargetType;
-import logic.http.HttpUrlResolver;
-import logic.http.URLMaker;
-import logic.sqlinjection.query.QueryMaker;
+import logic.domain.URLCondition;
+import logic.domain.UserValueCondition;
+import logic.domain.enumeration.QueryType;
+import logic.domain.enumeration.TargetType;
+import logic.query.QueryMaker;
 
 /**
  * <pre>
@@ -19,45 +20,37 @@ import logic.sqlinjection.query.QueryMaker;
  * ResultResolver.java 
  * </pre>
  *
- * @brief	: 판정결과(SuccessDecider)를 토대로 결과를 완성해나가는 클래스 
+ * @brief	: Make result by using SuccessDecider's deciding result.  
+ * 	Responsible for making QueryCondition and URLCondition.
+ * 
  * @author	: Jae-Woong Moon(mjw8585@gmail.com)
  * @Date	: 2017/08/16
  */
 public class ResultResolver {
 
-	private SuccessDecider decider = null;
-	private QueryMaker qm = null;
-	private URLMaker urlMaker = null;
-	private HttpUrlResolver urlResolver = null;
 	
-	public ResultResolver() {
-		decider = new SuccessDecider();
-		qm = new QueryMaker();
-		urlMaker = new URLMaker();
-		urlResolver = new HttpUrlResolver();
-	}
+	private ResultHelper helper = new ResultHelper();
+	
 
-
-	public int getDBCount(String targetURL, String match, int until, String targetParam){
+	public int getDBCount(String targetURL, String match, int until, String targetParam, String targetParamVal){
 		int cnt = 0;
-		for(int i=0; i < until; i++){
-			// STEP 1. 요청 URL 생성
-			QueryCondition cond = new QueryCondition(DbmsType.MY_SQL, TargetType.DB_SCHEMA, QueryType.COUNT);
-			cond.setCheckVal(i+"");
-			String query = qm.getQuery(cond);
-			String URL = urlMaker.getURL(targetURL, targetParam, query);
-			//System.out.println(URL);
-			// STEP 2. URL 요청 및 결과 확인
-			String res = urlResolver.sendGet(URL);
-			//System.out.println(res);
-			if(decider.isSuccess(res, match)){
-				cnt = i;
-				break;
-			}
-		}
+		QueryCondition qc = new QueryCondition(DbmsType.MY_SQL, TargetType.DB_SCHEMA, QueryType.COUNT);
+		
+		URLCondition uc = new URLCondition();
+		uc.setDomain(targetURL);
+		uc.setHttpQueryType(HttpQueryType.GET_QUERY_ON_PARAM);
+		uc.setParamName(targetParam);
+		uc.setParamValue(targetParamVal);
+		
+		UserValueCondition cond = new UserValueCondition();
+		cond.setCountUntil(until);
+		cond.setMatch(match);
+		
+		cnt = helper.getCount(qc, uc, cond);
 		return cnt;
 	}
 	
+	/*
 	public int getDBNameLength(String targetURL, String match,int targetDBIndex, int until, String targetParam){
 		int cnt = 0;
 		for(int i=0; i < until; i++){
@@ -104,25 +97,6 @@ public class ResultResolver {
 		}
 		return dbName;
 	}
-	
-	public int getTableCount(String targetURL, String match, String dbName, int until, String targetParam){
-		int cnt = 0;
-		for(int i=0; i < until; i++){
-			// STEP 1. 요청 URL 생성
-			QueryCondition cond = new QueryCondition(DbmsType.MY_SQL, TargetType.TABLE, QueryType.COUNT);
-			cond.setCheckVal(i+"");
-			cond.setDbName(dbName);
-			
-			String query = qm.getQuery(cond);
-			String URL = urlMaker.getURL(targetURL, targetParam, query);
-			// STEP 2. URL 요청 및 결과 확인
-			String res = urlResolver.sendGet(URL);
-			if(decider.isSuccess(res, match)){
-				cnt = i;
-				break;
-			}
-		}
-		return cnt;
-	}
+	*/
 	
 }

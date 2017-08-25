@@ -1,7 +1,7 @@
 /**
  * @ SuccessDecider.java
  */
-package logic.sqlinjection;
+package logic.result;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;

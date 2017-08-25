@@ -1,21 +1,22 @@
 /**
- * @ QueryType.java
+ * @ TargetType.java
  */
-package logic.domain;
+package logic.domain.enumeration;
 
 /**
  * <pre>
  * logic.domain
- * QueryType.java 
+ * TargetType.java 
  * </pre>
  *
  * @brief	: 
  * @author	: Jae-Woong Moon(mjw8585@gmail.com)
  * @Date	: 2017/08/16
  */
-public enum QueryType {
+public enum TargetType {
 
-	COUNT,
-	LENGTH,
-	CONTENT //(=NAME)
+	DB_SCHEMA,
+	TABLE,
+	COLUMN,
+	DATA
 }
