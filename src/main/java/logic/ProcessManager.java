@@ -6,12 +6,7 @@ package logic;
 import java.util.ArrayList;
 import java.util.List;
 
-import logic.domain.enumeration.DbmsType;
-import logic.domain.enumeration.QueryType;
-import logic.domain.enumeration.TargetType;
-import logic.query.QueryMaker;
 import logic.result.ResultResolver;
-import logic.result.SuccessDecider;
 
 /**
  * <pre>
@@ -72,15 +67,15 @@ public class ProcessManager {
 		return resultResolver.getDBCount(targetURL, match, 20, targetParam, targetParamVal);
 	}
 	
-	/*
+	
 	public List<Integer> getDBNameLength(int dbCnt){
 		List<Integer> dbLengths = new ArrayList<Integer>();
 		for (int i=0; i < dbCnt; i++){
-			dbLengths.add(resultResolver.getDBNameLength(targetURL, match, i, 40, targetParam));
+			dbLengths.add(resultResolver.getDBNameLength(targetURL, match, i, 40, targetParam, targetParamVal));
 		}
 		// show data
 		for (int i=0; i < dbLengths.size(); i++){
-			SysteprocessManager.out.println((i+1) + "'th db name length :" + dbLengths.get(i));
+			System.out.println((i+1) + "'th db name length :" + dbLengths.get(i));
 		}	
 		return dbLengths;
 	}
@@ -89,15 +84,16 @@ public class ProcessManager {
 	public List<String> getDBNames(int dbCnt, List<Integer> dbLengths ){
 		List<String> dbNames = new ArrayList<String>();
 		for (int i=0; i < dbCnt; i++){
-			dbNames.add(resultResolver.getDBName(targetURL, match, i, dbLengths.get(i), targetParam));
+			dbNames.add(resultResolver.getDBName(targetURL, match, i, dbLengths.get(i), targetParam, targetParamVal));
 		}
 		// show data
 		for (int i=0; i < dbNames.size(); i++){
-			SysteprocessManager.out.println((i+1) + "번 째 DB의 이름:" + dbNames.get(i));
+			System.out.println((i+1) + "번 째 DB의 이름:" + dbNames.get(i));
 		}
 		return dbNames;
 	}
 	
+	/*
 	public String getDBName(int targetDBIndex, int targetDBLength){
 		return resultResolver.getDBName(targetURL, match, targetDBIndex, targetDBLength, targetParam);
 	}
@@ -120,10 +116,10 @@ public class ProcessManager {
 		System.out.println("DB Cnt is...: " + dbCnt);
 		
 		// TEST STEP 2. DB Name's length
-		//List<Integer> dbLengths = processManager.getDBNameLength(dbCnt);
+		List<Integer> dbLengths = processManager.getDBNameLength(dbCnt);
 		
 		// TEST STEP 3. DB Name
-		//List<String> dbNames = processManager.getDBNames(dbCnt, dbLengths);
+		List<String> dbNames = processManager.getDBNames(dbCnt, dbLengths);
 		
 		// TEST STEP 4. Table Count
 		//String targetDB = "PHPWEB";

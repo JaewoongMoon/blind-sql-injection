@@ -21,10 +21,11 @@ public class QueryCondition {
 	private DbmsType dbmsType;
 	private TargetType targetType;
 	private QueryType queryType;
-	private String checkVal;
-	private int dbIndex = -1;
-	private int dbNameIndex = -1;
+	private String checkVal; 
+	private int dbIndex = -1;  // DB 스키마의 Index (전체 DB 중 몇 번째 스키마인지...) 
+	private int dbNameIndex = -1; //DB 이름의 Index
 	private String dbName;
+	
 	private int tableIndex = -1;
 	
 	

