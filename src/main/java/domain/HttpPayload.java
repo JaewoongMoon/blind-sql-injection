@@ -1,21 +1,21 @@
 /**
- * @ HttpBullet.java
+ * @ HttpPayload.java
  */
-package logic.domain;
+package domain;
 
-import logic.domain.enumeration.HttpMethod;
+import domain.enumeration.HttpMethod;
 
 /**
  * <pre>
  * logic.domain
- * HttpBullet.java 
+ * HttpPayload.java 
  * </pre>
  *
  * @brief	: 
  * @author	: Jae-Woong Moon(mjw8585@gmail.com)
  * @Date	: 2017/08/17
  */
-public class HttpBullet {
+public class HttpPayload {
 
 	private String url;
 	private String paramName;

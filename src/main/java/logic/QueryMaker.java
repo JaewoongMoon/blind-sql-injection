@@ -1,12 +1,12 @@
 /**
  * @ QueryMaker.java
  */
-package logic.query;
+package logic;
 
-import logic.domain.enumeration.DbmsType;
-import logic.domain.QueryCondition;
-import logic.domain.enumeration.QueryType;
-import logic.domain.enumeration.TargetType;
+import domain.enumeration.DbmsType;
+import domain.QueryCondition;
+import domain.enumeration.QueryType;
+import domain.enumeration.TargetType;
 
 /**
  * <pre>
@@ -49,10 +49,10 @@ public class QueryMaker {
 			replacedQuery = replacedQuery.replace("@{dbIdx}", dbIndex+"");
 		}
 		if(dbNameIndex > -1){
-			replacedQuery = replacedQuery.replace("@{dbNameIdx}", dbNameIndex+"");
+			replacedQuery = replacedQuery.replaceAll("@{dbNameIdx}", dbNameIndex+"");
 		}
 		if(dbName != null && !dbName.equals("")){
-			replacedQuery = replacedQuery.replace("@{dbName}", dbName);
+			replacedQuery = replacedQuery.replaceAll("@{dbName}", dbName);
 		}
 		
 		// STEP 3. complete query
@@ -88,6 +88,18 @@ public class QueryMaker {
 					return DefaultQueries.MYSQL_TABLE_COUNT_QUERY;
 				}else if(queryType == QueryType.LENGTH){
 					return DefaultQueries.MYSQL_TABLE_LENGTH_QUERY;
+				}
+			}
+		}
+		else if (dbmsType == DbmsType.MS_SQL){
+			if(targetType == TargetType.DB_SCHEMA){
+				
+				if(queryType == QueryType.COUNT){
+					return DefaultQueries.MSSQL_DB_COUNT_QUERY;
+				}else if(queryType == QueryType.LENGTH){
+					return DefaultQueries.MSSQL_DB_LENGTH_QUERY;
+				}else if(queryType == QueryType.CONTENT){
+					return DefaultQueries.MSSQL_DB_NAME_QUERY;
 				}
 			}
 		}

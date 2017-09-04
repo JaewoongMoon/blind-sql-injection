@@ -1,7 +1,7 @@
 /**
- * @ HttpSoldier.java
+ * @ HttpHelper.java
  */
-package logic.http;
+package logic;
 
 import java.io.BufferedReader;
 import java.io.DataOutputStream;
@@ -12,29 +12,31 @@ import java.net.InetSocketAddress;
 import java.net.Proxy;
 import java.net.URL;
 
-import logic.domain.HttpBullet;
-import logic.domain.enumeration.HttpMethod;
+import domain.HttpPayload;
+import domain.enumeration.HttpMethod;
 
 /**
  * <pre>
  * logic.http
- * HttpSoldier.java 
+ * HttpHelper.java 
  * </pre>
  *
  * @brief	: 
  * @author	: Jae-Woong Moon(mjw8585@gmail.com)
  * @Date	: 2017/08/16
  */
-public class HttpSoldier {
+public class HttpHelper {
 
 	private final String USER_AGENT = "Mozilla/5.0";
 	Proxy proxy = new Proxy(Proxy.Type.HTTP, new InetSocketAddress("127.0.0.1", 8082));
 	
-	public String send(HttpBullet bullet){
+	public String send(HttpPayload bullet){
 		if(bullet.getHttpMethod() == HttpMethod.GET){
 			return sendGet(bullet.getUrl());
 		}else if (bullet.getHttpMethod() == HttpMethod.POST){
-			return sendPost(bullet.getUrl(), bullet.getParamName() + "=" + bullet.getParamValue());
+			String postParam = "act=Login&userpw=kk&"+bullet.getParamName() + "=" + bullet.getParamValue();
+			System.out.println("param : " + postParam);
+			return sendPost(bullet.getUrl(), postParam);
 		}else{
 			return "None";
 		}

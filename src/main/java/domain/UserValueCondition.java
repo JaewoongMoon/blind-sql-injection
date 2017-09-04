@@ -1,7 +1,7 @@
 /**
  * @ UserValueCondition.java
  */
-package logic.domain;
+package domain;
 
 /**
  * <pre>

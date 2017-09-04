@@ -1,7 +1,7 @@
 /**
  * @ TargetType.java
  */
-package logic.domain.enumeration;
+package domain.enumeration;
 
 /**
  * <pre>

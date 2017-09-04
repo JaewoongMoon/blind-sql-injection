@@ -1,15 +1,15 @@
 /**
  * @ QueryCondition.java
  */
-package logic.domain;
+package domain;
 
-import logic.domain.enumeration.DbmsType;
-import logic.domain.enumeration.QueryType;
-import logic.domain.enumeration.TargetType;
+import domain.enumeration.DbmsType;
+import domain.enumeration.QueryType;
+import domain.enumeration.TargetType;
 
 /**
  * <pre>
- * logic.domain
+ * domain
  * QueryCondition.java 
  * </pre>
  *

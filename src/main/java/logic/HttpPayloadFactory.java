@@ -1,39 +1,39 @@
 /**
- * @ HttpBulletFactory.java
+ * @ HttpPayloadFactory.java
  */
-package logic.http;
+package logic;
 
-import logic.domain.HttpBullet;
-import logic.domain.QueryCondition;
-import logic.domain.URLCondition;
-import logic.domain.enumeration.HttpMethod;
-import logic.domain.enumeration.HttpQueryType;
-import logic.query.QueryMaker;
+import domain.HttpPayload;
+import domain.QueryCondition;
+import domain.URLCondition;
+import domain.enumeration.HttpMethod;
+import domain.enumeration.HttpQueryType;
+import logic.QueryMaker;
 
 /**
  * <pre>
  * logic.query
- * HttpBulletFactory.java 
+ * HttpPayloadFactory.java 
  * </pre>
  *
  * @brief	: 
  * @author	: Jae-Woong Moon(mjw8585@gmail.com)
  * @Date	: 2017/08/17
  */
-public class HttpBulletFactory {
+public class HttpPayloadFactory {
 
 	private QueryMaker queryMaker = null;
 	
 	/**
 	 * 
 	 */
-	public HttpBulletFactory() {
+	public HttpPayloadFactory() {
 		queryMaker = new QueryMaker();
 	}
 	
-	public HttpBullet getHttpBullet(QueryCondition qc, URLCondition uc){
+	public HttpPayload getHttpPayload(QueryCondition qc, URLCondition uc){
 		String query = getQuery(qc);
-		HttpBullet bullet = new HttpBullet();
+		HttpPayload bullet = new HttpPayload();
 		
 		String domain = uc.getDomain();
 		String url = "";

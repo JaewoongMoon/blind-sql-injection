@@ -1,18 +1,18 @@
 /**
  * @ ResultResolver.java
  */
-package logic.result;
+package logic;
 
 import java.util.List;
 
-import logic.domain.enumeration.DbmsType;
-import logic.domain.enumeration.HttpQueryType;
-import logic.domain.QueryCondition;
-import logic.domain.URLCondition;
-import logic.domain.UserValueCondition;
-import logic.domain.enumeration.QueryType;
-import logic.domain.enumeration.TargetType;
-import logic.query.QueryMaker;
+import domain.enumeration.DbmsType;
+import domain.enumeration.HttpQueryType;
+import domain.QueryCondition;
+import domain.URLCondition;
+import domain.UserValueCondition;
+import domain.enumeration.QueryType;
+import domain.enumeration.TargetType;
+import logic.QueryMaker;
 
 /**
  * <pre>
@@ -32,13 +32,13 @@ public class ResultResolver {
 	private ResultHelper helper = new ResultHelper();
 	
 
-	public int getDBCount(String targetURL, String match, int until, String targetParam, String targetParamVal){
+	public int getDBCount(String targetURL, String match, int until, String targetParam, String targetParamVal, DbmsType dbmsType, HttpQueryType httpQueryType){
 		int cnt = 0;
-		QueryCondition qc = new QueryCondition(DbmsType.MY_SQL, TargetType.DB_SCHEMA, QueryType.COUNT);
+		QueryCondition qc = new QueryCondition(dbmsType, TargetType.DB_SCHEMA, QueryType.COUNT);
 		
 		URLCondition uc = new URLCondition();
 		uc.setDomain(targetURL);
-		uc.setHttpQueryType(HttpQueryType.GET_QUERY_ON_PARAM);
+		uc.setHttpQueryType(httpQueryType);
 		uc.setParamName(targetParam);
 		uc.setParamValue(targetParamVal);
 		
@@ -51,14 +51,14 @@ public class ResultResolver {
 	}
 	
 	
-	public int getDBNameLength(String targetURL, String match,int targetDBIndex, int until, String targetParam, String targetParamVal){
+	public int getDBNameLength(String targetURL, String match,int targetDBIndex, int until, String targetParam, String targetParamVal, DbmsType dbmsType, HttpQueryType httpQueryType){
 		int length = 0;
-		QueryCondition qc = new QueryCondition(DbmsType.MY_SQL, TargetType.DB_SCHEMA, QueryType.LENGTH);
+		QueryCondition qc = new QueryCondition(dbmsType, TargetType.DB_SCHEMA, QueryType.LENGTH);
 		qc.setDbIndex(targetDBIndex);
 		
 		URLCondition uc = new URLCondition();
 		uc.setDomain(targetURL);
-		uc.setHttpQueryType(HttpQueryType.GET_QUERY_ON_PARAM);
+		uc.setHttpQueryType(httpQueryType);
 		uc.setParamName(targetParam);
 		uc.setParamValue(targetParamVal);
 		
@@ -70,15 +70,15 @@ public class ResultResolver {
 		return length;
 	}
 	
-	public String getDBName(String targetURL, String match, int targetDBIndex, int targetDBNameLength, String targetParam, String targetParamVal){
+	public String getDBName(String targetURL, String match, int targetDBIndex, int targetDBNameLength, String targetParam, String targetParamVal, DbmsType dbmsType, HttpQueryType httpQueryType){
 		// 여기서부터는 이중 for 문이 필요 (i: DB이름의 index, 시도하고자 하는 문자의 index)
 		String dbName = "";
-		QueryCondition qc = new QueryCondition(DbmsType.MY_SQL, TargetType.DB_SCHEMA, QueryType.CONTENT);
+		QueryCondition qc = new QueryCondition(dbmsType, TargetType.DB_SCHEMA, QueryType.CONTENT);
 		qc.setDbIndex(targetDBIndex);
 		
 		URLCondition uc = new URLCondition();
 		uc.setDomain(targetURL);
-		uc.setHttpQueryType(HttpQueryType.GET_QUERY_ON_PARAM);
+		uc.setHttpQueryType(httpQueryType);
 		uc.setParamName(targetParam);
 		uc.setParamValue(targetParamVal);
 		

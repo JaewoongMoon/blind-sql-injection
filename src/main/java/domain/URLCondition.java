@@ -1,14 +1,14 @@
 /**
  * @ URLCondition.java
  */
-package logic.domain;
+package domain;
 
-import logic.domain.enumeration.HttpMethod;
-import logic.domain.enumeration.HttpQueryType;
+import domain.enumeration.HttpMethod;
+import domain.enumeration.HttpQueryType;
 
 /**
  * <pre>
- * logic.domain
+ * domain
  * URLCondition.java 
  * </pre>
  *
