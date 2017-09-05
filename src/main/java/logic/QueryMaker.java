@@ -6,8 +6,6 @@ package logic;
 import domain.enumeration.AttackVector;
 import domain.enumeration.DbmsType;
 import domain.UserInput;
-import domain.enumeration.QueryType;
-import domain.enumeration.TargetType;
 
 /**
  * <pre>

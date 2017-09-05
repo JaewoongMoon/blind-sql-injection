@@ -8,7 +8,6 @@ import java.util.Vector;
 import javax.swing.ButtonGroup;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
-import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JRadioButton;
@@ -18,7 +17,6 @@ import javax.swing.JTextField;
 
 import domain.UserInput;
 import domain.enumeration.DbmsType;
-import domain.enumeration.HttpMethod;
 import domain.enumeration.HttpQueryType;
 import domain.enumeration.QueryType;
 import domain.enumeration.TargetType;
@@ -93,10 +91,15 @@ public class BlindSQLInjectionInputUI extends JPanel{
 	JButton pauseBtn;
 	JButton stopBtn;
 	
+	// status
+	JLabel statusLabel;
+	JLabel statusField;
+	
 	// logs
 	JLabel logLabel;
 	JTextArea logArea;
 	JScrollPane logPane;
+	
 	
 	final int START_X = 30;
 	final int START_Y = 10;
@@ -109,6 +112,7 @@ public class BlindSQLInjectionInputUI extends JPanel{
 	public BlindSQLInjectionInputUI(){
 		
 		manager = new BlindSQLInjectionManager();
+		
 		
 		// panel setup
 		setLayout(null);
@@ -255,6 +259,15 @@ public class BlindSQLInjectionInputUI extends JPanel{
 		pauseBtn.setBounds(startBtn.getX() + startBtn.getWidth() + PADDING_X, startBtn.getY(), startBtn.getWidth(), startBtn.getHeight());
 		stopBtn.setBounds(pauseBtn.getX() + pauseBtn.getWidth() + PADDING_X, startBtn.getY(), startBtn.getWidth(), startBtn.getHeight());
 		
+		// status
+		statusLabel = new JLabel("Send Request : ");
+		statusField = new JLabel("0 건");
+		add(statusLabel);
+		add(statusField);
+		statusLabel.setBounds(START_X, startBtn.getY() + startBtn.getHeight(), 150, COMPONENT_HEIGHT);
+		statusField.setBounds(statusLabel.getX() + statusLabel.getWidth(), statusLabel.getY(), 70, COMPONENT_HEIGHT);
+		
+		
 		// logs
 		logLabel = new JLabel("Log"); 
 		logArea = new JTextArea(5, 10);
@@ -262,8 +275,11 @@ public class BlindSQLInjectionInputUI extends JPanel{
 		logPane = new JScrollPane(logArea);
 		add(logLabel);
 		add(logPane);
-		logLabel.setBounds(START_X, startBtn.getY() + startBtn.getHeight() + PADDING_Y, 100, 20);
+		logLabel.setBounds(START_X, statusLabel.getY() + statusLabel.getHeight(), 100, COMPONENT_HEIGHT);
 		logPane.setBounds(START_X, logLabel.getY() + logLabel.getHeight(), 610, 200);
+
+		manager.setStatusLabel(statusField);
+		manager.setLogArea(logArea);
 		init();
 	}
 	
@@ -305,22 +321,24 @@ public class BlindSQLInjectionInputUI extends JPanel{
 			
 			// STEP 3. 로직 처리 요청
 			// test 1. get db count
-			int dbCount = manager.getDBCount(input);
-			logArea.setText("DB 개수 : " + dbCount);
+			//int dbCount = manager.getDBCount(input);  //어딘가에 저장을 해두는 로직이 있어야 함. 
+			//logArea.setText("DB 개수 : " + dbCount);
 			
 			// test 2. get db name length
+			int dbCount = 10;
 			input.setQueryType(QueryType.LENGTH);
 			List<Integer> dbNameLengths = manager.getDBNameLengths(input, dbCount);
 			for(int dbNameLen : dbNameLengths){
-				logArea.setText(logArea.getText() + "\n" + "DD이름의 길이 : " + dbNameLen);
+				logArea.setText(logArea.getText() + "\n" + "이름의 길이 : " + dbNameLen);
 			}
 			// test 3. get db names
+			/*
 			input.setQueryType(QueryType.CONTENT);
 			List<String> dbNames = manager.getDBNames(input, dbCount, dbNameLengths);
 			for (String dbName : dbNames){
 				logArea.setText(logArea.getText() + "\n" + " DB명 : " + dbName);
 			}
-			
+			*/
 			// STEP 4. 결과 표시 
 			
 		}

@@ -11,7 +11,7 @@ import logic.QueryMaker;
 
 /**
  * <pre>
- * logic.query
+ * logic
  * HttpPayloadFactory.java 
  * </pre>
  *

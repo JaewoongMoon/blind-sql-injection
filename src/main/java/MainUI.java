@@ -36,7 +36,7 @@ public class MainUI extends JFrame{
 	
 	
 	public MainUI(){
-		setTitle("Blind SQL Injection automation tool - made by jwmoon");
+		setTitle("Blind SQL Injection automation tool V1.0 - made by jwmoon");
 		setLayout(null);
 		
 		// menu Bar
@@ -65,7 +65,7 @@ public class MainUI extends JFrame{
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		setSize(1330, 780);
 		setVisible(true);
-		setResizable(false);
+		setResizable(true);
 	}
 	
 	class HelpHandler implements ActionListener{

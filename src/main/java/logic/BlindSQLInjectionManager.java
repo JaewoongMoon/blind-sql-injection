@@ -5,6 +5,11 @@ package logic;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.ExecutionException;
+
+import javax.swing.JLabel;
+import javax.swing.JTextArea;
+import javax.swing.SwingWorker;
 
 import domain.HttpPayload;
 import domain.UserInput;
@@ -24,6 +29,13 @@ public class BlindSQLInjectionManager{
 	private SuccessDecider decider = null;
 	private HttpHelper HttpHelper = null;
 	private HttpPayloadFactory factory = null;
+	private JLabel statusLabel = null;
+	private JTextArea logArea = null;
+	
+	private int requestCount = 0;
+	private int dbCount = 0;
+	List<Integer> dbLengths = new ArrayList<Integer>();
+	//List
 	
 	/**
 	 * 
@@ -34,8 +46,16 @@ public class BlindSQLInjectionManager{
 		factory = new HttpPayloadFactory();
 	}
 	
-	public int getDBCount(UserInput input) {
-		return cntWork(input, input.getCountUntil());
+	public void setStatusLabel(JLabel statusLabel){
+		this.statusLabel = statusLabel;
+	}
+	
+	public void setLogArea(JTextArea logArea){
+		this.logArea = logArea;
+	}
+	
+	public void getDBCount(UserInput input) {
+		cntWork(input, input.getCountUntil(), "DB Count");
 	}
 	
 	/**
@@ -50,28 +70,68 @@ public class BlindSQLInjectionManager{
 	public List<Integer> getDBNameLengths(UserInput input, int dbCount) {
 		List<Integer> dbLengths = new ArrayList<Integer>();
 		for (int i=0; i < dbCount; i++){
-			input.setDbIndex(i);
-			dbLengths.add(getDBNameLength(input));
+			getDBNameLength(input, i);
+			//dbLengths.add(dbNameLength);
 		}
 		return dbLengths;
 	}
 	
-	private int getDBNameLength(UserInput input){
-		return cntWork(input, input.getLengthUntil());
+	private void getDBNameLength(UserInput input, int dbIndex){
+		//System.out.println("target dbIndex : " + dbIndex);
+		UserInput newParam = input.copy(input);
+		newParam.setDbIndex(dbIndex);
+		cntWork(newParam, newParam.getLengthUntil(), "DB Name Length");
 	}
 	
-	private int cntWork(UserInput input, int until){
-		int cnt = 0;
-		for(int i=0; i < until; i++){
-			input.setCheckVal(i+"");
-			HttpPayload payload = factory.getHttpPayload(input);
-			String res = HttpHelper.send(payload);
-			if(decider.isSuccess(res, input.getMatch())){
-				cnt = i;
-				break;
+	private void cntWork(UserInput input, int until, String workName){
+		SwingWorker<Integer, Integer> worker = new SwingWorker<Integer, Integer>(){
+			@Override
+			protected Integer doInBackground() throws Exception {
+				System.out.println("# doBackground : dbIndex : " + input.getDbIndex());
+				int cnt = 0;
+				//input.setDbIndex(dbIndex);
+				
+				for(int i=0; i < until; i++){
+					publish(i);
+					input.setCheckVal(i+"");
+					//requestCount ++;
+					HttpPayload payload = factory.getHttpPayload(input);
+					String res = HttpHelper.send(payload);
+					if(decider.isSuccess(res, input.getMatch())){
+						cnt = i;
+						break;
+					}
+				}
+				return cnt;
 			}
-		}
-		return cnt;
+
+			@Override
+			protected void process(List<Integer> chunks) {
+				requestCount ++;
+				System.out.println("req count : " + requestCount);
+				//System.out.println("process...:" + chunks.get(chunks.size() -1)+"");
+				//statusLabel.setText(chunks.get(chunks.size() -1)+"");
+				statusLabel.setText(requestCount+"");
+			}
+			
+			@Override
+			protected void done() {
+				try {
+					int cnt = get();
+					if(cnt > 0){
+						logArea.setText(logArea.getText() + "\n" + workName + " founded : " + cnt);
+					}else {
+						
+					}
+				} catch (InterruptedException e) {
+					e.printStackTrace();
+				} catch (ExecutionException e) {
+					e.printStackTrace();
+				}
+				
+			}
+		};
+		worker.execute();
 	}
 	
 	public List<String> getDBNames(UserInput input, int dbCount, List<Integer> dbNameLengths){
@@ -81,6 +141,27 @@ public class BlindSQLInjectionManager{
 			String dbName = getDBName(input, dbNameLengths.get(i));
 			dbNames.add(dbName);
 		}
+		/*
+		SwingWorker<Boolean, String> worker = new SwingWorker<Boolean, String>(){
+			@Override
+			protected Boolean doInBackground() throws Exception {
+				for (int i=0; i < dbCount; i++){
+					input.setDbIndex(i); // set dbIndex
+					String dbName = getDBName(input, dbNameLengths.get(i));
+					dbNames.add(dbName);
+					
+					publish(dbName);
+				}
+				return true;
+			}
+			
+			@Override
+			protected void process(List<String> chunks) {
+				statusLabel.setText(chunks.get(chunks.size() -1));
+			}
+		};
+		worker.execute();
+		*/
 		return dbNames;
 	}
 	
@@ -104,11 +185,6 @@ public class BlindSQLInjectionManager{
 		}
 		return content;
 	}
-	
-	/*public int getDBLength(UserInput input);
-	 * 
-	public String getDBName(UserInput input);
-	;*/
 	
 	// table
 	//public int getTableCount(UserInput input);
