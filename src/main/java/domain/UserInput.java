@@ -3,6 +3,7 @@
  */
 package domain;
 
+import domain.enumeration.AttackVector;
 import domain.enumeration.DbmsType;
 import domain.enumeration.HttpQueryType;
 import domain.enumeration.QueryType;
@@ -20,22 +21,37 @@ import domain.enumeration.TargetType;
  */
 public class UserInput {
 
+	/** User Inputs **/ 
 	private DbmsType dbmsType;
 	private TargetType targetType;
 	private QueryType queryType;
-	private String checkVal; 
-	private int dbIndex = -1;  // DB 스키마의 Index (전체 DB 중 몇 번째 스키마인지...) 
-	private int dbNameIndex = -1; //DB 이름의 Index
-	private String dbName;
-	private int tableIndex = -1;
+	private HttpQueryType httpQueryType;
 	private String targetURL;
 	private String targetParamName;
 	private String targetParamValue;
 	private String etcParamStr;
-	private HttpQueryType httpQueryType;
-	private int countUntil = 30; // search count until
-	private int lengthUntil = 50; // search length until
 	private String match;
+	
+	/** Program 이 판단하는 값들 **/
+	
+	// 공통
+	private String checkVal; 
+	private int lengthUntil = 50; // search length until
+	private int countUntil = 30; // search count until
+	
+	// db
+	private int dbIndex = -1;  // DB 스키마의 Index (전체 DB 중 몇 번째 스키마인지...) 
+	private int dbNameIndex = -1; //DB 이름의 알파벳 Index
+	
+	// table
+	private String dbName;
+	private int tableIndex = -1;
+	
+	
+	
+	public AttackVector getAttackVector() {
+		return AttackVector.getAttackVector(dbmsType, targetType, queryType);
+	}
 	
 	public DbmsType getDbmsType() {
 		return dbmsType;

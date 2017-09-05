@@ -2,6 +2,7 @@ package ui;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.List;
 import java.util.Vector;
 
 import javax.swing.ButtonGroup;
@@ -160,7 +161,7 @@ public class BlindSQLInjectionInputUI extends JPanel{
 		etcParamField.setBounds(etcParamLabel.getX() + etcParamLabel.getWidth(), etcParamLabel.getY(), 250, COMPONENT_HEIGHT);
 		
 		// match
-		matchLabel = new JLabel("매치 : ");
+		matchLabel = new JLabel("성공판정(매치문자열) : ");
 		matchField = new JTextField();
 		add(matchLabel);
 		add(matchField);
@@ -303,11 +304,25 @@ public class BlindSQLInjectionInputUI extends JPanel{
 			
 			
 			// STEP 3. 로직 처리 요청
+			// test 1. get db count
 			int dbCount = manager.getDBCount(input);
+			logArea.setText("DB 개수 : " + dbCount);
 			
+			// test 2. get db name length
+			input.setQueryType(QueryType.LENGTH);
+			List<Integer> dbNameLengths = manager.getDBNameLengths(input, dbCount);
+			for(int dbNameLen : dbNameLengths){
+				logArea.setText(logArea.getText() + "\n" + "DD이름의 길이 : " + dbNameLen);
+			}
+			// test 3. get db names
+			input.setQueryType(QueryType.CONTENT);
+			List<String> dbNames = manager.getDBNames(input, dbCount, dbNameLengths);
+			for (String dbName : dbNames){
+				logArea.setText(logArea.getText() + "\n" + " DB명 : " + dbName);
+			}
 			
 			// STEP 4. 결과 표시 
-			logArea.setText(dbCount + "");
+			
 		}
 	}
 }

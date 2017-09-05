@@ -4,8 +4,6 @@
 package logic;
 
 import domain.HttpPayload;
-import domain.QueryCondition;
-import domain.URLCondition;
 import domain.UserInput;
 import domain.enumeration.HttpMethod;
 import domain.enumeration.HttpQueryType;
