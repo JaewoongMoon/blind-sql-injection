@@ -1,11 +1,11 @@
 /**
  * @ DbmsType.java
  */
-package logic.domain.enumeration;
+package domain.enumeration;
 
 /**
  * <pre>
- * logic.domain
+ * domain
  * DbmsType.java 
  * </pre>
  *
@@ -28,6 +28,15 @@ public enum DbmsType {
 	
 	public int intValue(){
 		return value;
+	}
+	
+	public static DbmsType getDbmsType(String label){
+		switch(label){
+		case "ORACLE": return ORACLE;
+		case "MySQL": return MY_SQL;
+		case "MS SQL": return MS_SQL;
+		default : throw new AssertionError("Unknown value : " +label);
+		}
 	}
 	
 	public static DbmsType valueOf(int value){

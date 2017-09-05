@@ -1,7 +1,7 @@
 /**
  * @ SuccessDecider.java
  */
-package logic.result;
+package logic;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -20,8 +20,11 @@ public class SuccessDecider {
 
 	
 	public boolean isSuccess(String input, String match){
-		Pattern p = Pattern.compile(match);
-		Matcher m = p.matcher(input);
-		return !m.find();
+		//System.out.println("=== isSucess > input : " + input + ", and match : " + match);
+		//Pattern p = Pattern.compile(match);
+		//Matcher m = p.matcher(input);
+		//System.out.println(m.find());
+		//return m.find();
+		return input.contains(match);
 	}
 }

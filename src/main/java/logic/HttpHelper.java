@@ -1,7 +1,7 @@
 /**
- * @ HttpSoldier.java
+ * @ HttpHelper.java
  */
-package logic.http;
+package logic;
 
 import java.io.BufferedReader;
 import java.io.DataOutputStream;
@@ -12,29 +12,30 @@ import java.net.InetSocketAddress;
 import java.net.Proxy;
 import java.net.URL;
 
-import logic.domain.HttpBullet;
-import logic.domain.enumeration.HttpMethod;
+import domain.HttpPayload;
+import domain.enumeration.HttpMethod;
 
 /**
  * <pre>
  * logic.http
- * HttpSoldier.java 
+ * HttpHelper.java 
  * </pre>
  *
  * @brief	: 
  * @author	: Jae-Woong Moon(mjw8585@gmail.com)
  * @Date	: 2017/08/16
  */
-public class HttpSoldier {
+public class HttpHelper {
 
 	private final String USER_AGENT = "Mozilla/5.0";
 	Proxy proxy = new Proxy(Proxy.Type.HTTP, new InetSocketAddress("127.0.0.1", 8082));
 	
-	public String send(HttpBullet bullet){
-		if(bullet.getHttpMethod() == HttpMethod.GET){
-			return sendGet(bullet.getUrl());
-		}else if (bullet.getHttpMethod() == HttpMethod.POST){
-			return sendPost(bullet.getUrl(), bullet.getParamName() + "=" + bullet.getParamValue());
+	public String send(HttpPayload payload){
+		if(payload.getHttpMethod() == HttpMethod.GET){
+			return sendGet(payload.getUrl());
+		}else if (payload.getHttpMethod() == HttpMethod.POST){
+			String postParam = payload.getParamName() + "=" + payload.getParamValue();
+			return sendPost(payload.getUrl(), postParam);
 		}else{
 			return "None";
 		}
@@ -45,19 +46,15 @@ public class HttpSoldier {
 		try{
 			URL obj = new URL(targetURL);
 			con = (HttpURLConnection) obj.openConnection(proxy);
-	
-			// optional default is GET
+			//con = (HttpURLConnection) obj.openConnection();
 			con.setRequestMethod("GET");
-	
-			//add request header
 			con.setRequestProperty("User-Agent", USER_AGENT);
 	
 			//int responseCode = con.getResponseCode();
 			//System.out.println("\nSending 'GET' request to URL : " + targetURL);
 			//System.out.println("Response Code : " + responseCode);
 	
-			BufferedReader in = new BufferedReader(
-			        new InputStreamReader(con.getInputStream()));
+			BufferedReader in = new BufferedReader(new InputStreamReader(con.getInputStream()));
 			String inputLine;
 			StringBuffer response = new StringBuffer();
 	
@@ -84,21 +81,17 @@ public class HttpSoldier {
 		  try {
 		    //Create connection
 		    URL url = new URL(targetURL);
+		    //connection = (HttpURLConnection) url.openConnection();
 		    connection = (HttpURLConnection) url.openConnection(proxy);
 		    connection.setRequestMethod("POST");
-		    connection.setRequestProperty("Content-Type", 
-		        "application/x-www-form-urlencoded");
-
-		    connection.setRequestProperty("Content-Length", 
-		        Integer.toString(urlParameters.getBytes().length));
+		    connection.setRequestProperty("Content-Type", "application/x-www-form-urlencoded");
+		    connection.setRequestProperty("Content-Length", Integer.toString(urlParameters.getBytes().length));
 		    connection.setRequestProperty("Content-Language", "en-US");  
-
 		    connection.setUseCaches(false);
 		    connection.setDoOutput(true);
 
 		    //Send request
-		    DataOutputStream wr = new DataOutputStream (
-		        connection.getOutputStream());
+		    DataOutputStream wr = new DataOutputStream (connection.getOutputStream());
 		    wr.writeBytes(urlParameters);
 		    wr.close();
 
