@@ -19,4 +19,15 @@ public enum TargetType {
 	TABLE,
 	COLUMN,
 	DATA
+	;
+	
+	public static TargetType getTargetType(String label){
+		switch(label){
+		case "DB" : return DB_SCHEMA;
+		case "Table" : return TABLE;
+		case "Column" : return COLUMN;
+		case "Data" : return DATA;
+		default : throw new AssertionError("Unknown value : " +label);
+		}
+	}
 }

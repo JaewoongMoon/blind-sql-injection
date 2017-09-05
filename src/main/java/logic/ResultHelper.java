@@ -32,6 +32,7 @@ public class ResultHelper {
 		factory = new HttpPayloadFactory();
 	}
 
+	/*
 	public int getCount(QueryCondition qc, URLCondition uc, UserValueCondition cond){
 		return cntWork(qc, uc, cond.getCountUntil(), cond.getMatch());
 	}
@@ -75,4 +76,5 @@ public class ResultHelper {
 		}
 		return content;
 	}
+	*/
 }

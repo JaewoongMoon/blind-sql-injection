@@ -6,6 +6,7 @@ package logic;
 import domain.HttpPayload;
 import domain.QueryCondition;
 import domain.URLCondition;
+import domain.UserInput;
 import domain.enumeration.HttpMethod;
 import domain.enumeration.HttpQueryType;
 import logic.QueryMaker;
@@ -24,42 +25,35 @@ public class HttpPayloadFactory {
 
 	private QueryMaker queryMaker = null;
 	
-	/**
-	 * 
-	 */
 	public HttpPayloadFactory() {
 		queryMaker = new QueryMaker();
 	}
 	
-	public HttpPayload getHttpPayload(QueryCondition qc, URLCondition uc){
-		String query = getQuery(qc);
-		HttpPayload bullet = new HttpPayload();
+	public HttpPayload getHttpPayload(UserInput input){
+		String query = queryMaker.getQuery(input);
+		HttpPayload payload = new HttpPayload();
 		
-		String domain = uc.getDomain();
+		String domain = input.getTargetURL();
 		String url = "";
-		if(uc.getHttpQueryType() == HttpQueryType.GET_QUERY_ON_URL){ 
+		if(input.getHttpQueryType() == HttpQueryType.GET_QUERY_ON_URL){ 
 			url = domain.replace("@{query}", query);
-			bullet.setHttpMethod(HttpMethod.GET);
+			payload.setHttpMethod(HttpMethod.GET);
 		}
-		else if(uc.getHttpQueryType() == HttpQueryType.GET_QUERY_ON_PARAM){
-			url = domain + "?" + uc.getParamName() + "=" +uc.getParamValue() + query;
-			bullet.setHttpMethod(HttpMethod.GET);
+		else if(input.getHttpQueryType() == HttpQueryType.GET_QUERY_ON_PARAM){
+			url = domain + "?" + input.getTargetParamName() + "=" +input.getTargetParamValue() + query;
+			payload.setHttpMethod(HttpMethod.GET);
 		}
-		else if(uc.getHttpQueryType() == HttpQueryType.POST_QUERY_ON_PARAM){
+		else if(input.getHttpQueryType() == HttpQueryType.POST_QUERY_ON_PARAM){
 			url = domain;
-			bullet.setHttpMethod(HttpMethod.POST);
-			bullet.setParamName(uc.getParamName());
-			bullet.setParamValue(uc.getParamValue() + query);
+			payload.setHttpMethod(HttpMethod.POST);
+			payload.setParamName(input.getTargetParamName());
+			payload.setParamValue(input.getTargetParamValue() + query);
 		}
 		url = url.replaceAll(" ","%20");
 		url = url.replaceAll("#","%23");
-		bullet.setUrl(url);
+		payload.setUrl(url);
 
-		return bullet;
-	}
-	
-	private String getQuery(QueryCondition cond){
-		return queryMaker.getQuery(cond);
+		return payload;
 	}
 	
 }

@@ -5,6 +5,7 @@ package logic;
 
 import domain.enumeration.DbmsType;
 import domain.QueryCondition;
+import domain.UserInput;
 import domain.enumeration.QueryType;
 import domain.enumeration.TargetType;
 
@@ -31,7 +32,7 @@ public class QueryMaker {
 	 * @param payload
 	 * @return
 	 */
-	public String getQuery(QueryCondition cond){
+	public String getQuery(UserInput cond){
 		final DbmsType dbmsType = cond.getDbmsType();
 		final TargetType targetType = cond.getTargetType();
 		final QueryType queryType = cond.getQueryType();

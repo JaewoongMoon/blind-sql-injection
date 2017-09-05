@@ -46,7 +46,7 @@ public class ResultResolver {
 		cond.setCountUntil(until);
 		cond.setMatch(match);
 		
-		cnt = helper.getCount(qc, uc, cond);
+		//cnt = helper.getCount(qc, uc, cond);
 		return cnt;
 	}
 	
@@ -66,7 +66,7 @@ public class ResultResolver {
 		cond.setLengthUntil(until);
 		cond.setMatch(match);
 		
-		length = helper.getLength(qc, uc, cond);
+		//length = helper.getLength(qc, uc, cond);
 		return length;
 	}
 	
@@ -85,7 +85,7 @@ public class ResultResolver {
 		UserValueCondition cond = new UserValueCondition();
 		cond.setMatch(match);
 		
-		dbName = helper.getContent(qc, uc, cond, targetDBNameLength);
+		//dbName = helper.getContent(qc, uc, cond, targetDBNameLength);
 		/*
 		for(int i=0; i < targetDBNameLength ; i++){
 			qc.setDbNameIndex(i);
