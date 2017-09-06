@@ -14,6 +14,8 @@ import javax.swing.JRadioButton;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
+import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableModel;
 
 import domain.UserInput;
 import domain.enumeration.DbmsType;
@@ -108,6 +110,12 @@ public class BlindSQLInjectionInputUI extends JPanel{
 	final int COMPONENT_HEIGHT = 25;
 	
 	BlindSQLInjectionManager manager;
+	BlindSQLInjectionResultUI resultUI;
+	
+	public void setResultUI(BlindSQLInjectionResultUI resultUI){
+		this.resultUI = resultUI;
+		manager.setResultUI(resultUI);
+	}
 	
 	public BlindSQLInjectionInputUI(){
 		
@@ -251,6 +259,7 @@ public class BlindSQLInjectionInputUI extends JPanel{
 		startBtn = new JButton("Start");
 		startBtn.addActionListener(new StartActionHandler());
 		pauseBtn = new JButton("Pause");
+		pauseBtn.addActionListener(new PauseActionHandler());
 		stopBtn = new JButton("Stop");
 		add(startBtn);
 		add(pauseBtn);
@@ -278,8 +287,11 @@ public class BlindSQLInjectionInputUI extends JPanel{
 		logLabel.setBounds(START_X, statusLabel.getY() + statusLabel.getHeight(), 100, COMPONENT_HEIGHT);
 		logPane.setBounds(START_X, logLabel.getY() + logLabel.getHeight(), 610, 200);
 
+		
+		// 매니저 객체에 찾은 값을 출력할 장소를 알려준다. 
 		manager.setStatusLabel(statusField);
 		manager.setLogArea(logArea);
+		
 		init();
 	}
 	
@@ -328,9 +340,10 @@ public class BlindSQLInjectionInputUI extends JPanel{
 			int dbCount = 10;
 			input.setQueryType(QueryType.LENGTH);
 			List<Integer> dbNameLengths = manager.getDBNameLengths(input, dbCount);
+			/*
 			for(int dbNameLen : dbNameLengths){
 				logArea.setText(logArea.getText() + "\n" + "이름의 길이 : " + dbNameLen);
-			}
+			}*/
 			// test 3. get db names
 			/*
 			input.setQueryType(QueryType.CONTENT);
@@ -341,6 +354,27 @@ public class BlindSQLInjectionInputUI extends JPanel{
 			*/
 			// STEP 4. 결과 표시 
 			
+		}
+	}
+	
+	class PauseActionHandler implements ActionListener{
+		@Override
+		public void actionPerformed(ActionEvent e) {
+			// 결과 UI의 테이블에 접근하는 것을 테스트해보자. 
+			DefaultTableModel dbTableModel =  resultUI.getDBResultUI().getTableModel();
+			String[] data = new String[4];
+			data[0] = "test1";
+			data[1] = "test2";
+			data[2] = "3";
+			//data[3] = "4";
+			
+			String[] data2 = new String[3];
+			data2[0] = "hello";
+			
+			dbTableModel.addRow(data);
+			dbTableModel.addRow(data2);
+			dbTableModel.fireTableDataChanged();
+			// ok
 		}
 	}
 }

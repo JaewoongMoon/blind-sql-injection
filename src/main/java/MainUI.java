@@ -55,6 +55,7 @@ public class MainUI extends JFrame{
 		// add tabs
 		inputUI = new BlindSQLInjectionInputUI();
 		resultUI = new BlindSQLInjectionResultUI();
+		inputUI.setResultUI(resultUI);
 		inputUI.setBounds(0,0,700,700);
 		resultUI.setBounds(700,0,600,700);
 		

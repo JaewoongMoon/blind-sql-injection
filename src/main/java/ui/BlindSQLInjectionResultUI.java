@@ -3,10 +3,17 @@
  */
 package ui;
 
+import java.util.Arrays;
+import java.util.Vector;
+
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
 import javax.swing.JTabbedPane;
+import javax.swing.JTable;
 import javax.swing.JTextField;
+import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableModel;
 
 /**
  * <pre>
@@ -46,12 +53,28 @@ public class BlindSQLInjectionResultUI extends JPanel{
 		tabs.add("Column", columnUI);
 		tabs.add("Data", dataUI);
 	}
+	
+	public DBResultUI getDBResultUI(){
+		return dbUI;
+	}
 
 	/* sub tabs */
-	class DBResultUI extends JPanel{
+	public class DBResultUI extends JPanel{
+		String[] title = {"순번", "DB이름 길이", "DB명", "테이블수"};
+		Vector<String> headers = new Vector<String>(Arrays.asList(title));
+		Vector<Vector<String>> data = new Vector<Vector<String>>();
+		JTable table;
+		JScrollPane scroll;
+		
 		
 		public DBResultUI(){
-			
+			table = new JTable(data, headers);
+			scroll = new JScrollPane(table);
+			add(scroll);
+		}
+		
+		public DefaultTableModel getTableModel(){
+			return (DefaultTableModel)table.getModel();
 		}
 	}
 	

@@ -10,9 +10,11 @@ import java.util.concurrent.ExecutionException;
 import javax.swing.JLabel;
 import javax.swing.JTextArea;
 import javax.swing.SwingWorker;
+import javax.swing.table.DefaultTableModel;
 
 import domain.HttpPayload;
 import domain.UserInput;
+import ui.BlindSQLInjectionResultUI;
 
 /**
  * <pre>
@@ -26,16 +28,20 @@ import domain.UserInput;
  */
 public class BlindSQLInjectionManager{
 
+	/** helper classes **/
 	private SuccessDecider decider = null;
 	private HttpHelper HttpHelper = null;
 	private HttpPayloadFactory factory = null;
+	
+	/** result print target **/
 	private JLabel statusLabel = null;
 	private JTextArea logArea = null;
+	private BlindSQLInjectionResultUI resultUI = null;
 	
+	/** print variables **/
 	private int requestCount = 0;
 	private int dbCount = 0;
 	List<Integer> dbLengths = new ArrayList<Integer>();
-	//List
 	
 	/**
 	 * 
@@ -46,6 +52,10 @@ public class BlindSQLInjectionManager{
 		factory = new HttpPayloadFactory();
 	}
 	
+	public void setResultUI(BlindSQLInjectionResultUI resultUI) {
+		this.resultUI = resultUI;
+	}
+
 	public void setStatusLabel(JLabel statusLabel){
 		this.statusLabel = statusLabel;
 	}
@@ -84,6 +94,7 @@ public class BlindSQLInjectionManager{
 	}
 	
 	private void cntWork(UserInput input, int until, String workName){
+		
 		SwingWorker<Integer, Integer> worker = new SwingWorker<Integer, Integer>(){
 			@Override
 			protected Integer doInBackground() throws Exception {
@@ -120,6 +131,11 @@ public class BlindSQLInjectionManager{
 					int cnt = get();
 					if(cnt > 0){
 						logArea.setText(logArea.getText() + "\n" + workName + " founded : " + cnt);
+						// add to 
+						DefaultTableModel dbTableModel =  resultUI.getDBResultUI().getTableModel();
+						Integer[] row = {input.getDbIndex() , cnt};
+						dbTableModel.addRow(row);
+						
 					}else {
 						
 					}
