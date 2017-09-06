@@ -79,19 +79,16 @@ public class BlindSQLInjectionManager{
 					dbTableModel.addRow(row);
 				}
 				
-				/* STEP 2. search db name lengths */
+				// STEP 2. search db name lengths
 				List<Integer> dbNameLengths = searchDBNameLength(input, dbCount, dbTableModel);
-				
-				/* STEP 3. search db names */
-				List<String> dbNames = searchDBNames(input, dbCount, dbNameLengths, dbTableModel);
 				/*
-				List<String> dbNames = new ArrayList<String>(); 
-				dbNames.add("STONESOUP");*/
+				// STEP 3. search db names
+				List<String> dbNames = searchDBNames(input, dbCount, dbNameLengths, dbTableModel);
 				
-				/* STEP 4. search table counts */
+				// STEP 4. search table counts
 				input.setTargetType(TargetType.TABLE);
 				List<Integer> tableCounts = searchTableCounts(input, dbNames, dbTableModel);
-				
+				*/
 				return true;
 			}
 		};

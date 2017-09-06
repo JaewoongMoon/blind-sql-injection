@@ -2,7 +2,6 @@ package ui;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.List;
 import java.util.Vector;
 
 import javax.swing.ButtonGroup;
@@ -14,16 +13,13 @@ import javax.swing.JRadioButton;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
-import javax.swing.table.DefaultTableModel;
-import javax.swing.table.TableModel;
-
 import domain.UserInput;
 import domain.enumeration.DbmsType;
 import domain.enumeration.HttpQueryType;
 import domain.enumeration.QueryType;
 import domain.enumeration.TargetType;
 import logic.BlindSQLInjectionManager;
-import util.GroupButtonUtils;
+import util.SwingUtils;
 
 
 public class BlindSQLInjectionInputUI extends JPanel{
@@ -322,11 +318,11 @@ public class BlindSQLInjectionInputUI extends JPanel{
 			input.setEtcParamStr(etcParamField.getText());
 			input.setMatch(matchField.getText());
 			input.setDbmsType(DbmsType.getDbmsType(
-					GroupButtonUtils.getSelectedButtonText(dbmsButtonGroup)));
+					SwingUtils.getSelectedButtonText(dbmsButtonGroup)));
 			input.setTargetType(TargetType.getTargetType(
-					GroupButtonUtils.getSelectedButtonText(targetTypeButtonGroup)));
+					SwingUtils.getSelectedButtonText(targetTypeButtonGroup)));
 			input.setQueryType(QueryType.getQueryType(
-					GroupButtonUtils.getSelectedButtonText(queryTypeButtonGroup)));
+					SwingUtils.getSelectedButtonText(queryTypeButtonGroup)));
 			
 			// searchCondition은 선택한 상황에 따라 다양한 값으로 변환되어 저장. 
 			
