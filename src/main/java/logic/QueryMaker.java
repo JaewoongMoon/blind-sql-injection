@@ -6,8 +6,6 @@ package logic;
 import domain.enumeration.AttackVector;
 import domain.enumeration.DbmsType;
 import domain.UserInput;
-import domain.enumeration.QueryType;
-import domain.enumeration.TargetType;
 
 /**
  * <pre>
@@ -26,10 +24,6 @@ public class QueryMaker {
 	 * @brief	: 
 	 * @author	: Jae-Woong Moon(mjw8585@gmail.com)
 	 * @Date	: 2017/08/16
-	 * @param dbmsType
-	 * @param targetType
-	 * @param queryType
-	 * @param payload
 	 * @return
 	 */
 	public String getQuery(UserInput cond){
@@ -42,7 +36,7 @@ public class QueryMaker {
 		// STEP 1. get default query
 		String defaultQuery = AttackVector.getDefaultQuery(cond.getAttackVector());
 		
-		// STEP 2. replace query index (LIMIT)
+		// STEP 2. get replaced query
 		String replacedQuery = defaultQuery;
 		if(dbIndex > -1){
 			replacedQuery = replacedQuery.replace("@{dbIdx}", dbIndex+"");

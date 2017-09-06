@@ -48,6 +48,22 @@ public class UserInput {
 	private int tableIndex = -1;
 	
 	
+	public UserInput copy(UserInput src){
+		UserInput newInput = new UserInput();
+		newInput.setDbmsType(src.getDbmsType());
+		newInput.setTargetType(src.getTargetType());
+		newInput.setQueryType(src.getQueryType());
+		newInput.setHttpQueryType(src.getHttpQueryType());
+		newInput.setTargetURL(src.getTargetURL());
+		newInput.setTargetParamName(src.getTargetParamName());
+		newInput.setTargetParamValue(src.getTargetParamValue());
+		newInput.setEtcParamStr(src.getEtcParamStr());
+		newInput.setMatch(src.getMatch());
+		newInput.setCheckVal(src.getCheckVal());
+		//..
+		
+		return newInput;
+	}
 	
 	public AttackVector getAttackVector() {
 		return AttackVector.getAttackVector(dbmsType, targetType, queryType);

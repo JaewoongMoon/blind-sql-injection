@@ -8,6 +8,7 @@ import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import javax.swing.JTabbedPane;
+import javax.swing.SwingUtilities;
 
 import ui.BlindSQLInjectionInputUI;
 import ui.BlindSQLInjectionResultUI;
@@ -36,7 +37,7 @@ public class MainUI extends JFrame{
 	
 	
 	public MainUI(){
-		setTitle("Blind SQL Injection automation tool - made by jwmoon");
+		setTitle("Blind SQL Injection automation tool V1.0 - made by jwmoon");
 		setLayout(null);
 		
 		// menu Bar
@@ -55,8 +56,9 @@ public class MainUI extends JFrame{
 		// add tabs
 		inputUI = new BlindSQLInjectionInputUI();
 		resultUI = new BlindSQLInjectionResultUI();
-		inputUI.setBounds(0,0,700,700);
-		resultUI.setBounds(700,0,600,700);
+		inputUI.setResultUI(resultUI);
+		inputUI.setBounds(0,0,700,700);    // 700 x 700
+		resultUI.setBounds(700,0,600,700); // 600 x 700
 		
 		add(inputUI);
 		add(resultUI);
@@ -65,7 +67,7 @@ public class MainUI extends JFrame{
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		setSize(1330, 780);
 		setVisible(true);
-		setResizable(false);
+		setResizable(true);
 	}
 	
 	class HelpHandler implements ActionListener{
@@ -84,6 +86,11 @@ public class MainUI extends JFrame{
 	}
 	
 	public static void main(String[] args) {
-		new MainUI();
+		
+		SwingUtilities.invokeLater(new Runnable() {
+			public void run() {
+				new MainUI();
+			}
+		});
 	}
 }
