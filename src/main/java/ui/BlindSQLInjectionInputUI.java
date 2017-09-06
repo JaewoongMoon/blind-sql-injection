@@ -332,49 +332,14 @@ public class BlindSQLInjectionInputUI extends JPanel{
 			
 			
 			// STEP 3. 로직 처리 요청
-			// test 1. get db count
-			//int dbCount = manager.getDBCount(input);  //어딘가에 저장을 해두는 로직이 있어야 함. 
-			//logArea.setText("DB 개수 : " + dbCount);
-			
-			// test 2. get db name length
-			int dbCount = 10;
-			input.setQueryType(QueryType.LENGTH);
-			List<Integer> dbNameLengths = manager.getDBNameLengths(input, dbCount);
-			/*
-			for(int dbNameLen : dbNameLengths){
-				logArea.setText(logArea.getText() + "\n" + "이름의 길이 : " + dbNameLen);
-			}*/
-			// test 3. get db names
-			/*
-			input.setQueryType(QueryType.CONTENT);
-			List<String> dbNames = manager.getDBNames(input, dbCount, dbNameLengths);
-			for (String dbName : dbNames){
-				logArea.setText(logArea.getText() + "\n" + " DB명 : " + dbName);
-			}
-			*/
-			// STEP 4. 결과 표시 
-			
+			manager.dbSearch(input);
 		}
 	}
 	
 	class PauseActionHandler implements ActionListener{
 		@Override
 		public void actionPerformed(ActionEvent e) {
-			// 결과 UI의 테이블에 접근하는 것을 테스트해보자. 
-			DefaultTableModel dbTableModel =  resultUI.getDBResultUI().getTableModel();
-			String[] data = new String[4];
-			data[0] = "test1";
-			data[1] = "test2";
-			data[2] = "3";
-			//data[3] = "4";
-			
-			String[] data2 = new String[3];
-			data2[0] = "hello";
-			
-			dbTableModel.addRow(data);
-			dbTableModel.addRow(data2);
-			dbTableModel.fireTableDataChanged();
-			// ok
+
 		}
 	}
 }

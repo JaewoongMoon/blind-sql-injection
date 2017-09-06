@@ -107,6 +107,9 @@ public enum AttackVector {
 		case MYSQL_DB_COUNT : return DefaultQueries.MYSQL_DB_COUNT_QUERY;
 		case MYSQL_DB_NAME_LENGTH: return DefaultQueries.MYSQL_DB_NAME_LENGTH_QUERY;
 		case MYSQL_DB_NAME: return DefaultQueries.MYSQL_DB_NAME_QUERY;
+		case MYSQL_TABLE_COUNT: return DefaultQueries.MYSQL_TABLE_COUNT_QUERY;
+		case MYSQL_TABLE_NAME_LENGTH: return DefaultQueries.MYSQL_TABLE_NAME_LENGTH_QUERY;
+		case MYSQL_TABLE_NAME: return DefaultQueries.MYSQL_TABLE_NAME_QUERY;
 		default : throw new AssertionError("Unknown value : " + attackVector); 
 		}
 	}

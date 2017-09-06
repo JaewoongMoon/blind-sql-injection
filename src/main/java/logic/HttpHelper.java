@@ -37,6 +37,7 @@ public class HttpHelper {
 			String postParam = payload.getParamName() + "=" + payload.getParamValue();
 			return sendPost(payload.getUrl(), postParam);
 		}else{
+			System.out.println("Unkown Http Method!!!");
 			return "None";
 		}
 	}

