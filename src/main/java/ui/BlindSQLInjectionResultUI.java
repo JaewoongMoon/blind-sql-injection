@@ -14,7 +14,10 @@ import javax.swing.JScrollPane;
 import javax.swing.JTabbedPane;
 import javax.swing.JTable;
 import javax.swing.JTextField;
+import javax.swing.SwingUtilities;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableColumn;
+import javax.swing.table.TableColumnModel;
 import javax.swing.table.TableModel;
 
 import util.SwingUtils;
@@ -36,13 +39,10 @@ public class BlindSQLInjectionResultUI extends JPanel{
 	private TableResultUI tableUI = null;
 	private ColumnResultUI columnUI = null;
 	private DataResultUI dataUI = null; 
-	final int WIDTH = 600;
-	final int HEIGHT = 700;
 	
 	public BlindSQLInjectionResultUI(){
 		// panel setup
 		setLayout(new BorderLayout());
-		setSize(WIDTH, HEIGHT); 
 		setVisible(true);
 		
 		tabs = new JTabbedPane();
@@ -92,10 +92,30 @@ public class BlindSQLInjectionResultUI extends JPanel{
 			data.add(testRow);
 		}
 		public DBResultUI(){
+			//testRowDo();
 			setLayout(new BorderLayout());
 			table = new JTable(data, headers);
 			scroll = new JScrollPane(table);
 			add(scroll);
+			SwingUtilities.invokeLater(new Runnable() {
+				public void run() {
+					initColumnWidth();
+				}
+			});
+		}
+		
+		private void initColumnWidth(){
+			//SUMS 100%
+			float[] columnWidthPercentage = {15.0f, 15.0f, 55.0f, 15.0f};
+			int tableWidth = table.getWidth();
+			
+			System.out.println("table width : " + tableWidth);
+			TableColumnModel columnModel = table.getColumnModel();
+			for (int i=0; i < columnModel.getColumnCount(); i++){
+				TableColumn column = columnModel.getColumn(i);
+				int pWidth = Math.round(columnWidthPercentage[i] * tableWidth);
+				column.setPreferredWidth(pWidth);
+			}
 		}
 		
 		public void clearResult(){

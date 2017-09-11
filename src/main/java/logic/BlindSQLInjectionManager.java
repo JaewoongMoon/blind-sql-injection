@@ -5,11 +5,6 @@ package logic;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Vector;
-import java.util.concurrent.ExecutionException;
-
-import javax.swing.JLabel;
-import javax.swing.JTextArea;
 import javax.swing.SwingWorker;
 import javax.swing.table.DefaultTableModel;
 
