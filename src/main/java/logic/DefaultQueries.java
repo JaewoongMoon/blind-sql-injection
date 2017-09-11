@@ -22,7 +22,7 @@ public class DefaultQueries {
 	
 	public static final String MYSQL_TABLE_COUNT_QUERY = "(select count(*) from information_schema.tables where table_schema='@{dbName}')";
 	public static final String MYSQL_TABLE_NAME_LENGTH_QUERY = "(select length(table_name) from information_schema.tables where table_schema = '@{dbName}' limit @{tableIdx}, 1)";
-	public static final String MYSQL_TABLE_NAME_QUERY = "조사가 필요함...";
+	public static final String MYSQL_TABLE_NAME_QUERY = "substring((select length(table_name) from information_schema.tables where table_schema = '@{dbName}' limit @{tableIdx}, 1), @{tableNameIdx},1)";
 	
 	
 

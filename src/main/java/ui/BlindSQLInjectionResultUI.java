@@ -46,7 +46,6 @@ public class BlindSQLInjectionResultUI extends JPanel{
 		setVisible(true);
 		
 		tabs = new JTabbedPane();
-		tabs.setBounds(0, 0, WIDTH, HEIGHT);
 		add(tabs);
 		
 		dbUI = new DBResultUI();
@@ -68,7 +67,13 @@ public class BlindSQLInjectionResultUI extends JPanel{
 		return tableUI;
 	}
 
-	
+	public void clearResults(){
+		// clear db 
+		dbUI.clearResult();
+		// clear table 
+		// clear column 
+		// clear data
+	}
 	
 	/* sub tabs */
 	public class DBResultUI extends JPanel{
@@ -77,32 +82,27 @@ public class BlindSQLInjectionResultUI extends JPanel{
 		Vector<Vector<String>> data = new Vector<Vector<String>>();
 		JTable table;
 		JScrollPane scroll;
+		Vector<String> testRow = new Vector<String>();
 		
-		
+		private void testRowDo(){
+			testRow.add("1");
+			testRow.add("9");
+			testRow.add("STONESOUP");
+			testRow.add("2");
+			data.add(testRow);
+		}
 		public DBResultUI(){
 			setLayout(new BorderLayout());
 			table = new JTable(data, headers);
 			scroll = new JScrollPane(table);
 			add(scroll);
-			
-			//setLayout(null);
-			
-			table.setBounds(0, 0, WIDTH, HEIGHT);
-			scroll.setBounds(table.getBounds());
-			table.setMinimumSize(new Dimension(WIDTH, HEIGHT));
-			//table.setPreferredSize(new Dimension(WIDTH, HEIGHT)); // not work 
-			scroll.setMinimumSize(new Dimension(WIDTH, HEIGHT)); // not work 
-			//scroll.setPreferredSize(new Dimension(WIDTH, HEIGHT));
-			//table.setPreferredScrollableViewportSize(table.getPreferredSize());
-			//table.setFillsViewportHeight(true);
-			
-			//SwingUtils.resizeColumnWidth(table);  
-			//SwingUtils.resizeColumnWidth2(table);
-			
-			/*
-			//
-			*/
-			//table.setRowHeight(100); //row height 는 설정이 가능
+		}
+		
+		public void clearResult(){
+			System.out.println("clear db result ...");
+			DefaultTableModel tableModel = (DefaultTableModel)table.getModel();
+			tableModel.getDataVector().removeAllElements();
+			tableModel.fireTableDataChanged();
 		}
 		
 		public DefaultTableModel getTableModel(){
@@ -122,9 +122,6 @@ public class BlindSQLInjectionResultUI extends JPanel{
 			table = new JTable(data, headers);
 			scroll = new JScrollPane(table);
 			add(scroll);
-			//table.setBounds(0, 0, WIDTH, HEIGHT);
-			//table.setMinimumSize(new Dimension(WIDTH, HEIGHT));
-			//scroll.setBounds(0, 0, WIDTH, HEIGHT);
 		}
 	}
 	
