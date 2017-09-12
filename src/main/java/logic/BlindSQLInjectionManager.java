@@ -7,6 +7,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Vector;
 
+import javax.swing.JTextArea;
 import javax.swing.SwingWorker;
 import javax.swing.table.DefaultTableModel;
 
@@ -46,6 +47,7 @@ public class BlindSQLInjectionManager{
 	/** control variables  **/
 	private boolean canceled = false;
 	private boolean paused = false;
+	private boolean workDone = false;
 	
 	public BlindSQLInjectionManager() {
 		decider = new SuccessDecider();
@@ -64,17 +66,28 @@ public class BlindSQLInjectionManager{
 
 	public void start(UserInput input){
 		this.input = input;
+		
+		System.out.println("[STATUS] canceled : " + canceled +", paused : " + paused + ", workDone : " + workDone);
+		
+		// case 1. after worker canceled
 		if (canceled && !paused) {
 			worker = new InjectionWorker();
-			resultUI.clearResults();
+			//resultUI.clearResults(); 
+		}
+		// case 2. after worker job has done (new start) 
+		if(workDone){
+			System.out.println("start new injection worker. ");
+			worker = new InjectionWorker();
 		}
 		
 		// start worker
 		worker.execute();
 		
+		// case 3. after paused 
 		if (paused){
 			resume();
 		}
+		
 	}
 	
 	public void pause(){
@@ -99,20 +112,34 @@ public class BlindSQLInjectionManager{
 	class InjectionWorker extends SwingWorker<Boolean, Void> {
 		
 		@Override
-		protected Boolean doInBackground() throws Exception {
-			// case 1) Target이 DB인 경우
-			if(input.getTargetType() == TargetType.DB_SCHEMA){
-				resultUI.selectTab(0);
-				dbSearch(input);
+		protected Boolean doInBackground(){
+			
+			try{
+				if(input.getTargetType() == TargetType.DB_SCHEMA){
+					printLog("DB Search Start...");
+					resultUI.selectTab(0);
+					dbSearch(input);
+				}else if(input.getTargetType() == TargetType.TABLE){
+					printLog("Table Search Start...");
+					resultUI.selectTab(1);
+					tableSearch(input);
+				}
+				System.out.println("==== Worker job has done.");
+				printLog("Worker job has done.");
+				workDone = true;
+				inputUI.initButtons();
+				return true;
+				
+			}catch(Exception e){
+				printLog("Work Excepiton : " + e.getMessage());
+				e.printStackTrace();
 			}
-			// case 2) Target이 Table인 경우
-			if(input.getTargetType() == TargetType.TABLE){
-				resultUI.selectTab(1);
-				tableSearch(input);
-			}
-			System.out.println("==== Worker job has done.");
-			inputUI.initButtons();
 			return true;
+		}
+		
+		private void printLog(String msg){
+			JTextArea log = inputUI.getLogArea();
+			log.setText(log.getText() + msg + "\n");
 		}
 		
 		/** Table Tab **/
@@ -122,29 +149,31 @@ public class BlindSQLInjectionManager{
 			
 			/* STEP 1. Get target db schema's info from the result UI */
 			Vector<Vector<String>> dbData = resultUI.getDBResultUI().getTableModel().getDataVector();
-			int tableRowNum = 1;
+			int tableRowNum = 0;
 			for (int i= 0; i < dbData.size(); i++ ){
 				Vector<String> dbRow =  dbData.get(i);
-				
-				int tableCount = Integer.parseInt(dbRow.get(3)); 
+				int tableCount =0;
+				tableCount = Integer.parseInt(dbRow.get(3));
 				for (int j=0; j < tableCount; j++){
-					/* STEP 2. insert tableRowNum an db name */
+					
+					/* STEP 2. insert tableRowNum and db name */
 					final String dbName =  dbRow.get(2);
-					String[] tableRow = {tableRowNum + j +"", dbName};
+					String[] tableRow = {(tableRowNum +1) +"", dbName};
 					updateTo.addRow(tableRow);
 
 					/* STEP 3. Search and update table name length */
 					int tableNameLength = searchTableNamesLength(input, dbName, j);
-					updateTo.setValueAt(tableNameLength, j, 2);
+					updateTo.setValueAt(tableNameLength+"", tableRowNum, 2);
 					
 					/* STEP 4. Search and update table names */
 					String tableName = searchTableName(input, dbName, tableNameLength);
-					updateTo.setValueAt(tableName, j, 3);
+					updateTo.setValueAt(tableName, tableRowNum, 3);
 					
 					/* STEP 5. Search and update the number of Columns per each table*/
 					int columnCnt = searchColumnCount(input, dbName, tableName);
-					updateTo.setValueAt(columnCnt, j, 4);
+					updateTo.setValueAt(columnCnt+"", tableRowNum, 4);
 					
+					tableRowNum ++;
 				}
 				
 				
@@ -191,6 +220,7 @@ public class BlindSQLInjectionManager{
 			if(dbCount == 0){
 				return ;
 			}
+
 			// setting result table
 			DefaultTableModel dbTableModel =  resultUI.getDBResultUI().getTableModel();
 			for (int i=0; i < dbCount; i++){
@@ -223,7 +253,7 @@ public class BlindSQLInjectionManager{
 				input.setDbIndex(i);
 				int length = cntWork(input,input.getLengthUntil());
 				result.add(length);
-				updateTo.setValueAt(length, i, 1); // update GUI
+				updateTo.setValueAt(length+"", i, 1); // update GUI
 				updateTo.fireTableDataChanged();
 			}
 			return result;
@@ -257,7 +287,7 @@ public class BlindSQLInjectionManager{
 			input.setQueryType(QueryType.COUNT);
 			for(int i=0; i < dbNames.size(); i++){
 				int tableCount = searchTableCount(input, dbNames.get(i));
-				updateTo.setValueAt(tableCount, i, 3);
+				updateTo.setValueAt(tableCount+"", i, 3);
 				updateTo.fireTableDataChanged();
 			}
 			return tableCounts;

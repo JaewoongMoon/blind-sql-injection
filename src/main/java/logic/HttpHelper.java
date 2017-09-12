@@ -66,7 +66,7 @@ public class HttpHelper {
 			return response.toString();
 		}catch(Exception e){
 			 e.printStackTrace();
-			 return null;
+			 return "Exception :" + e.getMessage();
 		}finally {
 			if (con != null) {
 		      con.disconnect();
@@ -109,7 +109,7 @@ public class HttpHelper {
 		    return response.toString();
 		  } catch (Exception e) {
 		    e.printStackTrace();
-		    return null;
+		    return "Exception :" + e.getMessage();
 		  } finally {
 		    if (connection != null) {
 		      connection.disconnect();
