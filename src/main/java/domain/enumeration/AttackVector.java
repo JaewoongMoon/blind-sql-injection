@@ -86,6 +86,25 @@ public enum AttackVector {
 					return MYSQL_TABLE_NAME;
 				}
 			}
+			else if(targetType == TargetType.COLUMN){
+				if(queryType == QueryType.COUNT){
+					return MYSQL_COLUMN_COUNT;
+				}else if(queryType == QueryType.LENGTH){
+					return MYSQL_COLUMN_NAME_LENGTH;
+				}else if(queryType == QueryType.CONTENT){
+					return MYSQL_COLUMN_NAME;
+				}
+			}
+			else if(targetType == TargetType.DATA){
+				if(queryType == QueryType.COUNT){
+					return MYSQL_DATA_COUNT;
+				}else if(queryType == QueryType.LENGTH){
+					return MYSQL_DATA_CONTENT_LENGTH;
+				}else if(queryType == QueryType.CONTENT){
+					return MYSQL_DATA_CONTENT;
+				}
+			}
+			
 		}
 		else if (dbmsType == DbmsType.MS_SQL){
 			if(targetType == TargetType.DB_SCHEMA){
@@ -110,6 +129,13 @@ public enum AttackVector {
 		case MYSQL_TABLE_COUNT: return DefaultQueries.MYSQL_TABLE_COUNT_QUERY;
 		case MYSQL_TABLE_NAME_LENGTH: return DefaultQueries.MYSQL_TABLE_NAME_LENGTH_QUERY;
 		case MYSQL_TABLE_NAME: return DefaultQueries.MYSQL_TABLE_NAME_QUERY;
+		case MYSQL_COLUMN_COUNT: return DefaultQueries.MYSQL_COLUMN_COUNT_QUERY;
+		case MYSQL_COLUMN_NAME_LENGTH: return DefaultQueries.MYSQL_COLUMN_NAME_LENGTH_QUERY;
+		case MYSQL_COLUMN_NAME: return DefaultQueries.MYSQL_COLUMN_NAME_QUERY;
+		case MYSQL_DATA_COUNT: return DefaultQueries.MYSQL_DATA_COUNT_QUERY;
+		case MYSQL_DATA_CONTENT_LENGTH: return DefaultQueries.MYSQL_DATA_CONTENT_LENGTH_QUERY;
+		case MYSQL_DATA_CONTENT: return DefaultQueries.MYSQL_DATA_CONTENT_QUERY;
+		
 		default : throw new AssertionError("Unknown value : " + attackVector); 
 		}
 	}

@@ -37,6 +37,16 @@ public class SwingUtils {
 		}
 		return null;
 	}
+	
+	public static void resizeColumnWidthPercentage(JTable table, float[] columnWidthPercentage){
+		int tableWidth = table.getWidth();
+		TableColumnModel columnModel = table.getColumnModel();
+		for (int i=0; i < columnModel.getColumnCount(); i++){
+			TableColumn column = columnModel.getColumn(i);
+			int pWidth = Math.round(columnWidthPercentage[i] * tableWidth);
+			column.setPreferredWidth(pWidth);
+		}
+	}
 
 	public static void resizeColumnWidth(JTable table) {
 		final TableColumnModel columnModel = table.getColumnModel();

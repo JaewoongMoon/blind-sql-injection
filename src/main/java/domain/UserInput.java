@@ -32,8 +32,8 @@ public class UserInput {
 	private String etcParamStr;
 	private String match;
 	
-	/** Program 이 판단하는 값들 **/
 	
+	/** Program 이 판단하는 값들 **/
 	// 공통
 	private String checkVal; 
 	private int lengthUntil = 50; // search length until
@@ -42,12 +42,14 @@ public class UserInput {
 	// db
 	private int dbIndex = -1;  // DB 스키마의 Index (전체 DB 중 몇 번째 스키마인지...) 
 	private int dbNameIndex = -1; //DB 이름의 알파벳 Index
+	private String dbName;
 	
 	// table
-	private String dbName;
 	private int tableIndex = -1;
+	private int tableNameIndex = -1;
+	private String tableName;
 	
-	
+	/*
 	public UserInput copy(UserInput src){
 		UserInput newInput = new UserInput();
 		newInput.setDbmsType(src.getDbmsType());
@@ -63,12 +65,28 @@ public class UserInput {
 		//..
 		
 		return newInput;
-	}
+	}*/
 	
 	public AttackVector getAttackVector() {
 		return AttackVector.getAttackVector(dbmsType, targetType, queryType);
 	}
 	
+	public String getTableName() {
+		return tableName;
+	}
+
+	public void setTableName(String tableName) {
+		this.tableName = tableName;
+	}
+
+	public int getTableNameIndex() {
+		return tableNameIndex;
+	}
+
+	public void setTableNameIndex(int tableNameIndex) {
+		this.tableNameIndex = tableNameIndex;
+	}
+
 	public DbmsType getDbmsType() {
 		return dbmsType;
 	}

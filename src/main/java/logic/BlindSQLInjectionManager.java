@@ -6,10 +6,7 @@ package logic;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Vector;
-import java.util.concurrent.ExecutionException;
 
-import javax.swing.JLabel;
-import javax.swing.JTextArea;
 import javax.swing.SwingWorker;
 import javax.swing.table.DefaultTableModel;
 
@@ -93,7 +90,7 @@ public class BlindSQLInjectionManager{
 	}
 	
 	private synchronized void resume(){
-		System.out.println("Resume work...");
+		System.out.println("==== RESUME");
 		paused = false;
 		this.notify();
 	}
@@ -105,19 +102,87 @@ public class BlindSQLInjectionManager{
 		protected Boolean doInBackground() throws Exception {
 			// case 1) Target이 DB인 경우
 			if(input.getTargetType() == TargetType.DB_SCHEMA){
+				resultUI.selectTab(0);
 				dbSearch(input);
 			}
 			// case 2) Target이 Table인 경우
 			if(input.getTargetType() == TargetType.TABLE){
-				// search table
+				resultUI.selectTab(1);
+				tableSearch(input);
 			}
 			System.out.println("==== Worker job has done.");
 			inputUI.initButtons();
 			return true;
 		}
 		
+		/** Table Tab **/
+		private void tableSearch(UserInput input){
+			input.setTargetType(TargetType.TABLE);
+			DefaultTableModel updateTo =  resultUI.getTableResultUI().getTableModel();
+			
+			/* STEP 1. Get target db schema's info from the result UI */
+			Vector<Vector<String>> dbData = resultUI.getDBResultUI().getTableModel().getDataVector();
+			int tableRowNum = 1;
+			for (int i= 0; i < dbData.size(); i++ ){
+				Vector<String> dbRow =  dbData.get(i);
+				
+				int tableCount = Integer.parseInt(dbRow.get(3)); 
+				for (int j=0; j < tableCount; j++){
+					/* STEP 2. insert tableRowNum an db name */
+					final String dbName =  dbRow.get(2);
+					String[] tableRow = {tableRowNum + j +"", dbName};
+					updateTo.addRow(tableRow);
+
+					/* STEP 3. Search and update table name length */
+					int tableNameLength = searchTableNamesLength(input, dbName, j);
+					updateTo.setValueAt(tableNameLength, j, 2);
+					
+					/* STEP 4. Search and update table names */
+					String tableName = searchTableName(input, dbName, tableNameLength);
+					updateTo.setValueAt(tableName, j, 3);
+					
+					/* STEP 5. Search and update the number of Columns per each table*/
+					int columnCnt = searchColumnCount(input, dbName, tableName);
+					updateTo.setValueAt(columnCnt, j, 4);
+					
+				}
+				
+				
+			}
+		}
 		
-		// db 스키마 검색
+		private int searchTableNamesLength(UserInput input, String dbName, int tableIndex){
+			int length = 0;
+			input.setTargetType(TargetType.TABLE);
+			input.setQueryType(QueryType.LENGTH);
+			input.setDbName(dbName);
+			input.setTableIndex(tableIndex);
+			length =  cntWork(input, input.getCountUntil());
+			return length;
+		}
+		
+		private String searchTableName(UserInput input, String dbName, int tableNameLength){
+			String content = "";
+			input.setTargetType(TargetType.TABLE);
+			input.setQueryType(QueryType.CONTENT);
+			for(int i=0; i < tableNameLength ; i++){
+				input.setTableNameIndex(i+1); 
+				String chr = contentWork(input); 
+				//System.out.println("chr : "  + chr);
+				content += chr; 
+			}
+			return content;
+		}
+		
+		private int searchColumnCount(UserInput input, String dbName, String tableName){
+			input.setTargetType(TargetType.COLUMN);
+			input.setQueryType(QueryType.COUNT);
+			input.setDbName(dbName);
+			input.setTableName(tableName);
+			return cntWork(input, input.getCountUntil());
+		}
+
+		/** DB Tab **/
 		private void dbSearch(UserInput input){
 
 			input.setTargetType(TargetType.DB_SCHEMA);
@@ -144,14 +209,11 @@ public class BlindSQLInjectionManager{
 			List<Integer> tableCounts = searchTableCounts(input, dbNames, dbTableModel);
 				
 		}
-
-		/** DB **/
+	
 		private int searchDBCount(UserInput input){
 			input.setQueryType(QueryType.COUNT);
 			return cntWork(input, input.getCountUntil());
 		}
-		
-
 		
 		private List<Integer> searchDBNameLength(UserInput input, int dbCount, DefaultTableModel updateTo){
 			List<Integer> result = new ArrayList<Integer>();
@@ -190,9 +252,6 @@ public class BlindSQLInjectionManager{
 			return content;
 		}
 		
-
-		
-		/** Tables **/
 		private List<Integer> searchTableCounts(UserInput input, List<String> dbNames, DefaultTableModel updateTo){
 			List<Integer> tableCounts = new ArrayList<Integer>();
 			input.setQueryType(QueryType.COUNT);
@@ -210,6 +269,8 @@ public class BlindSQLInjectionManager{
 			tableCount = cntWork(input, input.getCountUntil());
 			return tableCount;
 		}
+		
+
 		
 		
 		/** common **/

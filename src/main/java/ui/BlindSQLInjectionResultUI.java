@@ -14,7 +14,10 @@ import javax.swing.JScrollPane;
 import javax.swing.JTabbedPane;
 import javax.swing.JTable;
 import javax.swing.JTextField;
+import javax.swing.SwingUtilities;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableColumn;
+import javax.swing.table.TableColumnModel;
 import javax.swing.table.TableModel;
 
 import util.SwingUtils;
@@ -36,13 +39,10 @@ public class BlindSQLInjectionResultUI extends JPanel{
 	private TableResultUI tableUI = null;
 	private ColumnResultUI columnUI = null;
 	private DataResultUI dataUI = null; 
-	final int WIDTH = 600;
-	final int HEIGHT = 700;
 	
 	public BlindSQLInjectionResultUI(){
 		// panel setup
 		setLayout(new BorderLayout());
-		setSize(WIDTH, HEIGHT); 
 		setVisible(true);
 		
 		tabs = new JTabbedPane();
@@ -57,6 +57,11 @@ public class BlindSQLInjectionResultUI extends JPanel{
 		tabs.add("Table", tableUI);
 		tabs.add("Column", columnUI);
 		tabs.add("Data", dataUI);
+		
+	}
+	
+	public void selectTab(int tabIndex){
+		tabs.setSelectedIndex(tabIndex);
 	}
 	
 	public DBResultUI getDBResultUI(){
@@ -71,6 +76,7 @@ public class BlindSQLInjectionResultUI extends JPanel{
 		// clear db 
 		dbUI.clearResult();
 		// clear table 
+		tableUI.clearResult();
 		// clear column 
 		// clear data
 	}
@@ -78,6 +84,7 @@ public class BlindSQLInjectionResultUI extends JPanel{
 	/* sub tabs */
 	public class DBResultUI extends JPanel{
 		String[] title = {"순번", "DB명 길이", "DB명", "테이블수"};
+		float[] columnWidthPercentage = {15.0f, 15.0f, 55.0f, 15.0f};
 		Vector<String> headers = new Vector<String>(Arrays.asList(title));
 		Vector<Vector<String>> data = new Vector<Vector<String>>();
 		JTable table;
@@ -92,10 +99,16 @@ public class BlindSQLInjectionResultUI extends JPanel{
 			data.add(testRow);
 		}
 		public DBResultUI(){
+			testRowDo();
 			setLayout(new BorderLayout());
 			table = new JTable(data, headers);
 			scroll = new JScrollPane(table);
 			add(scroll);
+			SwingUtilities.invokeLater(new Runnable() {
+				public void run() {
+					SwingUtils.resizeColumnWidthPercentage(table, columnWidthPercentage);
+				}
+			});
 		}
 		
 		public void clearResult(){
@@ -110,8 +123,9 @@ public class BlindSQLInjectionResultUI extends JPanel{
 		}
 	}
 	
-	class TableResultUI extends JPanel{
+	public class TableResultUI extends JPanel{
 		String[] title = {"순번", "DB명", "테이블명 길이", "테이블명", "칼럼 수"};
+		float[] columnWidthPercentage = {15.0f, 25.0f, 15.0f, 30.0f, 15.0f};
 		Vector<String> headers = new Vector<String>(Arrays.asList(title));
 		Vector<Vector<String>> data = new Vector<Vector<String>>();
 		JTable table;
@@ -122,10 +136,26 @@ public class BlindSQLInjectionResultUI extends JPanel{
 			table = new JTable(data, headers);
 			scroll = new JScrollPane(table);
 			add(scroll);
+			SwingUtilities.invokeLater(new Runnable() {
+				public void run() {
+					SwingUtils.resizeColumnWidthPercentage(table, columnWidthPercentage);
+				}
+			});
+		}
+		
+		public void clearResult(){
+			System.out.println("clear table result ...");
+			DefaultTableModel tableModel = (DefaultTableModel)table.getModel();
+			tableModel.getDataVector().removeAllElements();
+			tableModel.fireTableDataChanged();
+		}
+		
+		public DefaultTableModel getTableModel(){
+			return (DefaultTableModel)table.getModel();
 		}
 	}
 	
-	class ColumnResultUI extends JPanel{
+	public class ColumnResultUI extends JPanel{
 		String[] title = {"순번", "DB명", "테이블명", "칼럼명 길이", "칼럼명", "데이터 수"};
 		Vector<String> headers = new Vector<String>(Arrays.asList(title));
 		Vector<Vector<String>> data = new Vector<Vector<String>>();
@@ -139,9 +169,13 @@ public class BlindSQLInjectionResultUI extends JPanel{
 			scroll = new JScrollPane(table);
 			add(scroll);
 		}
+		
+		public DefaultTableModel getTableModel(){
+			return (DefaultTableModel)table.getModel();
+		}
 	}
 
-	class DataResultUI extends JPanel{
+	public class DataResultUI extends JPanel{
 		String[] title = {"순번", "DB명", "테이블명", "칼럼명", "데이터 길이", "데이터 내용"};
 		Vector<String> headers = new Vector<String>(Arrays.asList(title));
 		Vector<Vector<String>> data = new Vector<Vector<String>>();
@@ -153,6 +187,10 @@ public class BlindSQLInjectionResultUI extends JPanel{
 			table = new JTable(data, headers);
 			scroll = new JScrollPane(table);
 			add(scroll);
+		}
+		
+		public DefaultTableModel getTableModel(){
+			return (DefaultTableModel)table.getModel();
 		}
 	}
 
