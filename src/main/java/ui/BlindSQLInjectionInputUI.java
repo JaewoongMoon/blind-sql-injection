@@ -207,7 +207,7 @@ public class BlindSQLInjectionInputUI extends JPanel{
 		targetTypeButton3 = new JRadioButton("Column");
 		targetTypeButton4 = new JRadioButton("Data");
 		targetTypeButtonGroup = new ButtonGroup();
-		targetTypeButton1.setSelected(true);
+		targetTypeButton2.setSelected(true);
 		targetTypeButtonGroup.add(targetTypeButton1);
 		targetTypeButtonGroup.add(targetTypeButton2);
 		targetTypeButtonGroup.add(targetTypeButton3);

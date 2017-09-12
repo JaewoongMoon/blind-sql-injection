@@ -32,6 +32,9 @@ public class QueryMaker {
 		final int dbIndex = cond.getDbIndex();
 		final int dbNameIndex = cond.getDbNameIndex();
 		final String dbName = cond.getDbName();
+		final int tableIndex = cond.getTableIndex();
+		final int tableNameIndex = cond.getTableNameIndex();
+		final String tableName = cond.getTableName();
 		
 		// STEP 1. get default query
 		String defaultQuery = AttackVector.getDefaultQuery(cond.getAttackVector());
@@ -47,6 +50,16 @@ public class QueryMaker {
 		if(dbName != null && !dbName.equals("")){
 			replacedQuery = replacedQuery.replace("@{dbName}", dbName);
 		}
+		if(tableIndex > -1){
+			replacedQuery = replacedQuery.replace("@{tableIdx}", tableIndex+"");
+		}
+		if(tableNameIndex > -1){
+			replacedQuery = replacedQuery.replace("@{tableNameIdx}", tableNameIndex+"");
+		}
+		if(tableName != null && !tableName.equals("")){
+			replacedQuery = replacedQuery.replace("@{tableName}", tableName);
+		}
+		
 		
 		// STEP 3. complete query
 		String query = "' and (" + replacedQuery  +" = " + checkVal + ")" +dbmsType.getComment();
