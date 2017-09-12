@@ -57,6 +57,11 @@ public class BlindSQLInjectionResultUI extends JPanel{
 		tabs.add("Table", tableUI);
 		tabs.add("Column", columnUI);
 		tabs.add("Data", dataUI);
+		
+	}
+	
+	public void selectTab(int tabIndex){
+		tabs.setSelectedIndex(tabIndex);
 	}
 	
 	public DBResultUI getDBResultUI(){

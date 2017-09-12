@@ -102,11 +102,12 @@ public class BlindSQLInjectionManager{
 		protected Boolean doInBackground() throws Exception {
 			// case 1) Target이 DB인 경우
 			if(input.getTargetType() == TargetType.DB_SCHEMA){
+				resultUI.selectTab(0);
 				dbSearch(input);
 			}
 			// case 2) Target이 Table인 경우
 			if(input.getTargetType() == TargetType.TABLE){
-				// adjust tab selection
+				resultUI.selectTab(1);
 				tableSearch(input);
 			}
 			System.out.println("==== Worker job has done.");
