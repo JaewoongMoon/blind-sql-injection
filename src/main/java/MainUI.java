@@ -42,11 +42,11 @@ public class MainUI extends JFrame{
 		
 		// menu Bar
 		menuBar = new JMenuBar();
-		JMenu menu = new JMenu("도움말(H)");
+		JMenu menu = new JMenu("Help(H)");
 		menu.setMnemonic(KeyEvent.VK_H);
 		menuBar.add(menu);
 		
-		JMenuItem menuItem1 = new JMenuItem("도움말");
+		JMenuItem menuItem1 = new JMenuItem("Help");
 		menuItem1.addActionListener(new HelpHandler());
 		menu.add(menuItem1);
 		

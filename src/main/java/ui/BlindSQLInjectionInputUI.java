@@ -1,5 +1,6 @@
 package ui;
 
+import java.awt.Component;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.Vector;
@@ -8,6 +9,7 @@ import javax.swing.ButtonGroup;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JRadioButton;
 import javax.swing.JScrollPane;
@@ -68,11 +70,23 @@ public class BlindSQLInjectionInputUI extends JPanel{
 	JRadioButton targetTypeButton4;
 	
 	// query type
+	/*
 	JLabel queryTypeLabel;
 	ButtonGroup queryTypeButtonGroup;
 	JRadioButton queryTypeButton1;
 	JRadioButton queryTypeButton2;
 	JRadioButton queryTypeButton3;
+	*/
+	
+	// db name
+	JLabel dbNameLabel; 
+	JTextField dbNameField;
+	
+	// table name
+	
+	
+	// column name
+	
 	
 	
 	// 검색 조건 : search until (numbers only) or search name 
@@ -80,8 +94,10 @@ public class BlindSQLInjectionInputUI extends JPanel{
 	JTextField searchConditionField;
 	
 	// query payload (입력한 조건에 따라 완성된)
+	/*
 	JLabel payloadLabel;
 	JTextField payloadField;
+	*/
 	
 	/** Controls **/
 	// btns
@@ -132,7 +148,7 @@ public class BlindSQLInjectionInputUI extends JPanel{
 		setVisible(true);
 		
 		// url
-		urlLabel = new JLabel("타겟 URL : ");
+		urlLabel = new JLabel("Target URL : ");
 		urlField = new JTextField();
 		add(urlLabel);
 		add(urlField);
@@ -140,7 +156,7 @@ public class BlindSQLInjectionInputUI extends JPanel{
 		urlField.setBounds(urlLabel.getX() + urlLabel.getWidth(), urlLabel.getY(), 400, COMPONENT_HEIGHT);
 		
 		// http method types
-		methodLabel = new JLabel("Http 메서드 타입 : ");
+		methodLabel = new JLabel("Http Method : ");
 		httpMethods = new Vector<String>();
 		//httpMethods.add("--SELECT--");
 		httpMethods.add(HttpQueryType.GET_QUERY_ON_PARAM.toString());
@@ -153,7 +169,7 @@ public class BlindSQLInjectionInputUI extends JPanel{
 		methodCombo.setBounds(methodLabel.getX() + methodLabel.getWidth(), methodLabel.getY(), 200, COMPONENT_HEIGHT);
 		
 		// target parameter name
-		targetParamLabel = new JLabel("타겟 파라메터명 :");
+		targetParamLabel = new JLabel("Target Parameter Name :");
 		targetParamField = new JTextField();
 		add(targetParamLabel);
 		add(targetParamField);
@@ -161,7 +177,7 @@ public class BlindSQLInjectionInputUI extends JPanel{
 		targetParamField.setBounds(targetParamLabel.getX() + targetParamLabel.getWidth(), targetParamLabel.getY(), 150, COMPONENT_HEIGHT);
 
 		// target parameter value
-		targetParamValueLabel = new JLabel("타겟 파라메터 값 :");
+		targetParamValueLabel = new JLabel("Target Parameter Value :");
 		targetParamValueField = new JTextField();
 		add(targetParamValueLabel);
 		add(targetParamValueField);
@@ -169,7 +185,7 @@ public class BlindSQLInjectionInputUI extends JPanel{
 		targetParamValueField.setBounds(targetParamValueLabel.getX() + targetParamValueLabel.getWidth(), targetParamValueLabel.getY(), 150, COMPONENT_HEIGHT);
 		
 		// etc paramter string
-		etcParamLabel = new JLabel("기타 파라메터 문자열 : "); 
+		etcParamLabel = new JLabel("Etc Parameter String : "); 
 		etcParamField = new JTextField();
 		add(etcParamLabel);
 		add(etcParamField);
@@ -177,7 +193,7 @@ public class BlindSQLInjectionInputUI extends JPanel{
 		etcParamField.setBounds(etcParamLabel.getX() + etcParamLabel.getWidth(), etcParamLabel.getY(), 250, COMPONENT_HEIGHT);
 		
 		// match
-		matchLabel = new JLabel("성공판정(매치문자열) : ");
+		matchLabel = new JLabel("Success String (Match) : ");
 		matchField = new JTextField();
 		add(matchLabel);
 		add(matchField);
@@ -201,13 +217,13 @@ public class BlindSQLInjectionInputUI extends JPanel{
 		dbmsButton2.setEnabled(false);
 		
 		// target type radio buttons
-		targetTypeLabel = new JLabel("타겟 타입 : ");
+		targetTypeLabel = new JLabel("Target : ");
 		targetTypeButton1 = new JRadioButton("DB");
 		targetTypeButton2 = new JRadioButton("Table");
 		targetTypeButton3 = new JRadioButton("Column");
 		targetTypeButton4 = new JRadioButton("Data");
 		targetTypeButtonGroup = new ButtonGroup();
-		targetTypeButton2.setSelected(true);
+		targetTypeButton1.setSelected(true);
 		targetTypeButtonGroup.add(targetTypeButton1);
 		targetTypeButtonGroup.add(targetTypeButton2);
 		targetTypeButtonGroup.add(targetTypeButton3);
@@ -227,6 +243,7 @@ public class BlindSQLInjectionInputUI extends JPanel{
 		
 		
 		// query type radio buttons
+		/*
 		queryTypeLabel = new JLabel("쿼리 타입 : ");
 		queryTypeButton1 = new JRadioButton("갯수");
 		queryTypeButton2 = new JRadioButton("이름의 길이");
@@ -247,6 +264,15 @@ public class BlindSQLInjectionInputUI extends JPanel{
 		queryTypeButton1.setEnabled(false);
 		queryTypeButton2.setEnabled(false);
 		queryTypeButton3.setEnabled(false);
+		*/
+		
+		// db name
+		dbNameLabel = new JLabel("DB Name : ");
+		dbNameField = new JTextField();
+		add(dbNameLabel);
+		add(dbNameField);
+		dbNameLabel.setBounds(START_X, targetTypeLabel.getY() + targetTypeLabel.getHeight() + PADDING_Y, 150, COMPONENT_HEIGHT);
+		dbNameField.setBounds(dbNameLabel.getX() + dbNameLabel.getWidth(), dbNameLabel.getY(), 200, COMPONENT_HEIGHT);
 		
 		
 		// search condition 
@@ -254,11 +280,12 @@ public class BlindSQLInjectionInputUI extends JPanel{
 		searchConditionField = new JTextField();
 		add(searchConditionLabel);
 		add(searchConditionField);
-		searchConditionLabel.setBounds(START_X, queryTypeLabel.getY() + queryTypeLabel.getHeight() + PADDING_Y, 150, COMPONENT_HEIGHT);
+		searchConditionLabel.setBounds(START_X, dbNameLabel.getY() + dbNameLabel.getHeight() + PADDING_Y, 150, COMPONENT_HEIGHT);
 		searchConditionField.setBounds(searchConditionLabel.getX() + searchConditionLabel.getWidth(), searchConditionLabel.getY(), 200, COMPONENT_HEIGHT);
 		searchConditionField.setEnabled(false);
 		
 		// payload 
+		/*
 		payloadLabel = new JLabel("전송될 Payload : ");
 		payloadField = new JTextField();
 		add(payloadLabel);
@@ -266,6 +293,7 @@ public class BlindSQLInjectionInputUI extends JPanel{
 		payloadLabel.setBounds(START_X, searchConditionLabel.getY() + searchConditionLabel.getHeight() + PADDING_Y, 150, COMPONENT_HEIGHT);
 		payloadField.setBounds(payloadLabel.getX() + payloadLabel.getWidth(), payloadLabel.getY(), 400, COMPONENT_HEIGHT);
 		payloadField.setEnabled(false);
+		*/
 		
 		// btns
 		startBtn = new JButton("Start");
@@ -283,7 +311,7 @@ public class BlindSQLInjectionInputUI extends JPanel{
 		
 		// status
 		statusLabel = new JLabel("Send Request : ");
-		statusField = new JLabel("0 건");
+		statusField = new JLabel("0");
 		add(statusLabel);
 		add(statusField);
 		statusLabel.setBounds(START_X, startBtn.getY() + startBtn.getHeight(), 150, COMPONENT_HEIGHT);
@@ -300,10 +328,6 @@ public class BlindSQLInjectionInputUI extends JPanel{
 		logLabel.setBounds(START_X, statusLabel.getY() + statusLabel.getHeight(), 100, COMPONENT_HEIGHT);
 		logPane.setBounds(START_X, logLabel.getY() + logLabel.getHeight(), 610, 200);
 
-		
-		// 매니저 객체에 찾은 값을 출력할 장소를 알려준다. 
-		//manager.setStatusLabel(statusField);
-		//manager.setLogArea(logArea);
 		initButtons();
 		//init();
 	}
@@ -335,7 +359,17 @@ public class BlindSQLInjectionInputUI extends JPanel{
 
 			
 			// STEP 2. user input 값 체크
-			// 
+			
+			DbmsType selectedDbms = DbmsType.getDbmsType(SwingUtils.getSelectedButtonText(dbmsButtonGroup));
+			TargetType selectedTarget = TargetType.getTargetType(SwingUtils.getSelectedButtonText(targetTypeButtonGroup));
+			/*
+			if(selectedTarget == TargetType.TABLE){
+				if(dbNameField.getText().equals("")){
+					JOptionPane.showMessageDialog(null, "Please enter DB Name.");
+					dbNameField.requestFocus();
+					return ;
+				}
+			}*/
 			
 			
 			// STEP 3. UserInput 객체 생성
@@ -346,12 +380,12 @@ public class BlindSQLInjectionInputUI extends JPanel{
 			input.setTargetParamValue(targetParamValueField.getText());
 			input.setEtcParamStr(etcParamField.getText());
 			input.setMatch(matchField.getText());
-			input.setDbmsType(DbmsType.getDbmsType(
-					SwingUtils.getSelectedButtonText(dbmsButtonGroup)));
-			input.setTargetType(TargetType.getTargetType(
-					SwingUtils.getSelectedButtonText(targetTypeButtonGroup)));
-			input.setQueryType(QueryType.getQueryType(
-					SwingUtils.getSelectedButtonText(queryTypeButtonGroup)));
+			input.setDbmsType(selectedDbms);
+			input.setTargetType(selectedTarget);
+			input.setDbName(dbNameField.getText());
+			/*input.setQueryType(QueryType.getQueryType(
+					SwingUtils.getSelectedButtonText(queryTypeButtonGroup)));*/
+			
 			
 			// searchCondition은 선택한 상황에 따라 다양한 값으로 변환되어 저장... 
 			
