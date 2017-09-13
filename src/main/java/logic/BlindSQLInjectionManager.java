@@ -143,7 +143,47 @@ public class BlindSQLInjectionManager{
 		}
 		
 		/** Table Tab **/
+		
+		
 		private void tableSearch(UserInput input){
+			input.setTargetType(TargetType.TABLE);
+			DefaultTableModel updateTo =  resultUI.getTableResultUI().getTableModel();
+			
+			/* STEP 1. DB 결과 테이블에 존재하는 DB명인가? */
+			Vector<Vector<String>> dbData = resultUI.getDBResultUI().getTableModel().getDataVector();
+			int tableRowNum = 0;
+			for (int i= 0; i < dbData.size(); i++ ){
+				Vector<String> dbRow =  dbData.get(i);
+				int tableCount =0;
+				tableCount = Integer.parseInt(dbRow.get(3));
+				for (int j=0; j < tableCount; j++){
+					
+					/* STEP 2. insert tableRowNum and db name */
+					final String dbName =  dbRow.get(2);
+					String[] tableRow = {(tableRowNum +1) +"", dbName};
+					updateTo.addRow(tableRow);
+
+					/* STEP 3. Search and update table name length */
+					int tableNameLength = searchTableNamesLength(input, dbName, j);
+					updateTo.setValueAt(tableNameLength+"", tableRowNum, 2);
+					
+					/* STEP 4. Search and update table names */
+					String tableName = searchTableName(input, dbName, tableNameLength);
+					updateTo.setValueAt(tableName, tableRowNum, 3);
+					
+					/* STEP 5. Search and update the number of Columns per each table*/
+					int columnCnt = searchColumnCount(input, dbName, tableName);
+					updateTo.setValueAt(columnCnt+"", tableRowNum, 4);
+					
+					tableRowNum ++;
+				}
+				
+				
+			}
+		}
+		
+		// deprecated
+		private void allTableSearch(UserInput input){
 			input.setTargetType(TargetType.TABLE);
 			DefaultTableModel updateTo =  resultUI.getTableResultUI().getTableModel();
 			

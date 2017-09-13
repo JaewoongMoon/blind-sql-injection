@@ -158,6 +158,24 @@ public class BlindSQLInjectionResultUI extends JPanel{
 		public DefaultTableModel getTableModel(){
 			return (DefaultTableModel)table.getModel();
 		}
+		
+		public String getColumnCount(String dbName){
+			return null;
+		}
+		
+		public boolean isExist(String dbName){
+			DefaultTableModel tableModel = (DefaultTableModel)table.getModel();
+			Vector data = tableModel.getDataVector();
+			for(int i=0; i < data.size(); i++){
+				Vector item = (Vector)data.get(i);
+				for(int j=0; j < item.size(); j++){
+					if(dbName.equals(item.get(j))){
+						return true;
+					}
+				}
+			}
+			return false;
+		}
 	}
 	
 	public class TableResultUI extends JPanel{

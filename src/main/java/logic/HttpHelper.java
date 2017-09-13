@@ -46,8 +46,8 @@ public class HttpHelper {
 		HttpURLConnection con = null;
 		try{
 			URL obj = new URL(targetURL);
-			con = (HttpURLConnection) obj.openConnection(proxy);
-			//con = (HttpURLConnection) obj.openConnection();
+			//con = (HttpURLConnection) obj.openConnection(proxy);
+			con = (HttpURLConnection) obj.openConnection();
 			con.setRequestMethod("GET");
 			con.setRequestProperty("User-Agent", USER_AGENT);
 	
@@ -82,8 +82,8 @@ public class HttpHelper {
 		  try {
 		    //Create connection
 		    URL url = new URL(targetURL);
-		    //connection = (HttpURLConnection) url.openConnection();
-		    connection = (HttpURLConnection) url.openConnection(proxy);
+		    connection = (HttpURLConnection) url.openConnection();
+		    //connection = (HttpURLConnection) url.openConnection(proxy);
 		    connection.setRequestMethod("POST");
 		    connection.setRequestProperty("Content-Type", "application/x-www-form-urlencoded");
 		    connection.setRequestProperty("Content-Length", Integer.toString(urlParameters.getBytes().length));

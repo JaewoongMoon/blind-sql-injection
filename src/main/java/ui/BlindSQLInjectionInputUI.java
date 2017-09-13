@@ -305,7 +305,7 @@ public class BlindSQLInjectionInputUI extends JPanel{
 		//manager.setStatusLabel(statusField);
 		//manager.setLogArea(logArea);
 		initButtons();
-		init();
+		//init();
 	}
 	
 	public void init(){
