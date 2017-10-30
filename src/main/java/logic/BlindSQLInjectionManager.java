@@ -143,8 +143,6 @@ public class BlindSQLInjectionManager{
 		}
 		
 		/** Table Tab **/
-		
-		
 		private void tableSearch(UserInput input){
 			input.setTargetType(TargetType.TABLE);
 			DefaultTableModel updateTo =  resultUI.getTableResultUI().getTableModel();

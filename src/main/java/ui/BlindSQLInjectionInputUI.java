@@ -159,8 +159,8 @@ public class BlindSQLInjectionInputUI extends JPanel{
 		methodLabel = new JLabel("Http Method : ");
 		httpMethods = new Vector<String>();
 		//httpMethods.add("--SELECT--");
-		httpMethods.add(HttpQueryType.GET_QUERY_ON_PARAM.toString());
 		httpMethods.add(HttpQueryType.GET_QUERY_ON_URL.toString());
+		httpMethods.add(HttpQueryType.GET_QUERY_ON_PARAM.toString());
 		httpMethods.add(HttpQueryType.POST_QUERY_ON_PARAM.toString());
 		methodCombo = new JComboBox<>(httpMethods);
 		add(methodLabel);
@@ -329,17 +329,19 @@ public class BlindSQLInjectionInputUI extends JPanel{
 		logPane.setBounds(START_X, logLabel.getY() + logLabel.getHeight(), 610, 200);
 
 		initButtons();
-		//init();
+		init();
 	}
 	
 	public void init(){
 		
-		// 테스트용 값
-		urlField.setText("http://localhost:8088/unsafeweb/loginProcess.jsp");
+		// 테스트용 값 1
+		/*
+		urlField.setText("http://localhost:8080/unsafeweb/loginProcess.jsp");
 		targetParamField.setText("userid");
 		targetParamValueField.setText("admin");
 		methodCombo.setSelectedIndex(2);
 		matchField.setText("Vulnerable");
+		*/
 	}
 	
 	public void initButtons(){
@@ -375,7 +377,9 @@ public class BlindSQLInjectionInputUI extends JPanel{
 			// STEP 3. UserInput 객체 생성
 			UserInput input = new UserInput();
 			input.setTargetURL(urlField.getText());
+			System.out.println("현재 선택 HTTP Method Combo index : " +methodCombo.getSelectedIndex());
 			input.setHttpQueryType(HttpQueryType.valueOf(methodCombo.getSelectedIndex() + 1));
+			System.out.println("현재 선택 HTTP QUERY TYPE : " + input.getHttpQueryType());
 			input.setTargetParamName(targetParamField.getText());
 			input.setTargetParamValue(targetParamValueField.getText());
 			input.setEtcParamStr(etcParamField.getText());

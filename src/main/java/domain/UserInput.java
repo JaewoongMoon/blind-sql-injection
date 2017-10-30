@@ -37,7 +37,7 @@ public class UserInput {
 	// 공통
 	private String checkVal; 
 	private int lengthUntil = 50; // search length until
-	private int countUntil = 30; // search count until
+	private int countUntil = 65; // search count until
 	
 	// db
 	private int dbIndex = -1;  // DB 스키마의 Index (전체 DB 중 몇 번째 스키마인지...) 

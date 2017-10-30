@@ -33,15 +33,20 @@ public class HttpPayloadFactory {
 		
 		String domain = input.getTargetURL();
 		String url = "";
-		if(input.getHttpQueryType() == HttpQueryType.GET_QUERY_ON_URL){ 
+		if(input.getHttpQueryType() == HttpQueryType.GET_QUERY_ON_URL){
+			System.out.println("Http Method Type 1 -> GET_QUERY_ON_URL");
 			url = domain.replace("@{query}", query);
 			payload.setHttpMethod(HttpMethod.GET);
 		}
 		else if(input.getHttpQueryType() == HttpQueryType.GET_QUERY_ON_PARAM){
-			url = domain + "?" + input.getTargetParamName() + "=" +input.getTargetParamValue() + query;
+			System.out.println("Http Method Type 2 -> GET_QUERY_ON_PARAM");
+			//url = domain + "?" + input.getTargetParamName() + "=" +input.getTargetParamValue() + query;
+			url = domain + "?query=%E8%B2%A9%E4%BF%83&submit=%E6%A4%9C%E7%B4%A2&" + 
+					input.getTargetParamName() + "=" +input.getTargetParamValue() + query;
 			payload.setHttpMethod(HttpMethod.GET);
 		}
 		else if(input.getHttpQueryType() == HttpQueryType.POST_QUERY_ON_PARAM){
+			System.out.println("Http Method Type 3 -> POST_QUERY_ON_PARAM");
 			url = domain;
 			payload.setHttpMethod(HttpMethod.POST);
 			payload.setParamName(input.getTargetParamName());
@@ -49,6 +54,7 @@ public class HttpPayloadFactory {
 		}
 		url = url.replaceAll(" ","%20");
 		url = url.replaceAll("#","%23");
+		System.out.println("url in payload factory : " + url);
 		payload.setUrl(url);
 
 		return payload;

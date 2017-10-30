@@ -62,7 +62,8 @@ public class QueryMaker {
 		
 		
 		// STEP 3. complete query
-		String query = "' and (" + replacedQuery  +" = " + checkVal + ")" +dbmsType.getComment();
+		//String query = "' and (" + replacedQuery  +" = " + checkVal + ")" +dbmsType.getComment();
+		String query = " and (" + replacedQuery  +" = " + checkVal + ")" +dbmsType.getComment();
 		return query;
 	}
 
