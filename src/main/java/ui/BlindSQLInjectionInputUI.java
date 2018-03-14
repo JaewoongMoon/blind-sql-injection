@@ -31,6 +31,10 @@ public class BlindSQLInjectionInputUI extends JPanel{
 	JLabel urlLabel;
 	JTextField urlField;
 	
+	// proxy
+	JLabel proxyLabel;
+	JTextField proxyField;
+	
 	// http method
 	JLabel methodLabel;
 	JComboBox<String> methodCombo;

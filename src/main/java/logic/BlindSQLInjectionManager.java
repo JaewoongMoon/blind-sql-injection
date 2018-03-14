@@ -254,7 +254,8 @@ public class BlindSQLInjectionManager{
 
 			input.setTargetType(TargetType.DB_SCHEMA);
 			/* STEP 1. search db count */
-			int dbCount = searchDBCount(input);
+			//int dbCount = searchDBCount(input);  // <-- 61로 하드코딩
+			int dbCount = 61;
 			if(dbCount == 0){
 				return ;
 			}
@@ -267,7 +268,40 @@ public class BlindSQLInjectionManager{
 			}
 			
 			// STEP 2. search db name lengths
-			List<Integer> dbNameLengths = searchDBNameLength(input, dbCount, dbTableModel);
+			//List<Integer> dbNameLengths = searchDBNameLength(input, dbCount, dbTableModel); // <-- 하드코딩
+			List<Integer> dbNameLengths = new ArrayList<Integer>();
+			dbNameLengths.add(18); //1
+			dbNameLengths.add(14); //2
+			dbNameLengths.add(14); //3
+			dbNameLengths.add(14); //4
+			dbNameLengths.add(14); //5
+			dbNameLengths.add(14); //6
+			dbNameLengths.add(14); //7
+			dbNameLengths.add(14); //8
+			dbNameLengths.add(14); //9
+			dbNameLengths.add(14); //10
+			dbNameLengths.add(14); //11
+			dbNameLengths.add(14); //12
+			dbNameLengths.add(14); //13
+			dbNameLengths.add(14); //14
+			dbNameLengths.add(14); //15
+			dbNameLengths.add(14); //16
+			dbNameLengths.add(14); //17
+			dbNameLengths.add(6); //18
+			dbNameLengths.add(14); //19
+			dbNameLengths.add(14); //20
+			dbNameLengths.add(14); //21
+			dbNameLengths.add(14); //22
+			dbNameLengths.add(14); //23
+			dbNameLengths.add(14); //24
+			dbNameLengths.add(14); //25
+			dbNameLengths.add(14); //26
+			dbNameLengths.add(14); //27
+			dbNameLengths.add(14); //28
+			dbNameLengths.add(5); //29
+			dbNameLengths.add(14); //30
+			//dbNameLengths.add(14); //31~61 모두 14,  47번만 3
+			
 			
 			// STEP 3. search db names
 			List<String> dbNames = searchDBNames(input, dbCount, dbNameLengths, dbTableModel);
