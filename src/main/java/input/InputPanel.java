@@ -1,27 +1,16 @@
 package input;
 
-import java.awt.Component;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.util.Vector;
 
 import javax.swing.ButtonGroup;
-import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JLabel;
-import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JRadioButton;
-import javax.swing.JScrollPane;
-import javax.swing.JTextArea;
 import javax.swing.JTextField;
-import domain.UserInput;
-import domain.enumeration.DbmsType;
+
 import domain.enumeration.HttpQueryType;
-import domain.enumeration.QueryType;
-import domain.enumeration.TargetType;
 import logic.BlindSQLInjectionManager;
-import util.SwingUtils;
 
 
 public class InputPanel extends JPanel{

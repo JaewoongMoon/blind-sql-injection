@@ -3,11 +3,9 @@
  */
 package input;
 
-import domain.enumeration.AttackVector;
-import domain.enumeration.DbmsType;
-import domain.enumeration.HttpQueryType;
-import domain.enumeration.QueryType;
-import domain.enumeration.TargetType;
+import http.HttpMethod;
+import query.AttackVector;
+import query.QueryType;
 
 /**
  * <pre>
@@ -25,7 +23,7 @@ public class UserInput {
 	private DbmsType dbmsType;
 	private TargetType targetType;
 	private QueryType queryType;
-	private HttpQueryType httpQueryType;
+	private HttpMethod httpMethod;
 	private String targetURL;
 	private String targetParamName;
 	private String targetParamValue;
@@ -71,6 +69,18 @@ public class UserInput {
 		return AttackVector.getAttackVector(dbmsType, targetType, queryType);
 	}
 	
+	public HttpMethod getHttpMethod() {
+		return httpMethod;
+	}
+
+
+
+	public void setHttpMethod(HttpMethod httpMethod) {
+		this.httpMethod = httpMethod;
+	}
+
+
+
 	public String getTableName() {
 		return tableName;
 	}
@@ -160,12 +170,6 @@ public class UserInput {
 	}
 	public void setEtcParamStr(String etcParamStr) {
 		this.etcParamStr = etcParamStr;
-	}
-	public HttpQueryType getHttpQueryType() {
-		return httpQueryType;
-	}
-	public void setHttpQueryType(HttpQueryType httpQueryType) {
-		this.httpQueryType = httpQueryType;
 	}
 	public int getCountUntil() {
 		return countUntil;

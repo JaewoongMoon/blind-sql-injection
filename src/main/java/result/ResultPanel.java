@@ -10,7 +10,8 @@ import javax.swing.JTabbedPane;
 import javax.swing.JTable;
 import javax.swing.SwingUtilities;
 import javax.swing.table.DefaultTableModel;
-import util.SwingUtils;
+
+import base.SwingUtils;
 
 /**
  *

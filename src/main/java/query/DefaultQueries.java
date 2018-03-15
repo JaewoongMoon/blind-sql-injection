@@ -1,13 +1,6 @@
-/**
- * @ Queries.java
- */
-package logic;
+package query;
 
 /**
- * <pre>
- * logic
- * Queries.java 
- * </pre>
  *
  * @brief	: 
  * @author	: Jae-Woong Moon(mjw8585@gmail.com)

@@ -1,7 +1,4 @@
-/**
- * @ BlindSQLInjectionManager.java
- */
-package logic;
+package injection;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -19,16 +16,12 @@ import ui.BlindSQLInjectionInputUI;
 import ui.BlindSQLInjectionResultUI;
 
 /**
- * <pre>
- * logic
- * BlindSQLInjectionManager.java 
- * </pre>
  *
  * @brief	: 
  * @author	: Jae-Woong Moon(mjw8585@gmail.com)
  * @Date	: 2017/09/05
  */
-public class BlindSQLInjectionManager{
+public class InjectionManager{
 
 	/** helper classes **/
 	private SuccessDecider decider = null;
