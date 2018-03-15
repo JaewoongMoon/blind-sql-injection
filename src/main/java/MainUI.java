@@ -1,4 +1,3 @@
-import java.awt.BorderLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
@@ -7,12 +6,14 @@ import javax.swing.JFrame;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
-import javax.swing.JTabbedPane;
 import javax.swing.SwingUtilities;
 
-import ui.BlindSQLInjectionInputUI;
-import ui.BlindSQLInjectionResultUI;
-import ui.HelpUI;
+import config.ConfigPanel;
+import control.ControlPanel;
+import help.HelpUI;
+import input.InputPanel;
+import result.ResultPanel;
+import status.StatusPanel;
 
 /**
  * @ MainUI.java
@@ -30,17 +31,25 @@ import ui.HelpUI;
  */
 public class MainUI extends JFrame{
 
-	/*sub ui*/
-	public BlindSQLInjectionInputUI inputUI = null;
-	public BlindSQLInjectionResultUI resultUI = null; 
 	public JMenuBar menuBar = null;
 	
+	/** panels **/
+	public ConfigPanel configPanel = null;
+	public InputPanel inputPanel = null;
+	public ControlPanel controlPanel = null;
+	public StatusPanel statusPanel = null;
+	public ResultPanel resultPanel = null;
 	
 	public MainUI(){
+		/** set up frame **/ 
+		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+		setSize(1330, 780);
+		setVisible(true);
+		setResizable(true);
 		setTitle("Blind SQL Injection automation tool V1.0 - made by jwmoon");
 		setLayout(null);
 		
-		// menu Bar
+		/** menu Bar  **/
 		menuBar = new JMenuBar();
 		JMenu menu = new JMenu("Help(H)");
 		menu.setMnemonic(KeyEvent.VK_H);
@@ -49,26 +58,47 @@ public class MainUI extends JFrame{
 		JMenuItem menuItem1 = new JMenuItem("Help");
 		menuItem1.addActionListener(new HelpHandler());
 		menu.add(menuItem1);
-		
-		//add(menuBar);
 		setJMenuBar(menuBar);
 		
-		// add tabs
-		inputUI = new BlindSQLInjectionInputUI();
-		resultUI = new BlindSQLInjectionResultUI();
-		inputUI.setResultUI(resultUI);
-		inputUI.setBounds(0,0,700,700);    // 700 x 700
-		resultUI.setBounds(700,0,600,700); // 600 x 700
+		/** sub Panels **/
+		final int PANEL_WIDTH = 700;
 		
-		add(inputUI);
-		add(resultUI);
+		// ConfigPanel
+		configPanel = new ConfigPanel();
+		configPanel.setBounds(0, 0, PANEL_WIDTH, 150);  // 700 x 150
+		add(configPanel);
 		
-		// set up frame 
-		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-		setSize(1330, 780);
-		setVisible(true);
-		setResizable(true);
+		// InputPanel
+		inputPanel = new InputPanel();
+		inputPanel.setBounds(0, 150, PANEL_WIDTH, 400); // 700 x 400
+		add(inputPanel);
+		
+		// ControlPanel
+		controlPanel = new ControlPanel();
+		controlPanel.setBounds(0, 550, PANEL_WIDTH, 100); // 700 x 100
+		add(configPanel);
+		
+		// StatusPanel
+		statusPanel = new StatusPanel();
+		statusPanel.setBounds(0, 650, PANEL_WIDTH, 200); // 700 x 200
+		
+		// ResultPanel
+		resultPanel = new ResultPanel();
+		resultPanel.setBounds(PANEL_WIDTH,0, PANEL_WIDTH, 850); // 700 x 850
+		add(resultPanel);
+		
+
 	}
+	
+	public static void main(String[] args) {
+		
+		SwingUtilities.invokeLater(new Runnable() {
+			public void run() {
+				new MainUI();
+			}
+		});
+	}
+	
 	
 	class HelpHandler implements ActionListener{
 		
@@ -83,14 +113,5 @@ public class MainUI extends JFrame{
 		public void actionPerformed(ActionEvent e) {
 			new HelpUI("Blind SQL Injection", "resources/help.txt");
 		}
-	}
-	
-	public static void main(String[] args) {
-		
-		SwingUtilities.invokeLater(new Runnable() {
-			public void run() {
-				new MainUI();
-			}
-		});
 	}
 }

@@ -7,10 +7,10 @@ package base;
  */
 public class Common {
 
-	final static int START_X = 30;
-	final static int START_Y = 10;
-	final static int PADDING_Y = 15;
-	final static int PADDING_X = 10;
-	final static int COMPONENT_HEIGHT = 25;
+	public final static int START_X = 30;
+	public final static int START_Y = 10;
+	public final static int PADDING_Y = 15;
+	public final static int PADDING_X = 10;
+	public final static int COMPONENT_HEIGHT = 25;
 	
 }

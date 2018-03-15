@@ -9,13 +9,11 @@ import javax.swing.JPanel;
 import javax.swing.JRadioButton;
 import javax.swing.JTextField;
 
-import domain.enumeration.HttpQueryType;
-import logic.BlindSQLInjectionManager;
+import http.HttpMethod;
 
 
 public class InputPanel extends JPanel{
 
-	/** Domain 설정 **/
 	// url
 	JLabel urlLabel;
 	JTextField urlField;
@@ -70,20 +68,9 @@ public class InputPanel extends JPanel{
 	final int PADDING_X = 10;
 	final int COMPONENT_HEIGHT = 25;
 	
-	BlindSQLInjectionManager manager;
-	BlindSQLInjectionResultUI resultUI;
-	
-	public void setResultUI(BlindSQLInjectionResultUI resultUI){
-		this.resultUI = resultUI;
-		manager.setResultUI(resultUI);
-	}
-	
-
-
 	public InputPanel(){
 		
-		manager = new BlindSQLInjectionManager();
-		manager.setInputUI(this);
+		
 		
 		// panel setup
 		setLayout(null);
@@ -98,13 +85,11 @@ public class InputPanel extends JPanel{
 		urlLabel.setBounds(START_X, START_Y, 150, COMPONENT_HEIGHT);
 		urlField.setBounds(urlLabel.getX() + urlLabel.getWidth(), urlLabel.getY(), 400, COMPONENT_HEIGHT);
 		
-		// http method types
+		// http method 
 		methodLabel = new JLabel("Http Method : ");
 		httpMethods = new Vector<String>();
-		//httpMethods.add("--SELECT--");
-		httpMethods.add(HttpQueryType.GET_QUERY_ON_URL.toString());
-		httpMethods.add(HttpQueryType.GET_QUERY_ON_PARAM.toString());
-		httpMethods.add(HttpQueryType.POST_QUERY_ON_PARAM.toString());
+		httpMethods.add(HttpMethod.GET.toString());
+		httpMethods.add(HttpMethod.POST.toString());
 		methodCombo = new JComboBox<>(httpMethods);
 		add(methodLabel);
 		add(methodCombo);

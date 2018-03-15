@@ -1,4 +1,4 @@
-package injection;
+package control;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -8,12 +8,14 @@ import javax.swing.JTextArea;
 import javax.swing.SwingWorker;
 import javax.swing.table.DefaultTableModel;
 
-import domain.HttpPayload;
-import domain.UserInput;
-import domain.enumeration.QueryType;
-import domain.enumeration.TargetType;
-import ui.BlindSQLInjectionInputUI;
-import ui.BlindSQLInjectionResultUI;
+import http.HttpHelper;
+import http.HttpPayload;
+import http.HttpPayloadFactory;
+import input.InputPanel;
+import input.TargetType;
+import input.UserInput;
+import query.QueryType;
+import result.ResultPanel;
 
 /**
  *
@@ -29,8 +31,8 @@ public class InjectionManager{
 	private HttpPayloadFactory factory = null;
 	
 	/** ui references **/
-	private BlindSQLInjectionInputUI inputUI = null;
-	private BlindSQLInjectionResultUI resultUI = null;
+	private InputPanel inputPanel = null;
+	private ResultPanel resultPanel = null;
 	
 	/** print variables **/
 	private int requestCount = 0;
@@ -42,18 +44,18 @@ public class InjectionManager{
 	private boolean paused = false;
 	private boolean workDone = false;
 	
-	public BlindSQLInjectionManager() {
+	public InjectionManager() {
 		decider = new SuccessDecider();
 		HttpHelper = new HttpHelper();
 		factory = new HttpPayloadFactory();
 	}
 	
-	public void setResultUI(BlindSQLInjectionResultUI resultUI) {
-		this.resultUI = resultUI;
+	public void setResultPanel(ResultPanel resultPanel) {
+		this.resultPanel = resultPanel;
 	}
 	
-	public void setInputUI(BlindSQLInjectionInputUI inputUI){
-		this.inputUI = inputUI;
+	public void setInputPanel(InputPanel inputPanel){
+		this.inputPanel = inputPanel;
 	}
 	
 
@@ -65,7 +67,7 @@ public class InjectionManager{
 		// case 1. after worker canceled
 		if (canceled && !paused) {
 			worker = new InjectionWorker();
-			//resultUI.clearResults(); 
+			//resultPanel.clearResults(); 
 		}
 		// case 2. after worker job has done (new start) 
 		if(workDone){
@@ -110,17 +112,17 @@ public class InjectionManager{
 			try{
 				if(input.getTargetType() == TargetType.DB_SCHEMA){
 					printLog("DB Search Start...");
-					resultUI.selectTab(0);
+					resultPanel.selectTab(0);
 					dbSearch(input);
 				}else if(input.getTargetType() == TargetType.TABLE){
 					printLog("Table Search Start...");
-					resultUI.selectTab(1);
+					resultPanel.selectTab(1);
 					tableSearch(input);
 				}
 				System.out.println("==== Worker job has done.");
 				printLog("Worker job has done.");
 				workDone = true;
-				inputUI.initButtons();
+				inputPanel.initButtons();
 				return true;
 				
 			}catch(Exception e){
@@ -131,17 +133,17 @@ public class InjectionManager{
 		}
 		
 		private void printLog(String msg){
-			JTextArea log = inputUI.getLogArea();
+			JTextArea log = inputPanel.getLogArea();
 			log.setText(log.getText() + msg + "\n");
 		}
 		
 		/** Table Tab **/
 		private void tableSearch(UserInput input){
 			input.setTargetType(TargetType.TABLE);
-			DefaultTableModel updateTo =  resultUI.getTableResultUI().getTableModel();
+			DefaultTableModel updateTo =  resultPanel.getTableResultUI().getTableModel();
 			
 			/* STEP 1. DB 결과 테이블에 존재하는 DB명인가? */
-			Vector<Vector<String>> dbData = resultUI.getDBResultUI().getTableModel().getDataVector();
+			Vector<Vector<String>> dbData = resultPanel.getDBResultUI().getTableModel().getDataVector();
 			int tableRowNum = 0;
 			for (int i= 0; i < dbData.size(); i++ ){
 				Vector<String> dbRow =  dbData.get(i);
@@ -176,10 +178,10 @@ public class InjectionManager{
 		// deprecated
 		private void allTableSearch(UserInput input){
 			input.setTargetType(TargetType.TABLE);
-			DefaultTableModel updateTo =  resultUI.getTableResultUI().getTableModel();
+			DefaultTableModel updateTo =  resultPanel.getTableResultUI().getTableModel();
 			
 			/* STEP 1. Get target db schema's info from the result UI */
-			Vector<Vector<String>> dbData = resultUI.getDBResultUI().getTableModel().getDataVector();
+			Vector<Vector<String>> dbData = resultPanel.getDBResultUI().getTableModel().getDataVector();
 			int tableRowNum = 0;
 			for (int i= 0; i < dbData.size(); i++ ){
 				Vector<String> dbRow =  dbData.get(i);
@@ -254,7 +256,7 @@ public class InjectionManager{
 			}
 
 			// setting result table
-			DefaultTableModel dbTableModel =  resultUI.getDBResultUI().getTableModel();
+			DefaultTableModel dbTableModel =  resultPanel.getDBResultUI().getTableModel();
 			for (int i=0; i < dbCount; i++){
 				Integer[] row = {i+1};
 				dbTableModel.addRow(row);
@@ -387,7 +389,7 @@ public class InjectionManager{
 						}
 					}else{
 						requestCount++;
-						inputUI.getStatusField().setText(requestCount+""); //update status label
+						inputPanel.getStatusField().setText(requestCount+""); //update status label
 						input.setCheckVal(i+"");
 						HttpPayload payload = factory.getHttpPayload(input);
 						String res = HttpHelper.send(payload);
@@ -418,7 +420,7 @@ public class InjectionManager{
 						}
 					}else{
 						requestCount++;
-						inputUI.getStatusField().setText(requestCount+""); //update status label
+						inputPanel.getStatusField().setText(requestCount+""); //update status label
 						input.setCheckVal("char("+j+")");
 						HttpPayload payload = factory.getHttpPayload(input);
 						String res = HttpHelper.send(payload);

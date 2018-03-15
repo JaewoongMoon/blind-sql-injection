@@ -3,20 +3,18 @@ package control;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-import javax.swing.ButtonGroup;
 import javax.swing.JButton;
-import javax.swing.JLabel;
 import javax.swing.JPanel;
-import javax.swing.JRadioButton;
 
-import domain.UserInput;
-import domain.enumeration.DbmsType;
+import base.Common;
+import base.SwingUtils;
 import domain.enumeration.HttpQueryType;
-import domain.enumeration.TargetType;
-import ui.BlindSQLInjectionInputUI.PauseActionHandler;
-import ui.BlindSQLInjectionInputUI.StartActionHandler;
-import ui.BlindSQLInjectionInputUI.StopActionHandler;
-import util.SwingUtils;
+import injection.InjectionManager;
+import input.DbmsType;
+import input.InputPanel;
+import input.TargetType;
+import input.UserInput;
+import result.ResultPanel;
 
 /**
  * @author	Jae-Woong Moon(mjw8585@gmail.com)
@@ -25,11 +23,28 @@ import util.SwingUtils;
  */
 public class ControlPanel extends JPanel {
 
-	JButton startBtn;
-	JButton pauseBtn;
-	JButton stopBtn;
+	private JButton startBtn;
+	private JButton pauseBtn;
+	private JButton stopBtn;
+	
+	/** another panels ref**/
+	private InputPanel inputPanel;
+	private ResultPanel resultPanel;
+	
+	private InjectionManager manager;
+	
+	
+	public void setInputPanel(InputPanel inputPanel) {
+		this.inputPanel = inputPanel;
+	}
+	
+	public void setResultPanel(ResultPanel resultPanel) {
+		this.resultPanel = resultPanel;
+		this.manager.setResultPanel(resultPanel);
+	}
 	
 	public ControlPanel() {
+		manager = new InjectionManager();
 		
 		startBtn = new JButton("Start");
 		startBtn.addActionListener(new StartActionHandler());
@@ -53,7 +68,6 @@ public class ControlPanel extends JPanel {
 		stopBtn.setEnabled(false);
 	}
 	
-	
 	class StartActionHandler implements ActionListener{
 		
 		public void actionPerformed(ActionEvent e) {
@@ -65,7 +79,6 @@ public class ControlPanel extends JPanel {
 
 			
 			// STEP 2. user input 값 체크
-			
 			DbmsType selectedDbms = DbmsType.getDbmsType(SwingUtils.getSelectedButtonText(dbmsButtonGroup));
 			TargetType selectedTarget = TargetType.getTargetType(SwingUtils.getSelectedButtonText(targetTypeButtonGroup));
 			/*

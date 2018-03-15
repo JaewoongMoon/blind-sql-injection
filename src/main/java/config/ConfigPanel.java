@@ -4,6 +4,8 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
+import base.Common;
+
 /**
  * @author	Jae-Woong Moon(mjw8585@gmail.com)
  * @brief	
@@ -26,9 +28,16 @@ public class ConfigPanel extends JPanel {
 		
 		add(searchConditionLabel);
 		add(searchConditionField);
-		searchConditionLabel.setBounds(START_X, dbNameLabel.getY() + dbNameLabel.getHeight() + PADDING_Y, 150, COMPONENT_HEIGHT);
-		searchConditionField.setBounds(searchConditionLabel.getX() + searchConditionLabel.getWidth(), searchConditionLabel.getY(), 200, COMPONENT_HEIGHT);
+		searchConditionLabel.setBounds(
+				Common.START_X,  
+				Common.START_Y, 
+				150, 
+				Common.COMPONENT_HEIGHT);
+		searchConditionField.setBounds(
+				searchConditionLabel.getX() + searchConditionLabel.getWidth(), 
+				searchConditionLabel.getY(), 
+				200, 
+				Common.COMPONENT_HEIGHT);
 		searchConditionField.setEnabled(false);
-		
 	}
 }
