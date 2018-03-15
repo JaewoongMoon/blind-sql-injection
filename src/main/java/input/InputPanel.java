@@ -1,4 +1,4 @@
-package ui;
+package input;
 
 import java.awt.Component;
 import java.awt.event.ActionEvent;
@@ -24,16 +24,12 @@ import logic.BlindSQLInjectionManager;
 import util.SwingUtils;
 
 
-public class BlindSQLInjectionInputUI extends JPanel{
+public class InputPanel extends JPanel{
 
 	/** Domain 설정 **/
 	// url
 	JLabel urlLabel;
 	JTextField urlField;
-	
-	// proxy
-	JLabel proxyLabel;
-	JTextField proxyField;
 	
 	// http method
 	JLabel methodLabel;
@@ -56,9 +52,6 @@ public class BlindSQLInjectionInputUI extends JPanel{
 	JLabel matchLabel;
 	JTextField matchField;
 	
-	
-	
-	/** 세부 설정 **/
 	// dbms type
 	JLabel dbmsLabel;
 	ButtonGroup dbmsButtonGroup;
@@ -73,15 +66,6 @@ public class BlindSQLInjectionInputUI extends JPanel{
 	JRadioButton targetTypeButton3;
 	JRadioButton targetTypeButton4;
 	
-	// query type
-	/*
-	JLabel queryTypeLabel;
-	ButtonGroup queryTypeButtonGroup;
-	JRadioButton queryTypeButton1;
-	JRadioButton queryTypeButton2;
-	JRadioButton queryTypeButton3;
-	*/
-	
 	// db name
 	JLabel dbNameLabel; 
 	JTextField dbNameField;
@@ -90,35 +74,7 @@ public class BlindSQLInjectionInputUI extends JPanel{
 	
 	
 	// column name
-	
-	
-	
-	// 검색 조건 : search until (numbers only) or search name 
-	JLabel searchConditionLabel; 
-	JTextField searchConditionField;
-	
-	// query payload (입력한 조건에 따라 완성된)
-	/*
-	JLabel payloadLabel;
-	JTextField payloadField;
-	*/
-	
-	/** Controls **/
-	// btns
-	JButton startBtn;
-	JButton pauseBtn;
-	JButton stopBtn;
-	
-	// status
-	JLabel statusLabel;
-	JLabel statusField;
-	
-	// logs
-	JLabel logLabel;
-	JTextArea logArea;
-	JScrollPane logPane;
-	
-	
+
 	final int START_X = 30;
 	final int START_Y = 10;
 	final int PADDING_Y = 15;
@@ -133,15 +89,9 @@ public class BlindSQLInjectionInputUI extends JPanel{
 		manager.setResultUI(resultUI);
 	}
 	
-	public JLabel getStatusField() {
-		return statusField;
-	}
 
-	public JTextArea getLogArea() {
-		return logArea;
-	}
 
-	public BlindSQLInjectionInputUI(){
+	public InputPanel(){
 		
 		manager = new BlindSQLInjectionManager();
 		manager.setInputUI(this);
@@ -244,32 +194,7 @@ public class BlindSQLInjectionInputUI extends JPanel{
 		targetTypeButton4.setBounds(targetTypeButton3.getX() + targetTypeButton3.getWidth(), targetTypeLabel.getY(),70, COMPONENT_HEIGHT);
 		targetTypeButton3.setEnabled(false);
 		targetTypeButton4.setEnabled(false);
-		
-		
-		// query type radio buttons
-		/*
-		queryTypeLabel = new JLabel("쿼리 타입 : ");
-		queryTypeButton1 = new JRadioButton("갯수");
-		queryTypeButton2 = new JRadioButton("이름의 길이");
-		queryTypeButton3 = new JRadioButton("내용");
-		queryTypeButtonGroup = new ButtonGroup();
-		queryTypeButton1.setSelected(true);
-		queryTypeButtonGroup.add(queryTypeButton1);
-		queryTypeButtonGroup.add(queryTypeButton2);
-		queryTypeButtonGroup.add(queryTypeButton3);
-		add(queryTypeLabel);
-		add(queryTypeButton1);
-		add(queryTypeButton2);
-		add(queryTypeButton3);
-		queryTypeLabel.setBounds(START_X, targetTypeLabel.getY() + targetTypeLabel.getHeight() + PADDING_Y, 150, COMPONENT_HEIGHT);
-		queryTypeButton1.setBounds(queryTypeLabel.getX() + queryTypeLabel.getWidth(), queryTypeLabel.getY(),70, COMPONENT_HEIGHT);
-		queryTypeButton2.setBounds(queryTypeButton1.getX() + queryTypeButton1.getWidth(), queryTypeLabel.getY(),100, COMPONENT_HEIGHT);
-		queryTypeButton3.setBounds(queryTypeButton2.getX() + queryTypeButton2.getWidth(), queryTypeLabel.getY(),70, COMPONENT_HEIGHT);
-		queryTypeButton1.setEnabled(false);
-		queryTypeButton2.setEnabled(false);
-		queryTypeButton3.setEnabled(false);
-		*/
-		
+
 		// db name
 		dbNameLabel = new JLabel("DB Name : ");
 		dbNameField = new JTextField();
@@ -277,149 +202,6 @@ public class BlindSQLInjectionInputUI extends JPanel{
 		add(dbNameField);
 		dbNameLabel.setBounds(START_X, targetTypeLabel.getY() + targetTypeLabel.getHeight() + PADDING_Y, 150, COMPONENT_HEIGHT);
 		dbNameField.setBounds(dbNameLabel.getX() + dbNameLabel.getWidth(), dbNameLabel.getY(), 200, COMPONENT_HEIGHT);
-		
-		
-		// search condition 
-		searchConditionLabel = new JLabel("Search Until (max num) : ");
-		searchConditionField = new JTextField();
-		add(searchConditionLabel);
-		add(searchConditionField);
-		searchConditionLabel.setBounds(START_X, dbNameLabel.getY() + dbNameLabel.getHeight() + PADDING_Y, 150, COMPONENT_HEIGHT);
-		searchConditionField.setBounds(searchConditionLabel.getX() + searchConditionLabel.getWidth(), searchConditionLabel.getY(), 200, COMPONENT_HEIGHT);
-		searchConditionField.setEnabled(false);
-		
-		// payload 
-		/*
-		payloadLabel = new JLabel("전송될 Payload : ");
-		payloadField = new JTextField();
-		add(payloadLabel);
-		add(payloadField);
-		payloadLabel.setBounds(START_X, searchConditionLabel.getY() + searchConditionLabel.getHeight() + PADDING_Y, 150, COMPONENT_HEIGHT);
-		payloadField.setBounds(payloadLabel.getX() + payloadLabel.getWidth(), payloadLabel.getY(), 400, COMPONENT_HEIGHT);
-		payloadField.setEnabled(false);
-		*/
-		
-		// btns
-		startBtn = new JButton("Start");
-		startBtn.addActionListener(new StartActionHandler());
-		pauseBtn = new JButton("Pause");
-		pauseBtn.addActionListener(new PauseActionHandler());
-		stopBtn = new JButton("Stop");
-		stopBtn.addActionListener(new StopActionHandler());
-		add(startBtn);
-		add(pauseBtn);
-		add(stopBtn);
-		startBtn.setBounds(300, 450, 100, 35);
-		pauseBtn.setBounds(startBtn.getX() + startBtn.getWidth() + PADDING_X, startBtn.getY(), startBtn.getWidth(), startBtn.getHeight());
-		stopBtn.setBounds(pauseBtn.getX() + pauseBtn.getWidth() + PADDING_X, startBtn.getY(), startBtn.getWidth(), startBtn.getHeight());
-		
-		// status
-		statusLabel = new JLabel("Send Request : ");
-		statusField = new JLabel("0");
-		add(statusLabel);
-		add(statusField);
-		statusLabel.setBounds(START_X, startBtn.getY() + startBtn.getHeight(), 150, COMPONENT_HEIGHT);
-		statusField.setBounds(statusLabel.getX() + statusLabel.getWidth(), statusLabel.getY(), 70, COMPONENT_HEIGHT);
-		
-		
-		// logs
-		logLabel = new JLabel("Log"); 
-		logArea = new JTextArea(5, 10);
-		logArea.setLineWrap(true);
-		logPane = new JScrollPane(logArea);
-		add(logLabel);
-		add(logPane);
-		logLabel.setBounds(START_X, statusLabel.getY() + statusLabel.getHeight(), 100, COMPONENT_HEIGHT);
-		logPane.setBounds(START_X, logLabel.getY() + logLabel.getHeight(), 610, 200);
-
-		initButtons();
-		init();
-	}
 	
-	public void init(){
-		
-		// 테스트용 값 1
-		/*
-		urlField.setText("http://localhost:8080/unsafeweb/loginProcess.jsp");
-		targetParamField.setText("userid");
-		targetParamValueField.setText("admin");
-		methodCombo.setSelectedIndex(2);
-		matchField.setText("Vulnerable");
-		*/
-	}
-	
-	public void initButtons(){
-		startBtn.setEnabled(true);
-		pauseBtn.setEnabled(false);
-		stopBtn.setEnabled(false);
-	}
-	
-	class StartActionHandler implements ActionListener{
-		
-		public void actionPerformed(ActionEvent e) {
-			
-			// STEP 1. setup buttons
-			startBtn.setEnabled(false);
-			pauseBtn.setEnabled(true);
-			stopBtn.setEnabled(true);
-
-			
-			// STEP 2. user input 값 체크
-			
-			DbmsType selectedDbms = DbmsType.getDbmsType(SwingUtils.getSelectedButtonText(dbmsButtonGroup));
-			TargetType selectedTarget = TargetType.getTargetType(SwingUtils.getSelectedButtonText(targetTypeButtonGroup));
-			/*
-			if(selectedTarget == TargetType.TABLE){
-				if(dbNameField.getText().equals("")){
-					JOptionPane.showMessageDialog(null, "Please enter DB Name.");
-					dbNameField.requestFocus();
-					return ;
-				}
-			}*/
-			
-			
-			// STEP 3. UserInput 객체 생성
-			UserInput input = new UserInput();
-			input.setTargetURL(urlField.getText());
-			System.out.println("현재 선택 HTTP Method Combo index : " +methodCombo.getSelectedIndex());
-			input.setHttpQueryType(HttpQueryType.valueOf(methodCombo.getSelectedIndex() + 1));
-			System.out.println("현재 선택 HTTP QUERY TYPE : " + input.getHttpQueryType());
-			input.setTargetParamName(targetParamField.getText());
-			input.setTargetParamValue(targetParamValueField.getText());
-			input.setEtcParamStr(etcParamField.getText());
-			input.setMatch(matchField.getText());
-			input.setDbmsType(selectedDbms);
-			input.setTargetType(selectedTarget);
-			input.setDbName(dbNameField.getText());
-			/*input.setQueryType(QueryType.getQueryType(
-					SwingUtils.getSelectedButtonText(queryTypeButtonGroup)));*/
-			
-			
-			// searchCondition은 선택한 상황에 따라 다양한 값으로 변환되어 저장... 
-			
-			
-			// STEP 4. 로직 처리 요청
-			manager.start(input);
-		}
-	}
-	
-	class PauseActionHandler implements ActionListener{
-		@Override
-		public void actionPerformed(ActionEvent e) {
-			startBtn.setEnabled(true);
-			pauseBtn.setEnabled(false);
-			stopBtn.setEnabled(true);
-			manager.pause();
-		}
-	}
-	
-	class StopActionHandler implements ActionListener{
-		@Override
-		public void actionPerformed(ActionEvent e) {
-			startBtn.setEnabled(true);
-			pauseBtn.setEnabled(false);
-			stopBtn.setEnabled(false);
-			manager.stop();
-		}
 	}
 }

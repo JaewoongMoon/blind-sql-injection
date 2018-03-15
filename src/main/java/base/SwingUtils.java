@@ -1,7 +1,4 @@
-/**
- * @ GroupButtonUtils.java
- */
-package util;
+package base;
 
 import java.awt.Component;
 import java.util.Enumeration;
@@ -13,11 +10,6 @@ import javax.swing.table.TableColumn;
 import javax.swing.table.TableColumnModel;
 
 /**
- * <pre>
- * util
- * GroupButtonUtils.java
- * </pre>
- *
  * @brief :
  *        https://stackoverflow.com/questions/201287/how-do-i-get-which-jradiobutton-is-selected-from-a-buttongroup
  *        https://stackoverflow.com/questions/17627431/auto-resizing-the-jtable-column-widths

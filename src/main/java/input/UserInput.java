@@ -1,7 +1,7 @@
 /**
  * @ UserInput.java
  */
-package domain;
+package input;
 
 import domain.enumeration.AttackVector;
 import domain.enumeration.DbmsType;
