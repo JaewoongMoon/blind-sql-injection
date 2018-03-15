@@ -11,6 +11,6 @@ public class Common {
 	public final static int START_Y = 10;
 	public final static int PADDING_Y = 15;
 	public final static int PADDING_X = 10;
-	public final static int COMPONENT_HEIGHT = 25;
+	public final static int INPUT_FIELD_HEIGHT = 25;
 	
 }

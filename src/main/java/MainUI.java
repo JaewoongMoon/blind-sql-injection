@@ -10,6 +10,7 @@ import javax.swing.SwingUtilities;
 
 import config.ConfigPanel;
 import control.ControlPanel;
+import control.InjectionManager;
 import help.HelpUI;
 import input.InputPanel;
 import result.ResultPanel;
@@ -40,7 +41,13 @@ public class MainUI extends JFrame{
 	public StatusPanel statusPanel = null;
 	public ResultPanel resultPanel = null;
 	
+	/** logic **/
+	private InjectionManager manager = null;
+	
 	public MainUI(){
+		
+		manager = new InjectionManager();
+		
 		/** set up frame **/ 
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		setSize(1330, 780);
@@ -49,7 +56,7 @@ public class MainUI extends JFrame{
 		setTitle("Blind SQL Injection automation tool V1.0 - made by jwmoon");
 		setLayout(null);
 		
-		/** menu Bar  **/
+		/** menu bar  **/
 		menuBar = new JMenuBar();
 		JMenu menu = new JMenu("Help(H)");
 		menu.setMnemonic(KeyEvent.VK_H);
@@ -60,7 +67,7 @@ public class MainUI extends JFrame{
 		menu.add(menuItem1);
 		setJMenuBar(menuBar);
 		
-		/** sub Panels **/
+		/** sub panels **/
 		final int PANEL_WIDTH = 700;
 		
 		// ConfigPanel
@@ -87,7 +94,12 @@ public class MainUI extends JFrame{
 		resultPanel.setBounds(PANEL_WIDTH,0, PANEL_WIDTH, 850); // 700 x 850
 		add(resultPanel);
 		
-
+		/** set reference  **/
+		controlPanel.setInputPanel(inputPanel);
+		controlPanel.setInjectionManager(manager);
+		manager.setControlPanel(controlPanel);
+		manager.setResultPanel(resultPanel);
+		manager.setStatusPanel(statusPanel);
 	}
 	
 	public static void main(String[] args) {

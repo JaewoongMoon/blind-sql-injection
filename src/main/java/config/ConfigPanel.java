@@ -32,12 +32,12 @@ public class ConfigPanel extends JPanel {
 				Common.START_X,  
 				Common.START_Y, 
 				150, 
-				Common.COMPONENT_HEIGHT);
+				Common.INPUT_FIELD_HEIGHT);
 		searchConditionField.setBounds(
 				searchConditionLabel.getX() + searchConditionLabel.getWidth(), 
 				searchConditionLabel.getY(), 
 				200, 
-				Common.COMPONENT_HEIGHT);
+				Common.INPUT_FIELD_HEIGHT);
 		searchConditionField.setEnabled(false);
 	}
 }

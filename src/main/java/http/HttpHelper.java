@@ -1,7 +1,4 @@
-/**
- * @ HttpHelper.java
- */
-package logic;
+package http;
 
 import java.io.BufferedReader;
 import java.io.DataOutputStream;
@@ -12,15 +9,7 @@ import java.net.InetSocketAddress;
 import java.net.Proxy;
 import java.net.URL;
 
-import domain.HttpPayload;
-import domain.enumeration.HttpMethod;
-
 /**
- * <pre>
- * logic.http
- * HttpHelper.java 
- * </pre>
- *
  * @brief	: 
  * @author	: Jae-Woong Moon(mjw8585@gmail.com)
  * @Date	: 2017/08/16

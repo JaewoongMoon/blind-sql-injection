@@ -5,6 +5,8 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 
+import base.Common;
+
 /**
  * @author	Jae-Woong Moon(mjw8585@gmail.com)
  * @brief	
@@ -21,12 +23,12 @@ public class StatusPanel extends JPanel{
 	JTextArea logArea;
 	JScrollPane logPane;
 	
-	public JLabel getStatusField() {
-		return statusField;
+	public void printLog(String msg) {
+		this.logArea.setText(logArea.getText() + msg + "\n");
 	}
-
-	public JTextArea getLogArea() {
-		return logArea;
+	
+	public void printRequestCount(String cnt) {
+		this.statusField.setText(cnt);
 	}
 	
 	public StatusPanel() {
@@ -36,8 +38,8 @@ public class StatusPanel extends JPanel{
 		statusField = new JLabel("0");
 		add(statusLabel);
 		add(statusField);
-		statusLabel.setBounds(START_X, startBtn.getY() + startBtn.getHeight(), 150, COMPONENT_HEIGHT);
-		statusField.setBounds(statusLabel.getX() + statusLabel.getWidth(), statusLabel.getY(), 70, COMPONENT_HEIGHT);
+		statusLabel.setBounds(Common.START_X, Common.START_Y + Common.PADDING_Y, 150, Common.INPUT_FIELD_HEIGHT);
+		statusField.setBounds(statusLabel.getX() + statusLabel.getWidth(), statusLabel.getY(), 70, Common.INPUT_FIELD_HEIGHT);
 		
 		
 		// logs
@@ -47,8 +49,8 @@ public class StatusPanel extends JPanel{
 		logPane = new JScrollPane(logArea);
 		add(logLabel);
 		add(logPane);
-		logLabel.setBounds(START_X, statusLabel.getY() + statusLabel.getHeight(), 100, COMPONENT_HEIGHT);
-		logPane.setBounds(START_X, logLabel.getY() + logLabel.getHeight(), 610, 200);
+		logLabel.setBounds(Common.START_X, statusLabel.getY() + statusLabel.getHeight(), 100, Common.INPUT_FIELD_HEIGHT);
+		logPane.setBounds(Common.START_X, logLabel.getY() + logLabel.getHeight(), 610, 200);
 
 	}
 }

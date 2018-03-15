@@ -16,6 +16,7 @@ import input.TargetType;
 import input.UserInput;
 import query.QueryType;
 import result.ResultPanel;
+import status.StatusPanel;
 
 /**
  *
@@ -25,14 +26,14 @@ import result.ResultPanel;
  */
 public class InjectionManager{
 
-	/** helper classes **/
-	private SuccessDecider decider = null;
+	/** http  **/
 	private HttpHelper HttpHelper = null;
 	private HttpPayloadFactory factory = null;
 	
 	/** ui references **/
-	private InputPanel inputPanel = null;
+	private ControlPanel controlPanel = null;
 	private ResultPanel resultPanel = null;
+	private StatusPanel statusPanel = null;
 	
 	/** print variables **/
 	private int requestCount = 0;
@@ -45,7 +46,6 @@ public class InjectionManager{
 	private boolean workDone = false;
 	
 	public InjectionManager() {
-		decider = new SuccessDecider();
 		HttpHelper = new HttpHelper();
 		factory = new HttpPayloadFactory();
 	}
@@ -54,8 +54,12 @@ public class InjectionManager{
 		this.resultPanel = resultPanel;
 	}
 	
-	public void setInputPanel(InputPanel inputPanel){
-		this.inputPanel = inputPanel;
+	public void setControlPanel(ControlPanel controlPanel){
+		this.controlPanel = controlPanel;
+	}
+	
+	public void setStatusPanel(StatusPanel statusPanel) {
+		this.statusPanel = statusPanel;
 	}
 	
 
@@ -122,7 +126,7 @@ public class InjectionManager{
 				System.out.println("==== Worker job has done.");
 				printLog("Worker job has done.");
 				workDone = true;
-				inputPanel.initButtons();
+				controlPanel.initButtons();
 				return true;
 				
 			}catch(Exception e){
@@ -133,8 +137,11 @@ public class InjectionManager{
 		}
 		
 		private void printLog(String msg){
-			JTextArea log = inputPanel.getLogArea();
-			log.setText(log.getText() + msg + "\n");
+			statusPanel.printLog(msg);
+		}
+		
+		private void printRequestCount(int cnt) {
+			statusPanel.printRequestCount(cnt + "");
 		}
 		
 		/** Table Tab **/
@@ -265,6 +272,7 @@ public class InjectionManager{
 			// STEP 2. search db name lengths
 			//List<Integer> dbNameLengths = searchDBNameLength(input, dbCount, dbTableModel); // <-- 하드코딩
 			List<Integer> dbNameLengths = new ArrayList<Integer>();
+			/*
 			dbNameLengths.add(18); //1
 			dbNameLengths.add(14); //2
 			dbNameLengths.add(14); //3
@@ -295,6 +303,7 @@ public class InjectionManager{
 			dbNameLengths.add(14); //28
 			dbNameLengths.add(5); //29
 			dbNameLengths.add(14); //30
+			*/
 			//dbNameLengths.add(14); //31~61 모두 14,  47번만 3
 			
 			
@@ -367,9 +376,6 @@ public class InjectionManager{
 			return tableCount;
 		}
 		
-
-		
-		
 		/** common **/
 		private int cntWork(UserInput input, int until){
 			
@@ -389,11 +395,11 @@ public class InjectionManager{
 						}
 					}else{
 						requestCount++;
-						inputPanel.getStatusField().setText(requestCount+""); //update status label
+						printRequestCount(requestCount);
 						input.setCheckVal(i+"");
 						HttpPayload payload = factory.getHttpPayload(input);
 						String res = HttpHelper.send(payload);
-						if(decider.isSuccess(res, input.getMatch())){
+						if(res.contains(input.getMatch())){
 							cnt = i;
 							break;
 						}
@@ -420,11 +426,11 @@ public class InjectionManager{
 						}
 					}else{
 						requestCount++;
-						inputPanel.getStatusField().setText(requestCount+""); //update status label
+						printRequestCount(requestCount);
 						input.setCheckVal("char("+j+")");
 						HttpPayload payload = factory.getHttpPayload(input);
 						String res = HttpHelper.send(payload);
-						if(decider.isSuccess(res, input.getMatch())){
+						if(res.contains(input.getMatch())){
 							ascii = Character.toString((char)j);
 							break;
 						}
