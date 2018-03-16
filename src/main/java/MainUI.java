@@ -1,4 +1,4 @@
-import java.awt.BorderLayout;
+import java.awt.Color;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
@@ -7,12 +7,16 @@ import javax.swing.JFrame;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
-import javax.swing.JTabbedPane;
 import javax.swing.SwingUtilities;
 
-import ui.BlindSQLInjectionInputUI;
-import ui.BlindSQLInjectionResultUI;
-import ui.HelpUI;
+import base.Common;
+import config.ConfigPanel;
+import control.ControlPanel;
+import control.InjectionManager;
+import help.HelpUI;
+import input.InputPanel;
+import result.ResultPanel;
+import status.StatusPanel;
 
 /**
  * @ MainUI.java
@@ -30,17 +34,31 @@ import ui.HelpUI;
  */
 public class MainUI extends JFrame{
 
-	/*sub ui*/
-	public BlindSQLInjectionInputUI inputUI = null;
-	public BlindSQLInjectionResultUI resultUI = null; 
 	public JMenuBar menuBar = null;
 	
+	/** panels **/
+	public ConfigPanel configPanel = null;
+	public InputPanel inputPanel = null;
+	public ControlPanel controlPanel = null;
+	public StatusPanel statusPanel = null;
+	public ResultPanel resultPanel = null;
+	
+	/** logic **/
+	private InjectionManager manager = null;
 	
 	public MainUI(){
-		setTitle("Blind SQL Injection automation tool V1.0 - made by jwmoon");
+		
+		manager = new InjectionManager();
+		
+		/** set up frame **/ 
+		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+		setSize(1350, 970);
+		setVisible(true);
+		setResizable(true);
+		setTitle("Blind SQL Injection automation tool V1.2 - made by jwmoon");
 		setLayout(null);
 		
-		// menu Bar
+		/** menu bar  **/
 		menuBar = new JMenuBar();
 		JMenu menu = new JMenu("Help(H)");
 		menu.setMnemonic(KeyEvent.VK_H);
@@ -49,26 +67,55 @@ public class MainUI extends JFrame{
 		JMenuItem menuItem1 = new JMenuItem("Help");
 		menuItem1.addActionListener(new HelpHandler());
 		menu.add(menuItem1);
-		
-		//add(menuBar);
 		setJMenuBar(menuBar);
 		
-		// add tabs
-		inputUI = new BlindSQLInjectionInputUI();
-		resultUI = new BlindSQLInjectionResultUI();
-		inputUI.setResultUI(resultUI);
-		inputUI.setBounds(0,0,700,700);    // 700 x 700
-		resultUI.setBounds(700,0,600,700); // 600 x 700
+		/** sub panels **/
+		final int LEFT_PANEL_WIDTH = 600;
+		final int RIGHT_PANEL_WIDTH = 700;
 		
-		add(inputUI);
-		add(resultUI);
+		// ConfigPanel
+		configPanel = new ConfigPanel();
+		configPanel.setBounds(Common.PADDING_X, Common.PADDING_Y, LEFT_PANEL_WIDTH, 130);  // 700 x 130
+		add(configPanel);
 		
-		// set up frame 
-		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-		setSize(1330, 780);
-		setVisible(true);
-		setResizable(true);
+		// InputPanel
+		inputPanel = new InputPanel();
+		inputPanel.setBounds(Common.PADDING_X, 150, LEFT_PANEL_WIDTH, 400); // 700 x 400
+		add(inputPanel);
+		
+		// ControlPanel
+		controlPanel = new ControlPanel();
+		controlPanel.setBounds(Common.PADDING_X, 550, LEFT_PANEL_WIDTH, 50); // 700 x 100
+		add(controlPanel);
+		
+		
+		// StatusPanel
+		statusPanel = new StatusPanel();
+		statusPanel.setBounds(Common.PADDING_X, 600, LEFT_PANEL_WIDTH, 300); // 700 x 200
+		add(statusPanel);
+		
+		// ResultPanel
+		resultPanel = new ResultPanel();
+		resultPanel.setBounds(LEFT_PANEL_WIDTH + 20, 0, RIGHT_PANEL_WIDTH, 850); // 700 x 850
+		add(resultPanel);
+		
+		/** set reference  **/
+		controlPanel.setInputPanel(inputPanel);
+		controlPanel.setInjectionManager(manager);
+		manager.setControlPanel(controlPanel);
+		manager.setResultPanel(resultPanel);
+		manager.setStatusPanel(statusPanel);
 	}
+	
+	public static void main(String[] args) {
+		
+		SwingUtilities.invokeLater(new Runnable() {
+			public void run() {
+				new MainUI();
+			}
+		});
+	}
+	
 	
 	class HelpHandler implements ActionListener{
 		
@@ -83,14 +130,5 @@ public class MainUI extends JFrame{
 		public void actionPerformed(ActionEvent e) {
 			new HelpUI("Blind SQL Injection", "resources/help.txt");
 		}
-	}
-	
-	public static void main(String[] args) {
-		
-		SwingUtilities.invokeLater(new Runnable() {
-			public void run() {
-				new MainUI();
-			}
-		});
 	}
 }

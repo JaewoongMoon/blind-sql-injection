@@ -1,20 +1,10 @@
-/**
- * @ UserInput.java
- */
-package domain;
+package input;
 
-import domain.enumeration.AttackVector;
-import domain.enumeration.DbmsType;
-import domain.enumeration.HttpQueryType;
-import domain.enumeration.QueryType;
-import domain.enumeration.TargetType;
+import http.HttpMethod;
+import query.AttackVector;
+import query.QueryType;
 
 /**
- * <pre>
- * domain
- * UserInput.java 
- * </pre>
- *
  * @brief	: 
  * @author	: Jae-Woong Moon(mjw8585@gmail.com)
  * @Date	: 2017/09/05
@@ -25,7 +15,7 @@ public class UserInput {
 	private DbmsType dbmsType;
 	private TargetType targetType;
 	private QueryType queryType;
-	private HttpQueryType httpQueryType;
+	private HttpMethod httpMethod;
 	private String targetURL;
 	private String targetParamName;
 	private String targetParamValue;
@@ -37,7 +27,7 @@ public class UserInput {
 	// 공통
 	private String checkVal; 
 	private int lengthUntil = 50; // search length until
-	private int countUntil = 30; // search count until
+	private int countUntil = 65; // search count until
 	
 	// db
 	private int dbIndex = -1;  // DB 스키마의 Index (전체 DB 중 몇 번째 스키마인지...) 
@@ -71,6 +61,18 @@ public class UserInput {
 		return AttackVector.getAttackVector(dbmsType, targetType, queryType);
 	}
 	
+	public HttpMethod getHttpMethod() {
+		return httpMethod;
+	}
+
+
+
+	public void setHttpMethod(HttpMethod httpMethod) {
+		this.httpMethod = httpMethod;
+	}
+
+
+
 	public String getTableName() {
 		return tableName;
 	}
@@ -160,12 +162,6 @@ public class UserInput {
 	}
 	public void setEtcParamStr(String etcParamStr) {
 		this.etcParamStr = etcParamStr;
-	}
-	public HttpQueryType getHttpQueryType() {
-		return httpQueryType;
-	}
-	public void setHttpQueryType(HttpQueryType httpQueryType) {
-		this.httpQueryType = httpQueryType;
 	}
 	public int getCountUntil() {
 		return countUntil;

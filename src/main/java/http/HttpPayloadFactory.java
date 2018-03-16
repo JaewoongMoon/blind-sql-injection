@@ -1,20 +1,10 @@
-/**
- * @ HttpPayloadFactory.java
- */
-package logic;
 
-import domain.HttpPayload;
-import domain.UserInput;
-import domain.enumeration.HttpMethod;
-import domain.enumeration.HttpQueryType;
-import logic.QueryMaker;
+package http;
+
+import input.UserInput;
+import query.QueryMaker;
 
 /**
- * <pre>
- * logic
- * HttpPayloadFactory.java 
- * </pre>
- *
  * @brief	: 
  * @author	: Jae-Woong Moon(mjw8585@gmail.com)
  * @Date	: 2017/08/17
@@ -28,27 +18,24 @@ public class HttpPayloadFactory {
 	}
 	
 	public HttpPayload getHttpPayload(UserInput input){
-		String query = queryMaker.getQuery(input);
+		String query = queryMaker.getQuery(input); 
 		HttpPayload payload = new HttpPayload();
 		
 		String domain = input.getTargetURL();
 		String url = "";
-		if(input.getHttpQueryType() == HttpQueryType.GET_QUERY_ON_URL){ 
-			url = domain.replace("@{query}", query);
-			payload.setHttpMethod(HttpMethod.GET);
-		}
-		else if(input.getHttpQueryType() == HttpQueryType.GET_QUERY_ON_PARAM){
+		if(input.getHttpMethod()  == HttpMethod.GET){
 			url = domain + "?" + input.getTargetParamName() + "=" +input.getTargetParamValue() + query;
-			payload.setHttpMethod(HttpMethod.GET);
+			payload.setHttpMethod(input.getHttpMethod());
 		}
-		else if(input.getHttpQueryType() == HttpQueryType.POST_QUERY_ON_PARAM){
+		else if(input.getHttpMethod() == HttpMethod.POST){
 			url = domain;
-			payload.setHttpMethod(HttpMethod.POST);
+			payload.setHttpMethod(input.getHttpMethod());
 			payload.setParamName(input.getTargetParamName());
 			payload.setParamValue(input.getTargetParamValue() + query);
 		}
 		url = url.replaceAll(" ","%20");
 		url = url.replaceAll("#","%23");
+		System.out.println("url in payload factory : " + url);
 		payload.setUrl(url);
 
 		return payload;

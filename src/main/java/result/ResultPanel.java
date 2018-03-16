@@ -1,7 +1,4 @@
-/**
- * @ BlindSQLInjectionResultUI.java
- */
-package ui;
+package result;
 
 import java.awt.BorderLayout;
 import java.util.Arrays;
@@ -13,19 +10,16 @@ import javax.swing.JTabbedPane;
 import javax.swing.JTable;
 import javax.swing.SwingUtilities;
 import javax.swing.table.DefaultTableModel;
-import util.SwingUtils;
+
+import base.SwingUtils;
 
 /**
- * <pre>
- * ui
- * BlindSQLInjectionResultUI.java 
- * </pre>
  *
  * @brief	: 
  * @author	: Jae-Woong Moon(mjw8585@gmail.com)
  * @Date	: 2017/09/04
  */
-public class BlindSQLInjectionResultUI extends JPanel{
+public class ResultPanel extends JPanel{
 
 	private JTabbedPane tabs = null;
 	private DBResultUI dbUI = null;
@@ -33,7 +27,7 @@ public class BlindSQLInjectionResultUI extends JPanel{
 	private ColumnResultUI columnUI = null;
 	private DataResultUI dataUI = null; 
 	
-	public BlindSQLInjectionResultUI(){
+	public ResultPanel(){
 		// panel setup
 		setLayout(new BorderLayout());
 		setVisible(true);

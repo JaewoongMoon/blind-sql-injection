@@ -1,13 +1,6 @@
-/**
- * @ DbmsType.java
- */
-package domain.enumeration;
+package input;
 
 /**
- * <pre>
- * domain
- * DbmsType.java 
- * </pre>
  *
  * @brief	: 
  * @author	: Jae-Woong Moon(mjw8585@gmail.com)

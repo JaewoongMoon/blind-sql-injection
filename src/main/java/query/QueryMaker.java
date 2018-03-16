@@ -1,18 +1,10 @@
-/**
- * @ QueryMaker.java
- */
-package logic;
 
-import domain.enumeration.AttackVector;
-import domain.enumeration.DbmsType;
-import domain.UserInput;
+package query;
+
+import input.DbmsType;
+import input.UserInput;
 
 /**
- * <pre>
- * logic.sqlinjection.query
- * QueryMaker.java 
- * </pre>
- *
  * @brief	: Make query string based on default query string
  * @author	: Jae-Woong Moon(mjw8585@gmail.com)
  * @Date	: 2017/08/16
@@ -62,7 +54,8 @@ public class QueryMaker {
 		
 		
 		// STEP 3. complete query
-		String query = "' and (" + replacedQuery  +" = " + checkVal + ")" +dbmsType.getComment();
+		String query = "' and (" + replacedQuery  +"=" + checkVal + ")" +dbmsType.getComment();
+		//String query = " and (" + replacedQuery  +"=" + checkVal + ")" +dbmsType.getComment();
 		return query;
 	}
 

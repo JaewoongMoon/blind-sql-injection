@@ -1,7 +1,4 @@
-/**
- * @ HttpHelper.java
- */
-package logic;
+package http;
 
 import java.io.BufferedReader;
 import java.io.DataOutputStream;
@@ -12,15 +9,7 @@ import java.net.InetSocketAddress;
 import java.net.Proxy;
 import java.net.URL;
 
-import domain.HttpPayload;
-import domain.enumeration.HttpMethod;
-
 /**
- * <pre>
- * logic.http
- * HttpHelper.java 
- * </pre>
- *
  * @brief	: 
  * @author	: Jae-Woong Moon(mjw8585@gmail.com)
  * @Date	: 2017/08/16
@@ -32,11 +21,14 @@ public class HttpHelper {
 	
 	public String send(HttpPayload payload){
 		if(payload.getHttpMethod() == HttpMethod.GET){
+			System.out.println("url : " + payload.getUrl());
 			return sendGet(payload.getUrl());
-		}else if (payload.getHttpMethod() == HttpMethod.POST){
+		}
+		else if (payload.getHttpMethod() == HttpMethod.POST){
 			String postParam = payload.getParamName() + "=" + payload.getParamValue();
 			return sendPost(payload.getUrl(), postParam);
-		}else{
+		}
+		else{
 			System.out.println("Unkown Http Method!!!");
 			return "None";
 		}
@@ -46,11 +38,14 @@ public class HttpHelper {
 		HttpURLConnection con = null;
 		try{
 			URL obj = new URL(targetURL);
-			//con = (HttpURLConnection) obj.openConnection(proxy);
-			con = (HttpURLConnection) obj.openConnection();
+			con = (HttpURLConnection) obj.openConnection(proxy); //proxy
+			//con = (HttpURLConnection) obj.openConnection();  //default
 			con.setRequestMethod("GET");
 			con.setRequestProperty("User-Agent", USER_AGENT);
-	
+			con.setRequestProperty("Cookie", "uid=CgABRVnn/qigtBsKA/TCAg==; CacheControl=1; CONCRETE5=hg8dk0o2pb8dj74d90n3ktvpn1; session_id=zpz6bvn44b41scraxdxs79vghr");
+		    con.setRequestProperty("Authorization", "Basic aW5ub3ZhOndyaXRlcg==");
+		    
+			//con.setco
 			//int responseCode = con.getResponseCode();
 			//System.out.println("\nSending 'GET' request to URL : " + targetURL);
 			//System.out.println("Response Code : " + responseCode);
@@ -77,27 +72,29 @@ public class HttpHelper {
 	
 
 	public String sendPost(String targetURL, String urlParameters) {
-		  HttpURLConnection connection = null;
+		  HttpURLConnection con = null;
 
 		  try {
 		    //Create connection
 		    URL url = new URL(targetURL);
-		    connection = (HttpURLConnection) url.openConnection();
-		    //connection = (HttpURLConnection) url.openConnection(proxy);
-		    connection.setRequestMethod("POST");
-		    connection.setRequestProperty("Content-Type", "application/x-www-form-urlencoded");
-		    connection.setRequestProperty("Content-Length", Integer.toString(urlParameters.getBytes().length));
-		    connection.setRequestProperty("Content-Language", "en-US");  
-		    connection.setUseCaches(false);
-		    connection.setDoOutput(true);
+		    //connection = (HttpURLConnection) url.openConnection(); //default
+		    con = (HttpURLConnection) url.openConnection(proxy); //proxy
+		    con.setRequestMethod("POST");
+		    con.setRequestProperty("Content-Type", "application/x-www-form-urlencoded");
+		    con.setRequestProperty("Content-Length", Integer.toString(urlParameters.getBytes().length));
+		    con.setRequestProperty("Content-Language", "en-US");  
+		    
+		    con.setUseCaches(false);
+		    con.setDoOutput(true);
+		    //con.set
 
 		    //Send request
-		    DataOutputStream wr = new DataOutputStream (connection.getOutputStream());
+		    DataOutputStream wr = new DataOutputStream (con.getOutputStream());
 		    wr.writeBytes(urlParameters);
 		    wr.close();
 
 		    //Get Response  
-		    InputStream is = connection.getInputStream();
+		    InputStream is = con.getInputStream();
 		    BufferedReader rd = new BufferedReader(new InputStreamReader(is));
 		    StringBuilder response = new StringBuilder(); // or StringBuffer if Java version 5+
 		    String line;
@@ -111,8 +108,8 @@ public class HttpHelper {
 		    e.printStackTrace();
 		    return "Exception :" + e.getMessage();
 		  } finally {
-		    if (connection != null) {
-		      connection.disconnect();
+		    if (con != null) {
+		    	con.disconnect();
 		    }
 		  }
 		}
