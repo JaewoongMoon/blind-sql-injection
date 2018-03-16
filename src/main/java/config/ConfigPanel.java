@@ -1,5 +1,6 @@
 package config;
 
+import javax.swing.BorderFactory;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
@@ -14,30 +15,47 @@ import base.Common;
 public class ConfigPanel extends JPanel {
 
 	// proxy
-	JLabel proxyLabel;
-	JTextField proxyField;
+	JLabel proxyLb;
+	JTextField proxyFld;
 	
-	// 검색 조건 : search until (numbers only) 
-	JLabel searchConditionLabel; 
-	JTextField searchConditionField;
+	// Length Until
+	JLabel lenLb; 
+	JTextField lenFld;
+	
+	// Count Until
+	JLabel cntLb;
+	JTextField cntFld;
 	
 	public ConfigPanel() {
-		//search condition 
-		searchConditionLabel = new JLabel("Search Until (max num) : ");
-		searchConditionField = new JTextField();
+		// panel setup
+		setLayout(null);
 		
-		add(searchConditionLabel);
-		add(searchConditionField);
-		searchConditionLabel.setBounds(
-				Common.START_X,  
-				Common.START_Y, 
-				150, 
-				Common.INPUT_FIELD_HEIGHT);
-		searchConditionField.setBounds(
-				searchConditionLabel.getX() + searchConditionLabel.getWidth(), 
-				searchConditionLabel.getY(), 
-				200, 
-				Common.INPUT_FIELD_HEIGHT);
-		searchConditionField.setEnabled(false);
+		this.setBorder(BorderFactory.createTitledBorder("Configuration"));
+		
+		// proxy
+		proxyLb = new JLabel("Local Proxy : ");
+		proxyFld = new JTextField();
+		proxyLb.setBounds(Common.START_X, Common.START_Y, 150, Common.INPUT_FIELD_HEIGHT);
+		proxyFld.setBounds(proxyLb.getX() + proxyLb.getWidth(), Common.START_Y, 200, Common.INPUT_FIELD_HEIGHT);
+		add(proxyLb);
+		add(proxyFld);
+		
+		
+		// Length Until 
+		lenLb = new JLabel("Search Until : ");
+		lenFld = new JTextField();
+		lenLb.setBounds(Common.START_X, proxyLb.getY() + proxyLb.getHeight() + Common.PADDING_Y, 150, Common.INPUT_FIELD_HEIGHT);
+		lenFld.setBounds(lenLb.getX() + lenLb.getWidth(), lenLb.getY(), 200, Common.INPUT_FIELD_HEIGHT);
+		add(lenLb);
+		add(lenFld);
+		
+		// Count Until
+		cntLb = new JLabel("Count Until : ");
+		cntFld = new JTextField();
+		cntLb.setBounds(Common.START_X, lenLb.getY() + lenLb.getHeight() + Common.PADDING_Y, 150, Common.INPUT_FIELD_HEIGHT);
+		cntFld.setBounds(cntLb.getX() + cntLb.getWidth(), cntLb.getY(), 200, Common.INPUT_FIELD_HEIGHT);
+		add(cntLb);
+		add(cntFld);
+		
 	}
 }

@@ -2,6 +2,7 @@ package input;
 
 import java.util.Vector;
 
+import javax.swing.BorderFactory;
 import javax.swing.ButtonGroup;
 import javax.swing.JComboBox;
 import javax.swing.JLabel;
@@ -74,8 +75,8 @@ public class InputPanel extends JPanel{
 		
 		// panel setup
 		setLayout(null);
-		setSize(700, 700);
-		setVisible(true);
+
+		this.setBorder(BorderFactory.createTitledBorder("User Input"));
 		
 		// url
 		urlLabel = new JLabel("Target URL : ");

@@ -1,6 +1,3 @@
-/**
- * @ UserInput.java
- */
 package input;
 
 import http.HttpMethod;
@@ -8,11 +5,6 @@ import query.AttackVector;
 import query.QueryType;
 
 /**
- * <pre>
- * domain
- * UserInput.java 
- * </pre>
- *
  * @brief	: 
  * @author	: Jae-Woong Moon(mjw8585@gmail.com)
  * @Date	: 2017/09/05

@@ -3,6 +3,7 @@ package control;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
+import javax.swing.BorderFactory;
 import javax.swing.JButton;
 import javax.swing.JPanel;
 
@@ -35,6 +36,10 @@ public class ControlPanel extends JPanel {
 	}
 	
 	public ControlPanel() {
+		// panel setup
+		setLayout(null);
+		//this.setBorder(BorderFactory.createTitledBorder("Control"));
+		
 		manager = new InjectionManager();
 		
 		startBtn = new JButton("Start");
@@ -46,7 +51,7 @@ public class ControlPanel extends JPanel {
 		add(startBtn);
 		add(pauseBtn);
 		add(stopBtn);
-		startBtn.setBounds(300, 450, 100, 35);
+		startBtn.setBounds(275, Common.PADDING_Y, 100, 35);
 		pauseBtn.setBounds(startBtn.getX() + startBtn.getWidth() + Common.PADDING_X, startBtn.getY(), startBtn.getWidth(), startBtn.getHeight());
 		stopBtn.setBounds(pauseBtn.getX() + pauseBtn.getWidth() + Common.PADDING_X, startBtn.getY(), startBtn.getWidth(), startBtn.getHeight());
 		

@@ -8,8 +8,8 @@ package base;
 public class Common {
 
 	public final static int START_X = 30;
-	public final static int START_Y = 10;
-	public final static int PADDING_Y = 15;
+	public final static int START_Y = 20;
+	public final static int PADDING_Y = 10;
 	public final static int PADDING_X = 10;
 	public final static int INPUT_FIELD_HEIGHT = 25;
 	

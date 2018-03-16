@@ -1,3 +1,4 @@
+import java.awt.Color;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
@@ -8,6 +9,7 @@ import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import javax.swing.SwingUtilities;
 
+import base.Common;
 import config.ConfigPanel;
 import control.ControlPanel;
 import control.InjectionManager;
@@ -50,7 +52,7 @@ public class MainUI extends JFrame{
 		
 		/** set up frame **/ 
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-		setSize(1330, 780);
+		setSize(1350, 970);
 		setVisible(true);
 		setResizable(true);
 		setTitle("Blind SQL Injection automation tool V1.0 - made by jwmoon");
@@ -68,30 +70,33 @@ public class MainUI extends JFrame{
 		setJMenuBar(menuBar);
 		
 		/** sub panels **/
-		final int PANEL_WIDTH = 700;
+		final int LEFT_PANEL_WIDTH = 600;
+		final int RIGHT_PANEL_WIDTH = 700;
 		
 		// ConfigPanel
 		configPanel = new ConfigPanel();
-		configPanel.setBounds(0, 0, PANEL_WIDTH, 150);  // 700 x 150
+		configPanel.setBounds(Common.PADDING_X, Common.PADDING_Y, LEFT_PANEL_WIDTH, 140);  // 700 x 140
 		add(configPanel);
 		
 		// InputPanel
 		inputPanel = new InputPanel();
-		inputPanel.setBounds(0, 150, PANEL_WIDTH, 400); // 700 x 400
+		inputPanel.setBounds(Common.PADDING_X, 150, LEFT_PANEL_WIDTH, 400); // 700 x 400
 		add(inputPanel);
 		
 		// ControlPanel
 		controlPanel = new ControlPanel();
-		controlPanel.setBounds(0, 550, PANEL_WIDTH, 100); // 700 x 100
-		add(configPanel);
+		controlPanel.setBounds(Common.PADDING_X, 550, LEFT_PANEL_WIDTH, 50); // 700 x 100
+		add(controlPanel);
+		
 		
 		// StatusPanel
 		statusPanel = new StatusPanel();
-		statusPanel.setBounds(0, 650, PANEL_WIDTH, 200); // 700 x 200
+		statusPanel.setBounds(Common.PADDING_X, 600, LEFT_PANEL_WIDTH, 300); // 700 x 200
+		add(statusPanel);
 		
 		// ResultPanel
 		resultPanel = new ResultPanel();
-		resultPanel.setBounds(PANEL_WIDTH,0, PANEL_WIDTH, 850); // 700 x 850
+		resultPanel.setBounds(LEFT_PANEL_WIDTH + 20, 0, RIGHT_PANEL_WIDTH, 850); // 700 x 850
 		add(resultPanel);
 		
 		/** set reference  **/

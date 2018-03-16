@@ -1,5 +1,6 @@
 package status;
 
+import javax.swing.BorderFactory;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
@@ -32,6 +33,10 @@ public class StatusPanel extends JPanel{
 	}
 	
 	public StatusPanel() {
+		// panel setup
+		setLayout(null);
+		this.setBorder(BorderFactory.createTitledBorder("Status"));
+		
 		
 		// status
 		statusLabel = new JLabel("Send Request : ");
@@ -50,7 +55,7 @@ public class StatusPanel extends JPanel{
 		add(logLabel);
 		add(logPane);
 		logLabel.setBounds(Common.START_X, statusLabel.getY() + statusLabel.getHeight(), 100, Common.INPUT_FIELD_HEIGHT);
-		logPane.setBounds(Common.START_X, logLabel.getY() + logLabel.getHeight(), 610, 200);
+		logPane.setBounds(Common.START_X, logLabel.getY() + logLabel.getHeight(), 550, 200);
 
 	}
 }
