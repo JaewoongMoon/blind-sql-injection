@@ -10,6 +10,8 @@ import javax.swing.JPanel;
 import javax.swing.JRadioButton;
 import javax.swing.JTextField;
 
+import org.omg.PortableInterceptor.SUCCESSFUL;
+
 import base.Common;
 import base.SwingUtils;
 import http.HttpMethod;
@@ -206,6 +208,15 @@ public class InputPanel extends JPanel{
 		colNameFld.setBounds(colNameLb.getX() + colNameLb.getWidth(), colNameLb.getY(), 200, INPUT_FIELD_HEIGHT);
 		add(colNameLb);
 		add(colNameFld);
+		initView();
+	}
+	
+	// for test
+	public void initView() {
+		urlFld.setText("http://localhost:8080/unsafeweb/loginProcess.jsp");
+		targetParamFld.setText("userid");
+		targetParamValueFld.setText("admin");
+		matchFld.setText("Vulnerable");
 	}
 	
 	public UserInput getUserInput() {
@@ -218,6 +229,7 @@ public class InputPanel extends JPanel{
 		//System.out.println("현재 선택 HTTP Method Combo index : " +methodCombo.getSelectedIndex());
 		UserInput input = new UserInput();
 		input.setTargetURL(urlFld.getText());
+		input.setHttpMethod(methodCombo.getSelectedIndex() == 0? HttpMethod.GET : HttpMethod.POST);
 		input.setTargetParamName(targetParamFld.getText());
 		input.setTargetParamValue(targetParamValueFld.getText());
 		input.setEtcParamStr(etcParamFld.getText());

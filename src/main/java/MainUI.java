@@ -55,7 +55,7 @@ public class MainUI extends JFrame{
 		setSize(1350, 970);
 		setVisible(true);
 		setResizable(true);
-		setTitle("Blind SQL Injection automation tool V1.0 - made by jwmoon");
+		setTitle("Blind SQL Injection automation tool V1.2 - made by jwmoon");
 		setLayout(null);
 		
 		/** menu bar  **/
