@@ -75,7 +75,7 @@ public class MainUI extends JFrame{
 		
 		// ConfigPanel
 		configPanel = new ConfigPanel();
-		configPanel.setBounds(Common.PADDING_X, Common.PADDING_Y, LEFT_PANEL_WIDTH, 140);  // 700 x 140
+		configPanel.setBounds(Common.PADDING_X, Common.PADDING_Y, LEFT_PANEL_WIDTH, 130);  // 700 x 130
 		add(configPanel);
 		
 		// InputPanel

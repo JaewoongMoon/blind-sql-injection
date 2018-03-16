@@ -18,52 +18,57 @@ import http.HttpMethod;
 public class InputPanel extends JPanel{
 
 	// url
-	JLabel urlLabel;
-	JTextField urlField;
+	JLabel urlLb;
+	JTextField urlFld;
 	
 	// http method
-	JLabel methodLabel;
+	JLabel methodLb;
 	JComboBox<String> methodCombo;
 	Vector<String> httpMethods;
 	
 	// target parameter name
-	JLabel targetParamLabel;
-	JTextField targetParamField;
+	JLabel targetParamLb;
+	JTextField targetParamFld;
 	
 	// target parameter value 
-	JLabel targetParamValueLabel;
-	JTextField targetParamValueField;
+	JLabel targetParamValueLb;
+	JTextField targetParamValueFld;
 	
 	// etc parameter string
-	JLabel etcParamLabel;
-	JTextField etcParamField;
+	JLabel etcParamLb;
+	JTextField etcParamFld;
 	
 	// match
-	JLabel matchLabel;
-	JTextField matchField;
+	JLabel matchLb;
+	JTextField matchFld;
 	
 	// dbms type
-	JLabel dbmsLabel;
-	ButtonGroup dbmsButtonGroup;
-	JRadioButton dbmsButton1;
-	JRadioButton dbmsButton2;
+	JLabel dbmsLb;
+	ButtonGroup dbmsBtnGroup;
+	JRadioButton dbmsBtn1;
+	JRadioButton dbmsBtn2;
+	JRadioButton dbmsBtn3;
 	
 	// target type
-	JLabel targetTypeLabel;
-	ButtonGroup targetTypeButtonGroup;
-	JRadioButton targetTypeButton1;
-	JRadioButton targetTypeButton2;
-	JRadioButton targetTypeButton3;
-	JRadioButton targetTypeButton4;
+	JLabel targetTypeLb;
+	ButtonGroup targetTypeBtnGroup;
+	JRadioButton targetTypeBtn1;
+	JRadioButton targetTypeBtn2;
+	JRadioButton targetTypeBtn3;
+	JRadioButton targetTypeBtn4;
+	JRadioButton targetTypeBtn5;
 	
 	// db name
-	JLabel dbNameLabel; 
-	JTextField dbNameField;
+	JLabel dbNameLb; 
+	JTextField dbNameFld;
 	
 	// table name
-	
+	JLabel tblNameLb;
+	JTextField tblNameFld;
 	
 	// column name
+	JLabel colNameLb;
+	JTextField colNameFld;
 
 	final int START_X = Common.START_X;
 	final int START_Y = Common.START_Y;
@@ -72,131 +77,154 @@ public class InputPanel extends JPanel{
 	final int INPUT_FIELD_HEIGHT = Common.INPUT_FIELD_HEIGHT; 
 	
 	public InputPanel(){
-		
 		// panel setup
 		setLayout(null);
-
 		this.setBorder(BorderFactory.createTitledBorder("User Input"));
 		
 		// url
-		urlLabel = new JLabel("Target URL : ");
-		urlField = new JTextField();
-		add(urlLabel);
-		add(urlField);
-		urlLabel.setBounds(START_X, START_Y, 150, INPUT_FIELD_HEIGHT);
-		urlField.setBounds(urlLabel.getX() + urlLabel.getWidth(), urlLabel.getY(), 400, INPUT_FIELD_HEIGHT);
+		urlLb = new JLabel("Target URL : ");
+		urlFld = new JTextField();
+		urlLb.setBounds(START_X, START_Y, 150, INPUT_FIELD_HEIGHT);
+		urlFld.setBounds(urlLb.getX() + urlLb.getWidth(), urlLb.getY(), 400, INPUT_FIELD_HEIGHT);
+		add(urlLb);
+		add(urlFld);
 		
 		// http method 
-		methodLabel = new JLabel("Http Method : ");
+		methodLb = new JLabel("Http Method : ");
 		httpMethods = new Vector<String>();
 		httpMethods.add(HttpMethod.GET.toString());
 		httpMethods.add(HttpMethod.POST.toString());
 		methodCombo = new JComboBox<>(httpMethods);
-		add(methodLabel);
+		methodLb.setBounds(START_X, urlLb.getY() + urlLb.getHeight() + PADDING_Y, 150, INPUT_FIELD_HEIGHT);
+		methodCombo.setBounds(methodLb.getX() + methodLb.getWidth(), methodLb.getY(), 200, INPUT_FIELD_HEIGHT);
+		add(methodLb);
 		add(methodCombo);
-		methodLabel.setBounds(START_X, urlLabel.getY() + urlLabel.getHeight() + PADDING_Y, 150, INPUT_FIELD_HEIGHT);
-		methodCombo.setBounds(methodLabel.getX() + methodLabel.getWidth(), methodLabel.getY(), 200, INPUT_FIELD_HEIGHT);
 		
 		// target parameter name
-		targetParamLabel = new JLabel("Target Parameter Name :");
-		targetParamField = new JTextField();
-		add(targetParamLabel);
-		add(targetParamField);
-		targetParamLabel.setBounds(START_X, methodLabel.getY() + methodLabel.getHeight() + PADDING_Y, 150, INPUT_FIELD_HEIGHT);
-		targetParamField.setBounds(targetParamLabel.getX() + targetParamLabel.getWidth(), targetParamLabel.getY(), 150, INPUT_FIELD_HEIGHT);
+		targetParamLb = new JLabel("Target Parameter Name :");
+		targetParamFld = new JTextField();
+		targetParamLb.setBounds(START_X, methodLb.getY() + methodLb.getHeight() + PADDING_Y, 150, INPUT_FIELD_HEIGHT);
+		targetParamFld.setBounds(targetParamLb.getX() + targetParamLb.getWidth(), targetParamLb.getY(), 150, INPUT_FIELD_HEIGHT);
+		add(targetParamLb);
+		add(targetParamFld);
 
 		// target parameter value
-		targetParamValueLabel = new JLabel("Target Parameter Value :");
-		targetParamValueField = new JTextField();
-		add(targetParamValueLabel);
-		add(targetParamValueField);
-		targetParamValueLabel.setBounds(START_X, targetParamLabel.getY() + targetParamLabel.getHeight() + PADDING_Y, 150, INPUT_FIELD_HEIGHT);
-		targetParamValueField.setBounds(targetParamValueLabel.getX() + targetParamValueLabel.getWidth(), targetParamValueLabel.getY(), 150, INPUT_FIELD_HEIGHT);
+		targetParamValueLb = new JLabel("Target Parameter Value :");
+		targetParamValueFld = new JTextField();
+		targetParamValueLb.setBounds(START_X, targetParamLb.getY() + targetParamLb.getHeight() + PADDING_Y, 150, INPUT_FIELD_HEIGHT);
+		targetParamValueFld.setBounds(targetParamValueLb.getX() + targetParamValueLb.getWidth(), targetParamValueLb.getY(), 150, INPUT_FIELD_HEIGHT);
+		add(targetParamValueLb);
+		add(targetParamValueFld);
 		
 		// etc paramter string
-		etcParamLabel = new JLabel("Etc Parameter String : "); 
-		etcParamField = new JTextField();
-		add(etcParamLabel);
-		add(etcParamField);
-		etcParamLabel.setBounds(START_X, targetParamValueLabel.getY() + targetParamValueLabel.getHeight() + PADDING_Y, 150, INPUT_FIELD_HEIGHT);
-		etcParamField.setBounds(etcParamLabel.getX() + etcParamLabel.getWidth(), etcParamLabel.getY(), 250, INPUT_FIELD_HEIGHT);
+		etcParamLb = new JLabel("Etc Parameter String : "); 
+		etcParamFld = new JTextField();
+		etcParamLb.setBounds(START_X, targetParamValueLb.getY() + targetParamValueLb.getHeight() + PADDING_Y, 150, INPUT_FIELD_HEIGHT);
+		etcParamFld.setBounds(etcParamLb.getX() + etcParamLb.getWidth(), etcParamLb.getY(), 250, INPUT_FIELD_HEIGHT);
+		add(etcParamLb);
+		add(etcParamFld);
 		
 		// match
-		matchLabel = new JLabel("Success String (Match) : ");
-		matchField = new JTextField();
-		add(matchLabel);
-		add(matchField);
-		matchLabel.setBounds(START_X, etcParamLabel.getY() + etcParamLabel.getHeight() + PADDING_Y, 150, INPUT_FIELD_HEIGHT);
-		matchField.setBounds(matchLabel.getX() + matchLabel.getWidth(), matchLabel.getY(), 250, INPUT_FIELD_HEIGHT);
+		matchLb = new JLabel("Success String (Match) : ");
+		matchFld = new JTextField();
+		matchLb.setBounds(START_X, etcParamLb.getY() + etcParamLb.getHeight() + PADDING_Y, 150, INPUT_FIELD_HEIGHT);
+		matchFld.setBounds(matchLb.getX() + matchLb.getWidth(), matchLb.getY(), 250, INPUT_FIELD_HEIGHT);
+		add(matchLb);
+		add(matchFld);
 		
 		// dbms type radio buttons
-		dbmsLabel = new JLabel("DBMS : ");
-		dbmsButton1 = new JRadioButton("MySQL");
-		dbmsButton2 = new JRadioButton("MS SQL");
-		dbmsButtonGroup = new ButtonGroup();
-		dbmsButton1.setSelected(true);
-		dbmsButtonGroup.add(dbmsButton1);
-		dbmsButtonGroup.add(dbmsButton2);
-		add(dbmsLabel);
-		add(dbmsButton1);
-		add(dbmsButton2);
-		dbmsLabel.setBounds(START_X, matchLabel.getY() + matchLabel.getHeight() + PADDING_Y, 150, INPUT_FIELD_HEIGHT);
-		dbmsButton1.setBounds(dbmsLabel.getX() + dbmsLabel.getWidth(), dbmsLabel.getY(), 70, INPUT_FIELD_HEIGHT);
-		dbmsButton2.setBounds(dbmsButton1.getX() + dbmsButton1.getWidth(), dbmsLabel.getY(), 70, INPUT_FIELD_HEIGHT);
-		dbmsButton2.setEnabled(false);
+		dbmsLb = new JLabel("DBMS : ");
+		dbmsBtn1 = new JRadioButton("MySQL");
+		dbmsBtn2 = new JRadioButton("MS SQL");
+		dbmsBtn3 = new JRadioButton("Oracle");
+		dbmsBtnGroup = new ButtonGroup();
+		dbmsBtn1.setSelected(true);
+		dbmsBtnGroup.add(dbmsBtn1);
+		dbmsBtnGroup.add(dbmsBtn2);
+		dbmsBtnGroup.add(dbmsBtn3);
+		dbmsLb.setBounds(START_X, matchLb.getY() + matchLb.getHeight() + PADDING_Y, 150, INPUT_FIELD_HEIGHT);
+		dbmsBtn1.setBounds(dbmsLb.getX() + dbmsLb.getWidth(), dbmsLb.getY(), 70, INPUT_FIELD_HEIGHT);
+		dbmsBtn2.setBounds(dbmsBtn1.getX() + dbmsBtn1.getWidth(), dbmsLb.getY(), 70, INPUT_FIELD_HEIGHT);
+		dbmsBtn2.setEnabled(false);
+		dbmsBtn3.setBounds(dbmsBtn2.getX() + dbmsBtn2.getWidth(), dbmsLb.getY(), 70, INPUT_FIELD_HEIGHT);
+		dbmsBtn3.setEnabled(false);
+		add(dbmsLb);
+		add(dbmsBtn1);
+		add(dbmsBtn2);
+		add(dbmsBtn3);
 		
 		// target type radio buttons
-		targetTypeLabel = new JLabel("Target : ");
-		targetTypeButton1 = new JRadioButton("DB");
-		targetTypeButton2 = new JRadioButton("Table");
-		targetTypeButton3 = new JRadioButton("Column");
-		targetTypeButton4 = new JRadioButton("Data");
-		targetTypeButtonGroup = new ButtonGroup();
-		targetTypeButton1.setSelected(true);
-		targetTypeButtonGroup.add(targetTypeButton1);
-		targetTypeButtonGroup.add(targetTypeButton2);
-		targetTypeButtonGroup.add(targetTypeButton3);
-		targetTypeButtonGroup.add(targetTypeButton4);
-		add(targetTypeLabel);
-		add(targetTypeButton1);
-		add(targetTypeButton2);
-		add(targetTypeButton3);
-		add(targetTypeButton4);
-		targetTypeLabel.setBounds(START_X, dbmsLabel.getY() + dbmsLabel.getHeight() + PADDING_Y, 150, INPUT_FIELD_HEIGHT);
-		targetTypeButton1.setBounds(targetTypeLabel.getX() + targetTypeLabel.getWidth(), targetTypeLabel.getY(),70, INPUT_FIELD_HEIGHT);
-		targetTypeButton2.setBounds(targetTypeButton1.getX() + targetTypeButton1.getWidth(), targetTypeLabel.getY(),70, INPUT_FIELD_HEIGHT);
-		targetTypeButton3.setBounds(targetTypeButton2.getX() + targetTypeButton2.getWidth(), targetTypeLabel.getY(),70, INPUT_FIELD_HEIGHT);
-		targetTypeButton4.setBounds(targetTypeButton3.getX() + targetTypeButton3.getWidth(), targetTypeLabel.getY(),70, INPUT_FIELD_HEIGHT);
-		targetTypeButton3.setEnabled(false);
-		targetTypeButton4.setEnabled(false);
+		targetTypeLb = new JLabel("Target : ");
+		targetTypeBtn1 = new JRadioButton("DB");
+		targetTypeBtn2 = new JRadioButton("Table");
+		targetTypeBtn3 = new JRadioButton("Column");
+		targetTypeBtn4 = new JRadioButton("Data");
+		targetTypeBtn5 = new JRadioButton("All");
+		targetTypeBtnGroup = new ButtonGroup();
+		targetTypeBtn1.setSelected(true);
+		targetTypeBtnGroup.add(targetTypeBtn1);
+		targetTypeBtnGroup.add(targetTypeBtn2);
+		targetTypeBtnGroup.add(targetTypeBtn3);
+		targetTypeBtnGroup.add(targetTypeBtn4);
+		targetTypeBtnGroup.add(targetTypeBtn5);
+		targetTypeLb.setBounds(START_X, dbmsLb.getY() + dbmsLb.getHeight() + PADDING_Y, 150, INPUT_FIELD_HEIGHT);
+		targetTypeBtn1.setBounds(targetTypeLb.getX() + targetTypeLb.getWidth(), targetTypeLb.getY(),70, INPUT_FIELD_HEIGHT);
+		targetTypeBtn2.setBounds(targetTypeBtn1.getX() + targetTypeBtn1.getWidth(), targetTypeLb.getY(),70, INPUT_FIELD_HEIGHT);
+		targetTypeBtn3.setBounds(targetTypeBtn2.getX() + targetTypeBtn2.getWidth(), targetTypeLb.getY(),70, INPUT_FIELD_HEIGHT);
+		targetTypeBtn3.setEnabled(false);
+		targetTypeBtn4.setBounds(targetTypeBtn3.getX() + targetTypeBtn3.getWidth(), targetTypeLb.getY(),70, INPUT_FIELD_HEIGHT);
+		targetTypeBtn4.setEnabled(false);
+		targetTypeBtn5.setBounds(targetTypeBtn4.getX() + targetTypeBtn4.getWidth(), targetTypeLb.getY(),70, INPUT_FIELD_HEIGHT);
+		targetTypeBtn5.setEnabled(false);
+		add(targetTypeLb);
+		add(targetTypeBtn1);
+		add(targetTypeBtn2);
+		add(targetTypeBtn3);
+		add(targetTypeBtn4);
+		add(targetTypeBtn5);
 
 		// db name
-		dbNameLabel = new JLabel("DB Name : ");
-		dbNameField = new JTextField();
-		add(dbNameLabel);
-		add(dbNameField);
-		dbNameLabel.setBounds(START_X, targetTypeLabel.getY() + targetTypeLabel.getHeight() + PADDING_Y, 150, INPUT_FIELD_HEIGHT);
-		dbNameField.setBounds(dbNameLabel.getX() + dbNameLabel.getWidth(), dbNameLabel.getY(), 200, INPUT_FIELD_HEIGHT);
-	
+		dbNameLb = new JLabel("DB Name : ");
+		dbNameFld = new JTextField();
+		dbNameLb.setBounds(START_X, targetTypeLb.getY() + targetTypeLb.getHeight() + PADDING_Y, 150, INPUT_FIELD_HEIGHT);
+		dbNameFld.setBounds(dbNameLb.getX() + dbNameLb.getWidth(), dbNameLb.getY(), 200, INPUT_FIELD_HEIGHT);
+		add(dbNameLb);
+		add(dbNameFld);
+		
+		// table Name
+		tblNameLb = new JLabel("Table Name : ");
+		tblNameFld = new JTextField();
+		tblNameLb.setBounds(START_X, dbNameLb.getY() + dbNameLb.getHeight() + 5, 150, INPUT_FIELD_HEIGHT);
+		tblNameFld.setBounds(tblNameLb.getX() + tblNameLb.getWidth(), tblNameLb.getY(), 200, INPUT_FIELD_HEIGHT);
+		add(tblNameLb);
+		add(tblNameFld);
+		
+		// column Name
+		colNameLb = new JLabel("Column Name : ");
+		colNameFld = new JTextField();
+		colNameLb.setBounds(START_X, tblNameLb.getY() + tblNameLb.getHeight() + 5, 150, INPUT_FIELD_HEIGHT);
+		colNameFld.setBounds(colNameLb.getX() + colNameLb.getWidth(), colNameLb.getY(), 200, INPUT_FIELD_HEIGHT);
+		add(colNameLb);
+		add(colNameFld);
 	}
 	
 	public UserInput getUserInput() {
 		
-		// STEP 1. user input 값 체크
+		// STEP 1. user input 값 체크 후 필요한 값이 없을 경우 얼럿창 
 		
 		// STEP 2. UserInput 객체 생성
-		DbmsType selectedDbms = DbmsType.getDbmsType(SwingUtils.getSelectedButtonText(dbmsButtonGroup));
-		TargetType selectedTarget = TargetType.getTargetType(SwingUtils.getSelectedButtonText(targetTypeButtonGroup));
+		DbmsType selectedDbms = DbmsType.getDbmsType(SwingUtils.getSelectedButtonText(dbmsBtnGroup));
+		TargetType selectedTarget = TargetType.getTargetType(SwingUtils.getSelectedButtonText(targetTypeBtnGroup));
 		//System.out.println("현재 선택 HTTP Method Combo index : " +methodCombo.getSelectedIndex());
 		UserInput input = new UserInput();
-		input.setTargetURL(urlField.getText());
-		input.setTargetParamName(targetParamField.getText());
-		input.setTargetParamValue(targetParamValueField.getText());
-		input.setEtcParamStr(etcParamField.getText());
-		input.setMatch(matchField.getText());
+		input.setTargetURL(urlFld.getText());
+		input.setTargetParamName(targetParamFld.getText());
+		input.setTargetParamValue(targetParamValueFld.getText());
+		input.setEtcParamStr(etcParamFld.getText());
+		input.setMatch(matchFld.getText());
 		input.setDbmsType(selectedDbms);
 		input.setTargetType(selectedTarget);
-		input.setDbName(dbNameField.getText());
+		input.setDbName(dbNameFld.getText());
 		return input;
 		
 	}
