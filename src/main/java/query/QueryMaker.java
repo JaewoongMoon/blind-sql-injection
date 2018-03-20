@@ -60,7 +60,15 @@ public class QueryMaker {
 		if(columnName != null && !columnName.equals("")) {
 			replacedQuery = replacedQuery.replace("@{columnName}", columnName);
 		}
-		
+		final int dataIndex = param.getDataIndex();
+		if(dataIndex > -1) {
+			replacedQuery = replacedQuery.replace("@{dataIdx}", dataIndex+"");
+		}
+		final int dataContentIndex = param.getDataContentIndex();
+		if(dataContentIndex > -1) {
+			replacedQuery = replacedQuery.replace("@{dataContentIdx}", dataContentIndex+"");
+		}
+			
 		// STEP 3. complete query
 		final String checkVal = param.getCheckVal();
 		String query = "' and (" + replacedQuery  +"=" + checkVal + ")" +input.getDbmsType().getComment();

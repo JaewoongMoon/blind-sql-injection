@@ -141,7 +141,10 @@ public class InjectionManager{
 					new ColumnWorker().search();
 				}
 				// Data Search
-				// ...
+				else if(input.getStep() == Step.DATA) {
+					resultPanel.selectTab(3);
+					new DataWorker().search();
+				}
 				
 				printLog("Worker job has done.");
 				workDone = true;
@@ -354,6 +357,75 @@ public class InjectionManager{
 			}
 		}
 		
+		class DataWorker{
+			
+			public void search() {
+				printLog("Data Search Start!");
+				QueryParam param = new QueryParam();
+				param.setStep(Step.DATA);
+				
+				DefaultTableModel resultModel =  resultPanel.getDataResultUI().getTableModel();
+				final String dbName = input.getDbName();
+				final String tableName = input.getTableName();
+				final String columnName = input.getColumnName();
+				
+				int dataCnt = getDataCount(param, dbName, tableName, columnName);
+				printLog("== [Found!]["+ dbName + "][" + tableName + "][" + columnName + "] data count is : " + dataCnt);
+				
+				int rowNum = 0;
+				for (int i=0; i < dataCnt; i++){
+					// 0) prepare row
+					String[] tableRow = {(rowNum +1) +"", dbName, tableName, columnName};
+					resultModel.addRow(tableRow);
+					
+					// 1) data content length
+					int dataContentLength = getDataContentLength(param, dbName, tableName, columnName, i);
+					printLog("== [Found!]["+ dbName + "][" + tableName + "][" + columnName + "] data content length is : " 
+							+ dataContentLength);
+					resultModel.setValueAt(dataContentLength+"", rowNum, 4);
+					
+					// 2) data content
+					String data = getDataContent(param, dbName, tableName, columnName, dataContentLength);
+					printLog("== [Found!]["+ dbName + "][" + tableName + "][" + columnName + "] data content is : " + data);
+					resultModel.setValueAt(data, rowNum, 5);
+					rowNum ++;
+				}
+			}
+			
+			private int getDataCount(QueryParam param, String dbName, String tableName, String columnName){
+				param.setQueryType(QueryType.COUNT);
+				param.setDbName(dbName);
+				param.setTableName(tableName);
+				param.setColumnName(columnName);
+				return cntWork(param, config.getCountUntil());
+			}
+			
+			private int getDataContentLength(QueryParam param, String dbName, String tableName, String columnName, int dataIndex){
+				param.setQueryType(QueryType.LENGTH);
+				param.setDbName(dbName);
+				param.setTableName(tableName);
+				param.setColumnName(columnName);
+				param.setDataIndex(dataIndex);
+				return cntWork(param, config.getLengthUntil());
+			}
+			
+			private String getDataContent(QueryParam param, String dbName, String tableName, String columnName,  int dataContentLength){
+				String content = "";
+				param.setQueryType(QueryType.CONTENT);
+				param.setDbName(dbName);
+				param.setTableName(tableName);
+				param.setColumnName(columnName);
+				
+				for(int i=0; i < dataContentLength ; i++){
+					param.setDataContentIndex(i+1); 
+					String chr = contentWork(param); 
+					content += chr; 
+				}
+				return content;
+			}
+			
+		}
+		
 		/*******************************************************************************************************/
 		/******************************************* Common ****************************************************/
 		/*******************************************************************************************************/
@@ -390,9 +462,9 @@ public class InjectionManager{
 		}
 		
 		private String contentWork(QueryParam param){
-			String ascii = "";
+			String ascii = "?";
 			
-			for(int j=33; j < 127; j++){ //(search ascii 33~126)
+			for(int j=32; j < 127; j++){ //(search ascii from 32(space) to 126 (~) )
 				if(!isCancelled()){
 					if(paused){
 						//System.out.println("BackGround paused, waiting for resume");

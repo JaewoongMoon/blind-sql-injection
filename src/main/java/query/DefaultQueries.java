@@ -24,9 +24,9 @@ public class DefaultQueries {
 	public static final String MYSQL_COLUMN_NAME_LENGTH_QUERY = "(select length(column_name) from information_schema.columns where table_schema = '@{dbName}' and table_name = '@{tableName}' limit @{columnIdx}, 1)";
 	public static final String MYSQL_COLUMN_NAME_QUERY = "substring((select column_name from information_schema.columns where table_schema = '@{dbName}' and table_name = '@{tableName}' limit @{columnIdx}, 1), @{columnNameIdx},1)";
 	
-	public static final String MYSQL_DATA_COUNT_QUERY = "";
-	public static final String MYSQL_DATA_CONTENT_LENGTH_QUERY = "";
-	public static final String MYSQL_DATA_CONTENT_QUERY = "";
+	public static final String MYSQL_DATA_COUNT_QUERY = "(select count(*) from @{dbName}.@{tableName})";
+	public static final String MYSQL_DATA_CONTENT_LENGTH_QUERY = "(select length(@{columnName}) from @{dbName}.@{tableName} limit @{dataIdx}, 1)";
+	public static final String MYSQL_DATA_CONTENT_QUERY = "substring((select @{columnName} from @{dbName}.@{tableName} limit @{dataIdx}, 1), @{dataContentIdx},1)";
 	
 
 	/* MS_SQL */

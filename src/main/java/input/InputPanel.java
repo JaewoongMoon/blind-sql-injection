@@ -171,7 +171,6 @@ public class InputPanel extends JPanel{
 		stepBtn2.setBounds(stepBtn1.getX() + stepBtn1.getWidth(), stepLb.getY(),80, INPUT_FIELD_HEIGHT);
 		stepBtn3.setBounds(stepBtn2.getX() + stepBtn2.getWidth(), stepLb.getY(),80, INPUT_FIELD_HEIGHT);
 		stepBtn4.setBounds(stepBtn3.getX() + stepBtn3.getWidth(), stepLb.getY(),80, INPUT_FIELD_HEIGHT);
-		stepBtn4.setEnabled(false);
 		add(stepLb);
 		add(stepBtn1);
 		add(stepBtn2);
@@ -201,7 +200,7 @@ public class InputPanel extends JPanel{
 		colNameFld.setBounds(colNameLb.getX() + colNameLb.getWidth(), colNameLb.getY(), 200, INPUT_FIELD_HEIGHT);
 		add(colNameLb);
 		add(colNameFld);
-		initView();
+		//initView();
 	}
 	
 	// for test
@@ -212,6 +211,7 @@ public class InputPanel extends JPanel{
 		matchFld.setText("Vulnerable");
 		dbNameFld.setText("WEB_DIAGNOSIS");
 		tblNameFld.setText("DIAG");
+		colNameFld.setText("name");
 	}
 	
 	public UserInput getUserInput() {

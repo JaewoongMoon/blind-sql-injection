@@ -192,6 +192,7 @@ public class ResultPanel extends JPanel{
 
 	public class DataResultUI extends JPanel{
 		String[] title = {"#", "DB", "table", "column", "data length", "data"};
+		float[] columnWidthPercentage = {5.0f, 15.0f, 15.0f, 20.0f, 10.0f, 35.0f};
 		Vector<String> headers = new Vector<String>(Arrays.asList(title));
 		Vector<Vector<String>> data = new Vector<Vector<String>>();
 		JTable table;
@@ -202,6 +203,11 @@ public class ResultPanel extends JPanel{
 			table = new JTable(data, headers);
 			scroll = new JScrollPane(table);
 			add(scroll);
+			SwingUtilities.invokeLater(new Runnable() {
+				public void run() {
+					SwingUtils.resizeColumnWidthPercentage(table, columnWidthPercentage);
+				}
+			});
 		}
 		
 		public DefaultTableModel getTableModel(){
