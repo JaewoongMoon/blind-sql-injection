@@ -3,6 +3,7 @@ package http;
 
 import input.UserInput;
 import query.QueryMaker;
+import query.QueryParam;
 
 /**
  * @brief	: 
@@ -17,8 +18,8 @@ public class HttpPayloadFactory {
 		queryMaker = new QueryMaker();
 	}
 	
-	public HttpPayload getHttpPayload(UserInput input){
-		String query = queryMaker.getQuery(input); 
+	public HttpPayload getHttpPayload(UserInput input, QueryParam param){
+		String query = queryMaker.getQuery(input, param); 
 		HttpPayload payload = new HttpPayload();
 		
 		String domain = input.getTargetURL();
@@ -35,7 +36,7 @@ public class HttpPayloadFactory {
 		}
 		url = url.replaceAll(" ","%20");
 		url = url.replaceAll("#","%23");
-		System.out.println("url in payload factory : " + url);
+		//System.out.println("url in payload factory : " + url);
 		payload.setUrl(url);
 
 		return payload;

@@ -101,6 +101,7 @@ public class MainUI extends JFrame{
 		
 		/** set reference  **/
 		controlPanel.setInputPanel(inputPanel);
+		controlPanel.setConfigPanel(configPanel);
 		controlPanel.setInjectionManager(manager);
 		manager.setControlPanel(controlPanel);
 		manager.setResultPanel(resultPanel);

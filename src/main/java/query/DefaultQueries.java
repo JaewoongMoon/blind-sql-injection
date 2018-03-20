@@ -1,5 +1,8 @@
 package query;
 
+import input.DbmsType;
+import input.Step;
+
 /**
  *
  * @brief	: 
@@ -33,4 +36,62 @@ public class DefaultQueries {
 	public static final String MSSQL_DB_NAME_LENGTH_QUERY = "(select top 1 len(name) from (select top 1 name,dbid from master..sysdatabases order by name asc,dbid desc) as T order by name desc,dbid asc)"; 
 	//public static final String MSSQL_DB_LENGTH_QUERY = "(select len(name) from (select top 1 name,dbid from master..sysdatabases order by name asc,dbid desc) as T limit @{dbIdx}, 1)";
 	public static final String MSSQL_DB_NAME_QUERY = "()";
+	
+	
+	public static String getDefaultQuery(DbmsType dbmsType, Step step, QueryType queryType){
+		if(dbmsType == DbmsType.MY_SQL){
+			
+			if(step == Step.DB_SCHEMA){
+				
+				if(queryType == QueryType.COUNT){
+					return MYSQL_DB_COUNT_QUERY;
+				}else if(queryType == QueryType.LENGTH){
+					return MYSQL_DB_NAME_LENGTH_QUERY;
+				}else if(queryType == QueryType.CONTENT){
+					return MYSQL_DB_NAME_QUERY;
+				}
+			}
+			else if(step == Step.TABLE){
+				if(queryType == QueryType.COUNT){
+					return MYSQL_TABLE_COUNT_QUERY;
+				}else if(queryType == QueryType.LENGTH){
+					return MYSQL_TABLE_NAME_LENGTH_QUERY;
+				}else if(queryType == QueryType.CONTENT){
+					return MYSQL_TABLE_NAME_QUERY;
+				}
+			}
+			else if(step == Step.COLUMN){
+				if(queryType == QueryType.COUNT){
+					return MYSQL_COLUMN_COUNT_QUERY;
+				}else if(queryType == QueryType.LENGTH){
+					return MYSQL_COLUMN_NAME_LENGTH_QUERY;
+				}else if(queryType == QueryType.CONTENT){
+					return MYSQL_COLUMN_NAME_QUERY;
+				}
+			}
+			else if(step == Step.DATA){
+				if(queryType == QueryType.COUNT){
+					return MYSQL_DATA_COUNT_QUERY;
+				}else if(queryType == QueryType.LENGTH){
+					return MYSQL_DATA_CONTENT_LENGTH_QUERY;
+				}else if(queryType == QueryType.CONTENT){
+					return MYSQL_DATA_CONTENT_QUERY;
+				}
+			}
+			
+		}
+		else if (dbmsType == DbmsType.MS_SQL){
+			if(step == Step.DB_SCHEMA){
+				
+				if(queryType == QueryType.COUNT){
+					return MSSQL_DB_COUNT_QUERY;
+				}else if(queryType == QueryType.LENGTH){
+					return MSSQL_DB_NAME_LENGTH_QUERY;
+				}else if(queryType == QueryType.CONTENT){
+					return MSSQL_DB_NAME_QUERY;
+				}
+			}
+		}
+		return "";
+	}
 }

@@ -1,7 +1,6 @@
 
 package query;
 
-import input.DbmsType;
 import input.UserInput;
 
 /**
@@ -18,43 +17,41 @@ public class QueryMaker {
 	 * @Date	: 2017/08/16
 	 * @return
 	 */
-	public String getQuery(UserInput cond){
-		final DbmsType dbmsType = cond.getDbmsType();
-		final String checkVal = cond.getCheckVal();
-		final int dbIndex = cond.getDbIndex();
-		final int dbNameIndex = cond.getDbNameIndex();
-		final String dbName = cond.getDbName();
-		final int tableIndex = cond.getTableIndex();
-		final int tableNameIndex = cond.getTableNameIndex();
-		final String tableName = cond.getTableName();
+	public String getQuery(UserInput input, QueryParam param){
 		
 		// STEP 1. get default query
-		String defaultQuery = AttackVector.getDefaultQuery(cond.getAttackVector());
+		String defaultQuery = DefaultQueries.getDefaultQuery(input.getDbmsType(), param.getStep(), param.getQueryType());
 		
 		// STEP 2. get replaced query
 		String replacedQuery = defaultQuery;
+		final int dbIndex = param.getDbIndex();
 		if(dbIndex > -1){
 			replacedQuery = replacedQuery.replace("@{dbIdx}", dbIndex+"");
 		}
+		final int dbNameIndex = param.getDbNameIndex();
 		if(dbNameIndex > -1){
 			replacedQuery = replacedQuery.replace("@{dbNameIdx}", dbNameIndex+"");
 		}
+		final String dbName = param.getDbName();
 		if(dbName != null && !dbName.equals("")){
 			replacedQuery = replacedQuery.replace("@{dbName}", dbName);
 		}
+		final int tableIndex = param.getTableIndex();
 		if(tableIndex > -1){
 			replacedQuery = replacedQuery.replace("@{tableIdx}", tableIndex+"");
 		}
+		final int tableNameIndex = param.getTableNameIndex();
 		if(tableNameIndex > -1){
 			replacedQuery = replacedQuery.replace("@{tableNameIdx}", tableNameIndex+"");
 		}
+		final String tableName = param.getTableName();
 		if(tableName != null && !tableName.equals("")){
 			replacedQuery = replacedQuery.replace("@{tableName}", tableName);
 		}
 		
-		
 		// STEP 3. complete query
-		String query = "' and (" + replacedQuery  +"=" + checkVal + ")" +dbmsType.getComment();
+		final String checkVal = param.getCheckVal();
+		String query = "' and (" + replacedQuery  +"=" + checkVal + ")" +input.getDbmsType().getComment();
 		//String query = " and (" + replacedQuery  +"=" + checkVal + ")" +dbmsType.getComment();
 		return query;
 	}

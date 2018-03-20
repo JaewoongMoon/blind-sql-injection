@@ -224,18 +224,18 @@ public class InputPanel extends JPanel{
 		// STEP 1. user input 값 체크 후 필요한 값이 없을 경우 얼럿창 
 		
 		// STEP 2. UserInput 객체 생성
-		DbmsType selectedDbms = DbmsType.getDbmsType(SwingUtils.getSelectedButtonText(dbmsBtnGroup));
-		TargetType selectedTarget = TargetType.getTargetType(SwingUtils.getSelectedButtonText(targetTypeBtnGroup));
-		//System.out.println("현재 선택 HTTP Method Combo index : " +methodCombo.getSelectedIndex());
 		UserInput input = new UserInput();
+		//System.out.println("현재 선택 HTTP Method Combo index : " +methodCombo.getSelectedIndex());
 		input.setTargetURL(urlFld.getText());
 		input.setHttpMethod(methodCombo.getSelectedIndex() == 0? HttpMethod.GET : HttpMethod.POST);
 		input.setTargetParamName(targetParamFld.getText());
 		input.setTargetParamValue(targetParamValueFld.getText());
 		input.setEtcParamStr(etcParamFld.getText());
 		input.setMatch(matchFld.getText());
+		DbmsType selectedDbms = DbmsType.getDbmsType(SwingUtils.getSelectedButtonText(dbmsBtnGroup));
 		input.setDbmsType(selectedDbms);
-		input.setTargetType(selectedTarget);
+		Step selectedStep = Step.getStep(SwingUtils.getSelectedButtonText(targetTypeBtnGroup));
+		input.setStep(selectedStep);
 		input.setDbName(dbNameFld.getText());
 		return input;
 		

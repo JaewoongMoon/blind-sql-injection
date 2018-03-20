@@ -70,67 +70,14 @@ public class ResultPanel extends JPanel{
 	
 	/* sub tabs */
 	public class DBResultUI extends JPanel{
-		String[] title = {"#", "DB name length", "DB", "table count"};
-		float[] columnWidthPercentage = {5.0f, 20.0f, 55.0f, 20.0f};
+		String[] title = {"#", "name length", "DB name"};
+		float[] columnWidthPercentage = {10.0f, 20.0f, 70.0f};
 		Vector<String> headers = new Vector<String>(Arrays.asList(title));
 		Vector<Vector<String>> data = new Vector<Vector<String>>();
 		JTable table;
 		JScrollPane scroll;
 		
-		
-		private void testRowDo(){
-			Vector<String> testRow = new Vector<String>();
-			
-			testRow.add("1");
-			testRow.add("15");
-			testRow.add("APPSCAN_PROJECT");
-			testRow.add("1");
-			
-			Vector<String> testRow2 = new Vector<String>();
-			testRow2.add("2");
-			testRow2.add("6");
-			testRow2.add("PHPWEB");
-			testRow2.add("1");
-			Vector<String> testRow3 = new Vector<String>();
-			testRow3.add("3"); 
-			testRow3.add("10");
-			testRow3.add("SPRINGBOOK");
-			testRow3.add("2");
-			Vector<String> testRow4 = new Vector<String>();
-			testRow4.add("4");
-			testRow4.add("9");
-			testRow4.add("STONESOUP");
-			testRow4.add("2");
-			
-			Vector<String> testRow5 = new Vector<String>();
-			testRow5.add("5");
-			testRow5.add("3");
-			testRow5.add("SYS");
-			testRow5.add("0");
-			
-			Vector<String> testRow6 = new Vector<String>();
-			testRow6.add("6");
-			testRow6.add("6");
-			testRow6.add("TASKDB");
-			testRow6.add("2");
-			Vector<String> testRow7 = new Vector<String>();
-			testRow7.add("7");
-			testRow7.add("13");
-			testRow7.add("WEB_DIAGNOSIS");
-			testRow7.add("18");
-			
-			data.add(testRow);
-			data.add(testRow2);
-			data.add(testRow3);
-			data.add(testRow4);
-			data.add(testRow5);
-			data.add(testRow6);
-			data.add(testRow7);
-
-			
-		}
 		public DBResultUI(){
-			//testRowDo();
 			setLayout(new BorderLayout());
 			table = new JTable(data, headers);
 			scroll = new JScrollPane(table);
@@ -173,8 +120,8 @@ public class ResultPanel extends JPanel{
 	}
 	
 	public class TableResultUI extends JPanel{
-		String[] title = {"#", "DB", "table name length", "table", "columns count"};
-		float[] columnWidthPercentage = {5.0f, 20.0f, 20.0f, 40.0f, 15.0f};
+		String[] title = {"#", "DB", "name length", "table name"};
+		float[] columnWidthPercentage = {5.0f, 30.0f, 20.0f, 45.0f};
 		Vector<String> headers = new Vector<String>(Arrays.asList(title));
 		Vector<Vector<String>> data = new Vector<Vector<String>>();
 		JTable table;
@@ -205,7 +152,8 @@ public class ResultPanel extends JPanel{
 	}
 	
 	public class ColumnResultUI extends JPanel{
-		String[] title = {"#", "DB", "table", "column name length", "column", "data count"};
+		String[] title = {"#", "DB", "table", "name length", "column name"};
+		float[] columnWidthPercentage = {5.0f, 20.0f, 20.0f, 10.0f, 50.0f};
 		Vector<String> headers = new Vector<String>(Arrays.asList(title));
 		Vector<Vector<String>> data = new Vector<Vector<String>>();
 		JTable table;
@@ -217,6 +165,11 @@ public class ResultPanel extends JPanel{
 			table = new JTable(data, headers);
 			scroll = new JScrollPane(table);
 			add(scroll);
+			SwingUtilities.invokeLater(new Runnable() {
+				public void run() {
+					SwingUtils.resizeColumnWidthPercentage(table, columnWidthPercentage);
+				}
+			});
 		}
 		
 		public DefaultTableModel getTableModel(){
