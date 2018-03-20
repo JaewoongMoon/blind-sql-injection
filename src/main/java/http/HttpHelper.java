@@ -5,7 +5,6 @@ import java.io.DataOutputStream;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
-import java.net.InetSocketAddress;
 import java.net.Proxy;
 import java.net.URL;
 
@@ -17,7 +16,11 @@ import java.net.URL;
 public class HttpHelper {
 
 	private final String USER_AGENT = "Mozilla/5.0";
-	Proxy proxy = new Proxy(Proxy.Type.HTTP, new InetSocketAddress("127.0.0.1", 8082));
+	private Proxy proxy = null; 
+	
+	public void setProxy(Proxy proxy) {
+		this.proxy = proxy;
+	}
 	
 	public String send(HttpPayload payload){
 		if(payload.getHttpMethod() == HttpMethod.GET){
@@ -38,17 +41,15 @@ public class HttpHelper {
 		HttpURLConnection con = null;
 		try{
 			URL obj = new URL(targetURL);
-			con = (HttpURLConnection) obj.openConnection(proxy); //proxy
-			//con = (HttpURLConnection) obj.openConnection();  //default
+			if(this.proxy != null) {
+				con = (HttpURLConnection) obj.openConnection(proxy); 
+			}else {
+				con = (HttpURLConnection) obj.openConnection();  
+			}
 			con.setRequestMethod("GET");
 			con.setRequestProperty("User-Agent", USER_AGENT);
-			con.setRequestProperty("Cookie", "uid=CgABRVnn/qigtBsKA/TCAg==; CacheControl=1; CONCRETE5=hg8dk0o2pb8dj74d90n3ktvpn1; session_id=zpz6bvn44b41scraxdxs79vghr");
-		    con.setRequestProperty("Authorization", "Basic aW5ub3ZhOndyaXRlcg==");
-		    
-			//con.setco
-			//int responseCode = con.getResponseCode();
-			//System.out.println("\nSending 'GET' request to URL : " + targetURL);
-			//System.out.println("Response Code : " + responseCode);
+			//con.setRequestProperty("Cookie", "uid=CgABRVnn/qigtBsKA/TCAg==; CacheControl=1; CONCRETE5=hg8dk0o2pb8dj74d90n3ktvpn1; session_id=zpz6bvn44b41scraxdxs79vghr");
+		   // con.setRequestProperty("Authorization", "Basic aW5ub3ZhOndyaXRlcg==");
 	
 			BufferedReader in = new BufferedReader(new InputStreamReader(con.getInputStream()));
 			String inputLine;
@@ -75,10 +76,12 @@ public class HttpHelper {
 		  HttpURLConnection con = null;
 
 		  try {
-		    //Create connection
 		    URL url = new URL(targetURL);
-		    //connection = (HttpURLConnection) url.openConnection(); //default
-		    con = (HttpURLConnection) url.openConnection(proxy); //proxy
+			if(this.proxy != null) {
+				con = (HttpURLConnection) url.openConnection(proxy); 
+			}else {
+				con = (HttpURLConnection) url.openConnection();
+			}
 		    con.setRequestMethod("POST");
 		    con.setRequestProperty("Content-Type", "application/x-www-form-urlencoded");
 		    con.setRequestProperty("Content-Length", Integer.toString(urlParameters.getBytes().length));
@@ -86,7 +89,6 @@ public class HttpHelper {
 		    
 		    con.setUseCaches(false);
 		    con.setDoOutput(true);
-		    //con.set
 
 		    //Send request
 		    DataOutputStream wr = new DataOutputStream (con.getOutputStream());

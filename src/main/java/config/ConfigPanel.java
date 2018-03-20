@@ -63,4 +63,23 @@ public class ConfigPanel extends JPanel {
 		add(cntFld);
 		
 	}
+	
+	public SystemConfig getSystemConfig() {
+		// STEP 1. value check
+		
+		// STEP 2. create system config
+		SystemConfig config = new SystemConfig();
+		config.setCountUntil(Integer.parseInt(cntFld.getText()));
+		config.setLengthUntil(Integer.parseInt(lenFld.getText()));
+		
+		if(!proxyFld.getText().equals("")) {
+			String[] split = proxyFld.getText().split(":");
+			if(split.length > 1) {
+				config.setProxyAddress(split[0]);
+				config.setPortNum(split[1]);
+			}
+		}
+		
+		return config;
+	}
 }

@@ -3,6 +3,7 @@ package http;
 
 import input.UserInput;
 import query.QueryMaker;
+import query.QueryParam;
 
 /**
  * @brief	: 
@@ -17,8 +18,8 @@ public class HttpPayloadFactory {
 		queryMaker = new QueryMaker();
 	}
 	
-	public HttpPayload getHttpPayload(UserInput input){
-		String query = queryMaker.getQuery(input); 
+	public HttpPayload getHttpPayload(UserInput input, QueryParam param){
+		String query = queryMaker.getQuery(input, param); 
 		HttpPayload payload = new HttpPayload();
 		
 		String domain = input.getTargetURL();
