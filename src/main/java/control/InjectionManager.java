@@ -122,7 +122,7 @@ public class InjectionManager{
 		
 		@Override
 		protected Boolean doInBackground(){
-			
+			System.out.println("Step : " + input.getStep());
 			try{
 				// DB Search
 				if(input.getStep() == Step.DB_SCHEMA){
@@ -136,7 +136,10 @@ public class InjectionManager{
 					new TableWorker().search();
 				}
 				// Column Search
-				// ...
+				else if(input.getStep() == Step.COLUMN) {
+					resultPanel.selectTab(2);
+					new ColumnWorker().search();
+				}
 				// Data Search
 				// ...
 				
@@ -172,17 +175,17 @@ public class InjectionManager{
 					resultModel.addRow(row);
 				}
 				
-				printLog("== STEP 2. Find information on individual DB...");
+				printLog("== Find information on individual DB...");
 				for(int i=0; i < dbCount; i++) {
 					param.setDbIndex(i);
 					
-					// 2-1) DB Name length
+					// 1) DB Name length
 					int dbNameLength = getDBNameLength(param);
 					printLog("== [Found!][" + (i+1) + "] db name length is : " + dbNameLength);
 					resultModel.setValueAt(dbNameLength+"", i, 1);
 					resultModel.fireTableDataChanged();
 					
-					// 2-2) DB Name
+					// 2) DB Name
 					String dbName = getDBName(param, dbNameLength);
 					printLog("== [Found!][" + (i+1) + "] db name is : " + dbName);
 					resultModel.setValueAt(dbName, i, 2);
@@ -224,36 +227,36 @@ public class InjectionManager{
 				Vector<Vector<String>> dbData = resultPanel.getDBResultUI().getTableModel().getDataVector();
 				// ユーザがDB名を直接入力した場合、
 				if(input.getDbName() != null && !input.getDbName().equals("")) {
-					doTableRow(param, 0, input.getDbName(), rowNum);
+					doTableRow(param, input.getDbName(), rowNum);
 				}
 				// すでに見つかったDBの情報が結果パネルにある場合
 				else if(dbData != null  && dbData.size() > 0) {
 					for (int i= 0; i < dbData.size(); i++ ){
 						Vector<String> dbRow =  dbData.get(i);
-						doTableRow(param, i, dbRow.get(2), rowNum);
+						doTableRow(param, dbRow.get(2), rowNum);
 					}
 				}
 			}
 			
-			private void doTableRow(QueryParam param, int dbIndex, String dbName, int rowNum) {
+			private void doTableRow(QueryParam param, String dbName, int rowNum) {
 				DefaultTableModel resultModel =  resultPanel.getTableResultUI().getTableModel();
 				
 				int tableCount = getTableCount(param, dbName);
-				printLog("== [Found!][" + (dbIndex+1) + "'th db] table count is : " + tableCount);
+				printLog("== [Found!][" + dbName + "] table count is : " + tableCount);
 				
 				for (int j=0; j < tableCount; j++){
-					// 1)  insert tableRowNum and db name
+					// 0)  prepare row
 					String[] tableRow = {(rowNum +1) +"", dbName};
 					resultModel.addRow(tableRow);
 
-					// 2) table name length 
+					// 1) table name length 
 					int tableNameLength = getTableNameLength(param, dbName, j);
-					printLog("== [Found!][" + (dbIndex+1) + "'th db][" + (j+1) + "'th table] length of table name is : " + tableNameLength);
+					printLog("== [Found!][" + dbName + "][" + (j+1) + "'th table] length of table name is : " + tableNameLength);
 					resultModel.setValueAt(tableNameLength+"", rowNum, 2);
 					
-					// 3) table name 
+					// 2) table name 
 					String tableName = getTableName(param, dbName, tableNameLength);
-					printLog("== [Found!][" + (dbIndex+1) + "'th db][" + (j+1) + "'th table] table name is : " + tableName);
+					printLog("== [Found!][" + dbName + "][" + (j+1) + "'th table] table name is : " + tableName);
 					resultModel.setValueAt(tableName, rowNum, 3);
 
 					rowNum ++;
@@ -276,6 +279,7 @@ public class InjectionManager{
 			private String getTableName(QueryParam param, String dbName, int tableNameLength){
 				String content = "";
 				param.setQueryType(QueryType.CONTENT);
+				param.setDbName(dbName);
 				for(int i=0; i < tableNameLength ; i++){
 					param.setTableNameIndex(i+1); 
 					String chr = contentWork(param); 
@@ -290,15 +294,63 @@ public class InjectionManager{
 		class ColumnWorker{
 			
 			public void search() {
-				//int columnCnt = getColumnCount(param, dbName, tableName);
-				//printLog("== [Found!][" + (dbIndex+1) + "][" + (j+1) + "] column count is : " + columnCnt);
-			}
-			private int getColumnCount(QueryParam param, String dbName, String tableName){
+				printLog("Column Search Start!");
+				QueryParam param = new QueryParam();
 				param.setStep(Step.COLUMN);
+				
+				DefaultTableModel resultModel =  resultPanel.getColumnResultUI().getTableModel();
+				final String dbName = input.getDbName();
+				final String tableName = input.getTableName();
+				
+				int columnCnt = getColumnCount(param, dbName, tableName);
+				printLog("== [Found!]["+ dbName + "][" + tableName + "] column count is : " + columnCnt);
+				
+				int rowNum = 0;
+				for (int i=0; i < columnCnt; i++){
+					// 0) prepare row
+					String[] tableRow = {(rowNum +1) +"", dbName, tableName};
+					resultModel.addRow(tableRow);
+					
+					// 1) column name length
+					int columnNameLength = getColumnNameLength(param, dbName, tableName, i);
+					printLog("== [Found!]["+ dbName + "][" + tableName + "]["+(i+1)+"]'th column name length is : " + columnNameLength);
+					resultModel.setValueAt(columnNameLength+"", rowNum, 3);
+					
+					// 2) column name
+					String columnName = getColumnName(param, dbName, tableName, columnNameLength);
+					printLog("== [Found!]["+ dbName + "][" + tableName + "]["+(i+1)+"]'th column name  is : " + columnName);
+					resultModel.setValueAt(columnName+"", rowNum, 4);
+					
+					rowNum ++;
+				}
+			}
+			
+			private int getColumnCount(QueryParam param, String dbName, String tableName){
 				param.setQueryType(QueryType.COUNT);
 				param.setDbName(dbName);
 				param.setTableName(tableName);
 				return cntWork(param, config.getCountUntil());
+			}
+			
+			private int getColumnNameLength(QueryParam param, String dbName, String tableName, int columnIndex){
+				param.setQueryType(QueryType.LENGTH);
+				param.setDbName(dbName);
+				param.setTableName(tableName);
+				param.setColumnIndex(columnIndex);
+				return cntWork(param, config.getLengthUntil());
+			}
+			
+			private String getColumnName(QueryParam param, String dbName, String tableName,  int columnNameLength){
+				String content = "";
+				param.setQueryType(QueryType.CONTENT);
+				param.setDbName(dbName);
+				param.setTableName(tableName);
+				for(int i=0; i < columnNameLength ; i++){
+					param.setColumnNameIndex(i+1); 
+					String chr = contentWork(param); 
+					content += chr; 
+				}
+				return content;
 			}
 		}
 		

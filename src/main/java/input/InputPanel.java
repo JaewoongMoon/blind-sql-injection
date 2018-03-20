@@ -51,14 +51,13 @@ public class InputPanel extends JPanel{
 	JRadioButton dbmsBtn2;
 	JRadioButton dbmsBtn3;
 	
-	// target type
-	JLabel targetTypeLb;
-	ButtonGroup targetTypeBtnGroup;
-	JRadioButton targetTypeBtn1;
-	JRadioButton targetTypeBtn2;
-	JRadioButton targetTypeBtn3;
-	JRadioButton targetTypeBtn4;
-	JRadioButton targetTypeBtn5;
+	// step
+	JLabel stepLb;
+	ButtonGroup stepBtnGroup;
+	JRadioButton stepBtn1;
+	JRadioButton stepBtn2;
+	JRadioButton stepBtn3;
+	JRadioButton stepBtn4;
 	
 	// db name
 	JLabel dbNameLb; 
@@ -145,50 +144,44 @@ public class InputPanel extends JPanel{
 		dbmsBtnGroup.add(dbmsBtn2);
 		dbmsBtnGroup.add(dbmsBtn3);
 		dbmsLb.setBounds(START_X, matchLb.getY() + matchLb.getHeight() + PADDING_Y, 150, INPUT_FIELD_HEIGHT);
-		dbmsBtn1.setBounds(dbmsLb.getX() + dbmsLb.getWidth(), dbmsLb.getY(), 70, INPUT_FIELD_HEIGHT);
-		dbmsBtn2.setBounds(dbmsBtn1.getX() + dbmsBtn1.getWidth(), dbmsLb.getY(), 70, INPUT_FIELD_HEIGHT);
+		dbmsBtn1.setBounds(dbmsLb.getX() + dbmsLb.getWidth(), dbmsLb.getY(), 80, INPUT_FIELD_HEIGHT);
+		dbmsBtn2.setBounds(dbmsBtn1.getX() + dbmsBtn1.getWidth(), dbmsLb.getY(), 80, INPUT_FIELD_HEIGHT);
 		dbmsBtn2.setEnabled(false);
-		dbmsBtn3.setBounds(dbmsBtn2.getX() + dbmsBtn2.getWidth(), dbmsLb.getY(), 70, INPUT_FIELD_HEIGHT);
+		dbmsBtn3.setBounds(dbmsBtn2.getX() + dbmsBtn2.getWidth(), dbmsLb.getY(), 80, INPUT_FIELD_HEIGHT);
 		dbmsBtn3.setEnabled(false);
 		add(dbmsLb);
 		add(dbmsBtn1);
 		add(dbmsBtn2);
 		add(dbmsBtn3);
 		
-		// target type radio buttons
-		targetTypeLb = new JLabel("Target : ");
-		targetTypeBtn1 = new JRadioButton("DB");
-		targetTypeBtn2 = new JRadioButton("Table");
-		targetTypeBtn3 = new JRadioButton("Column");
-		targetTypeBtn4 = new JRadioButton("Data");
-		targetTypeBtn5 = new JRadioButton("All");
-		targetTypeBtnGroup = new ButtonGroup();
-		targetTypeBtn1.setSelected(true);
-		targetTypeBtnGroup.add(targetTypeBtn1);
-		targetTypeBtnGroup.add(targetTypeBtn2);
-		targetTypeBtnGroup.add(targetTypeBtn3);
-		targetTypeBtnGroup.add(targetTypeBtn4);
-		targetTypeBtnGroup.add(targetTypeBtn5);
-		targetTypeLb.setBounds(START_X, dbmsLb.getY() + dbmsLb.getHeight() + PADDING_Y, 150, INPUT_FIELD_HEIGHT);
-		targetTypeBtn1.setBounds(targetTypeLb.getX() + targetTypeLb.getWidth(), targetTypeLb.getY(),70, INPUT_FIELD_HEIGHT);
-		targetTypeBtn2.setBounds(targetTypeBtn1.getX() + targetTypeBtn1.getWidth(), targetTypeLb.getY(),70, INPUT_FIELD_HEIGHT);
-		targetTypeBtn3.setBounds(targetTypeBtn2.getX() + targetTypeBtn2.getWidth(), targetTypeLb.getY(),70, INPUT_FIELD_HEIGHT);
-		targetTypeBtn3.setEnabled(false);
-		targetTypeBtn4.setBounds(targetTypeBtn3.getX() + targetTypeBtn3.getWidth(), targetTypeLb.getY(),70, INPUT_FIELD_HEIGHT);
-		targetTypeBtn4.setEnabled(false);
-		targetTypeBtn5.setBounds(targetTypeBtn4.getX() + targetTypeBtn4.getWidth(), targetTypeLb.getY(),70, INPUT_FIELD_HEIGHT);
-		targetTypeBtn5.setEnabled(false);
-		add(targetTypeLb);
-		add(targetTypeBtn1);
-		add(targetTypeBtn2);
-		add(targetTypeBtn3);
-		add(targetTypeBtn4);
-		add(targetTypeBtn5);
+		// Step radio buttons
+		stepLb = new JLabel("Step : ");
+		stepBtn1 = new JRadioButton("DB");
+		stepBtn2 = new JRadioButton("Table");
+		stepBtn3 = new JRadioButton("Column");
+		stepBtn4 = new JRadioButton("Data");
+		stepBtnGroup = new ButtonGroup();
+		stepBtn1.setSelected(true);
+		stepBtnGroup.add(stepBtn1);
+		stepBtnGroup.add(stepBtn2);
+		stepBtnGroup.add(stepBtn3);
+		stepBtnGroup.add(stepBtn4);
+		stepLb.setBounds(START_X, dbmsLb.getY() + dbmsLb.getHeight() + PADDING_Y, 150, INPUT_FIELD_HEIGHT);
+		stepBtn1.setBounds(stepLb.getX() + stepLb.getWidth(), stepLb.getY(),80, INPUT_FIELD_HEIGHT);
+		stepBtn2.setBounds(stepBtn1.getX() + stepBtn1.getWidth(), stepLb.getY(),80, INPUT_FIELD_HEIGHT);
+		stepBtn3.setBounds(stepBtn2.getX() + stepBtn2.getWidth(), stepLb.getY(),80, INPUT_FIELD_HEIGHT);
+		stepBtn4.setBounds(stepBtn3.getX() + stepBtn3.getWidth(), stepLb.getY(),80, INPUT_FIELD_HEIGHT);
+		stepBtn4.setEnabled(false);
+		add(stepLb);
+		add(stepBtn1);
+		add(stepBtn2);
+		add(stepBtn3);
+		add(stepBtn4);
 
 		// db name
 		dbNameLb = new JLabel("DB Name : ");
 		dbNameFld = new JTextField();
-		dbNameLb.setBounds(START_X, targetTypeLb.getY() + targetTypeLb.getHeight() + PADDING_Y, 150, INPUT_FIELD_HEIGHT);
+		dbNameLb.setBounds(START_X, stepLb.getY() + stepLb.getHeight() + PADDING_Y, 150, INPUT_FIELD_HEIGHT);
 		dbNameFld.setBounds(dbNameLb.getX() + dbNameLb.getWidth(), dbNameLb.getY(), 200, INPUT_FIELD_HEIGHT);
 		add(dbNameLb);
 		add(dbNameFld);
@@ -217,6 +210,8 @@ public class InputPanel extends JPanel{
 		targetParamFld.setText("userid");
 		targetParamValueFld.setText("admin");
 		matchFld.setText("Vulnerable");
+		dbNameFld.setText("WEB_DIAGNOSIS");
+		tblNameFld.setText("DIAG");
 	}
 	
 	public UserInput getUserInput() {
@@ -234,9 +229,11 @@ public class InputPanel extends JPanel{
 		input.setMatch(matchFld.getText());
 		DbmsType selectedDbms = DbmsType.getDbmsType(SwingUtils.getSelectedButtonText(dbmsBtnGroup));
 		input.setDbmsType(selectedDbms);
-		Step selectedStep = Step.getStep(SwingUtils.getSelectedButtonText(targetTypeBtnGroup));
+		Step selectedStep = Step.getStep(SwingUtils.getSelectedButtonText(stepBtnGroup));
 		input.setStep(selectedStep);
 		input.setDbName(dbNameFld.getText());
+		input.setTableName(tblNameFld.getText());
+		input.setColumnName(colNameFld.getText());
 		return input;
 		
 	}

@@ -58,13 +58,22 @@ public class ResultPanel extends JPanel{
 	public TableResultUI getTableResultUI(){
 		return tableUI;
 	}
+	
+	public ColumnResultUI getColumnResultUI() {
+		return columnUI;
+	}
+	
+	public DataResultUI getDataResultUI() {
+		return dataUI;
+	}
 
 	public void clearResults(){
 		// clear db 
 		dbUI.clearResult();
 		// clear table 
 		tableUI.clearResult();
-		// clear column 
+		// clear column
+		columnUI.clearResult();
 		// clear data
 	}
 	
@@ -174,6 +183,10 @@ public class ResultPanel extends JPanel{
 		
 		public DefaultTableModel getTableModel(){
 			return (DefaultTableModel)table.getModel();
+		}
+		
+		public void clearResult() {
+			
 		}
 	}
 

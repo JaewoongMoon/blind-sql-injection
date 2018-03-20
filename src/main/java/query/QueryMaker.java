@@ -48,6 +48,18 @@ public class QueryMaker {
 		if(tableName != null && !tableName.equals("")){
 			replacedQuery = replacedQuery.replace("@{tableName}", tableName);
 		}
+		final int columnIndex = param.getColumnIndex();
+		if(columnIndex > -1) {
+			replacedQuery = replacedQuery.replace("@{columnIdx}", columnIndex+"");
+		}
+		final int columnNameIndex = param.getColumnNameIndex();
+		if(columnNameIndex > -1) {
+			replacedQuery = replacedQuery.replace("@{columnNameIdx}", columnNameIndex+"");
+		}
+		final String columnName = param.getColumnName();
+		if(columnName != null && !columnName.equals("")) {
+			replacedQuery = replacedQuery.replace("@{columnName}", columnName);
+		}
 		
 		// STEP 3. complete query
 		final String checkVal = param.getCheckVal();
