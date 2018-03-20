@@ -36,7 +36,7 @@ public class HttpPayloadFactory {
 		}
 		url = url.replaceAll(" ","%20");
 		url = url.replaceAll("#","%23");
-		System.out.println("url in payload factory : " + url);
+		//System.out.println("url in payload factory : " + url);
 		payload.setUrl(url);
 
 		return payload;

@@ -36,7 +36,6 @@ public class ConfigPanel extends JPanel {
 		// proxy
 		proxyLb = new JLabel("Local Proxy : ");
 		proxyFld = new JTextField();
-		//proxyFld = new PlaceholderTextField("ex) 127.0.0.1:8080");
 		proxyFld = new HintTextField("ex) 127.0.0.1:8080");
 		proxyLb.setBounds(Common.START_X, Common.START_Y, 150, Common.INPUT_FIELD_HEIGHT);
 		proxyFld.setBounds(proxyLb.getX() + proxyLb.getWidth(), Common.START_Y, 200, Common.INPUT_FIELD_HEIGHT);
@@ -61,7 +60,7 @@ public class ConfigPanel extends JPanel {
 		cntFld.setText("60");
 		add(cntLb);
 		add(cntFld);
-		
+		//proxyFld.setText("127.0.0.1:8080");
 	}
 	
 	public SystemConfig getSystemConfig() {

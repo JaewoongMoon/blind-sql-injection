@@ -20,8 +20,7 @@ public class QueryMaker {
 	public String getQuery(UserInput input, QueryParam param){
 		
 		// STEP 1. get default query
-		String defaultQuery = DefaultQueries.getDefaultQuery(input.getDbmsType(), 
-				input.getStep() == null? param.getStep() : input.getStep(), param.getQueryType());
+		String defaultQuery = DefaultQueries.getDefaultQuery(input.getDbmsType(), param.getStep(), param.getQueryType());
 		
 		// STEP 2. get replaced query
 		String replacedQuery = defaultQuery;
@@ -33,7 +32,7 @@ public class QueryMaker {
 		if(dbNameIndex > -1){
 			replacedQuery = replacedQuery.replace("@{dbNameIdx}", dbNameIndex+"");
 		}
-		final String dbName = input.getDbName() == null? param.getDbName() : input.getDbName();
+		final String dbName = param.getDbName();
 		if(dbName != null && !dbName.equals("")){
 			replacedQuery = replacedQuery.replace("@{dbName}", dbName);
 		}
@@ -45,7 +44,7 @@ public class QueryMaker {
 		if(tableNameIndex > -1){
 			replacedQuery = replacedQuery.replace("@{tableNameIdx}", tableNameIndex+"");
 		}
-		final String tableName = input.getTableName() == null? param.getTableName() : input.getTableName();
+		final String tableName = param.getTableName();
 		if(tableName != null && !tableName.equals("")){
 			replacedQuery = replacedQuery.replace("@{tableName}", tableName);
 		}

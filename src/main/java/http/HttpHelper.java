@@ -24,7 +24,7 @@ public class HttpHelper {
 	
 	public String send(HttpPayload payload){
 		if(payload.getHttpMethod() == HttpMethod.GET){
-			System.out.println("url : " + payload.getUrl());
+			//System.out.println("url : " + payload.getUrl());
 			return sendGet(payload.getUrl());
 		}
 		else if (payload.getHttpMethod() == HttpMethod.POST){
