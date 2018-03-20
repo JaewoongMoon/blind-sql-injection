@@ -25,14 +25,33 @@ public class QueryParam {
 	private String tableName;
 	
 	// column
-	// ...
+	private int columnIndex = -1;
+	private int columnNameIndex = -1;
+	private String columnName;
 	
 	// data
 	// ...
 	
-	
 	public QueryType getQueryType() {
 		return queryType;
+	}
+	public int getColumnIndex() {
+		return columnIndex;
+	}
+	public void setColumnIndex(int columnIndex) {
+		this.columnIndex = columnIndex;
+	}
+	public int getColumnNameIndex() {
+		return columnNameIndex;
+	}
+	public void setColumnNameIndex(int columnNameIndex) {
+		this.columnNameIndex = columnNameIndex;
+	}
+	public String getColumnName() {
+		return columnName;
+	}
+	public void setColumnName(String columnName) {
+		this.columnName = columnName;
 	}
 	public Step getStep() {
 		return step;
