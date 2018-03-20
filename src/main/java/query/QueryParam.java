@@ -30,8 +30,28 @@ public class QueryParam {
 	private String columnName;
 	
 	// data
-	// ...
+	private int dataIndex = -1;
+	private int dataContentIndex = -1;
+	private String dataContent;
 	
+	public int getDataIndex() {
+		return dataIndex;
+	}
+	public void setDataIndex(int dataIndex) {
+		this.dataIndex = dataIndex;
+	}
+	public int getDataContentIndex() {
+		return dataContentIndex;
+	}
+	public void setDataContentIndex(int dataContentIndex) {
+		this.dataContentIndex = dataContentIndex;
+	}
+	public String getDataContent() {
+		return dataContent;
+	}
+	public void setDataContent(String dataContent) {
+		this.dataContent = dataContent;
+	}
 	public QueryType getQueryType() {
 		return queryType;
 	}
