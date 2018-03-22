@@ -211,9 +211,6 @@ public class InputPanel extends JPanel{
 		targetParamFld.setText("userid");
 		targetParamValueFld.setText("admin");
 		matchFld.setText("Vulnerable");
-		dbNameFld.setText("WEB_DIAGNOSIS");
-		tblNameFld.setText("DIAG");
-		colNameFld.setText("name");
 	}
 	
 	public UserInput getUserInput() {
