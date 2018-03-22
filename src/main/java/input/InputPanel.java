@@ -76,7 +76,7 @@ public class InputPanel extends JPanel{
 	final int PADDING_Y = Common.PADDING_Y;
 	final int PADDING_X = Common.PADDING_X;
 	final int INPUT_FIELD_HEIGHT = Common.INPUT_FIELD_HEIGHT; 
-	final int LABEL_WIDTH = 200;
+	final int LABEL_WIDTH = Common.LABEL_WIDTH;
 	
 	public InputPanel(){
 		// panel setup

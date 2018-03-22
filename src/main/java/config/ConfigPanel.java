@@ -37,7 +37,7 @@ public class ConfigPanel extends JPanel {
 		proxyLb = new JLabel("Local Proxy : ");
 		proxyFld = new JTextField();
 		proxyFld = new HintTextField("ex) 127.0.0.1:8080");
-		proxyLb.setBounds(Common.START_X, Common.START_Y, 150, Common.INPUT_FIELD_HEIGHT);
+		proxyLb.setBounds(Common.START_X, Common.START_Y, Common.LABEL_WIDTH, Common.INPUT_FIELD_HEIGHT);
 		proxyFld.setBounds(proxyLb.getX() + proxyLb.getWidth(), Common.START_Y, 200, Common.INPUT_FIELD_HEIGHT);
 		add(proxyLb);
 		add(proxyFld);
@@ -46,7 +46,7 @@ public class ConfigPanel extends JPanel {
 		// Length Until 
 		lenLb = new JLabel("Search Until : ");
 		lenFld = new JTextField();
-		lenLb.setBounds(Common.START_X, proxyLb.getY() + proxyLb.getHeight() + Common.PADDING_Y, 150, Common.INPUT_FIELD_HEIGHT);
+		lenLb.setBounds(Common.START_X, proxyLb.getY() + proxyLb.getHeight() + Common.PADDING_Y, Common.LABEL_WIDTH, Common.INPUT_FIELD_HEIGHT);
 		lenFld.setBounds(lenLb.getX() + lenLb.getWidth(), lenLb.getY(), 50, Common.INPUT_FIELD_HEIGHT);
 		lenFld.setText("50");
 		add(lenLb);
@@ -55,7 +55,7 @@ public class ConfigPanel extends JPanel {
 		// Count Until
 		cntLb = new JLabel("Count Until : ");
 		cntFld = new JTextField();
-		cntLb.setBounds(Common.START_X, lenLb.getY() + lenLb.getHeight() + Common.PADDING_Y, 150, Common.INPUT_FIELD_HEIGHT);
+		cntLb.setBounds(Common.START_X, lenLb.getY() + lenLb.getHeight() + Common.PADDING_Y, Common.LABEL_WIDTH, Common.INPUT_FIELD_HEIGHT);
 		cntFld.setBounds(cntLb.getX() + cntLb.getWidth(), cntLb.getY(), 50, Common.INPUT_FIELD_HEIGHT);
 		cntFld.setText("60");
 		add(cntLb);
