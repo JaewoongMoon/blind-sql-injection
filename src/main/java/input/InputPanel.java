@@ -135,6 +135,7 @@ public class InputPanel extends JPanel{
 		add(matchFld);
 		
 		// dbms type radio buttons
+		final int RADIO_BUTTON_WIDTH = 90;
 		dbmsLb = new JLabel("DBMS : ");
 		dbmsBtn1 = new JRadioButton("MySQL");
 		dbmsBtn2 = new JRadioButton("MS SQL");
@@ -145,10 +146,10 @@ public class InputPanel extends JPanel{
 		dbmsBtnGroup.add(dbmsBtn2);
 		dbmsBtnGroup.add(dbmsBtn3);
 		dbmsLb.setBounds(START_X, matchLb.getY() + matchLb.getHeight() + PADDING_Y, LABEL_WIDTH, INPUT_FIELD_HEIGHT);
-		dbmsBtn1.setBounds(dbmsLb.getX() + dbmsLb.getWidth(), dbmsLb.getY(), 80, INPUT_FIELD_HEIGHT);
-		dbmsBtn2.setBounds(dbmsBtn1.getX() + dbmsBtn1.getWidth(), dbmsLb.getY(), 80, INPUT_FIELD_HEIGHT);
+		dbmsBtn1.setBounds(dbmsLb.getX() + dbmsLb.getWidth(), dbmsLb.getY(), RADIO_BUTTON_WIDTH, INPUT_FIELD_HEIGHT);
+		dbmsBtn2.setBounds(dbmsBtn1.getX() + dbmsBtn1.getWidth(), dbmsLb.getY(), RADIO_BUTTON_WIDTH, INPUT_FIELD_HEIGHT);
 		dbmsBtn2.setEnabled(false);
-		dbmsBtn3.setBounds(dbmsBtn2.getX() + dbmsBtn2.getWidth(), dbmsLb.getY(), 80, INPUT_FIELD_HEIGHT);
+		dbmsBtn3.setBounds(dbmsBtn2.getX() + dbmsBtn2.getWidth(), dbmsLb.getY(), RADIO_BUTTON_WIDTH, INPUT_FIELD_HEIGHT);
 		dbmsBtn3.setEnabled(false);
 		add(dbmsLb);
 		add(dbmsBtn1);
@@ -168,10 +169,10 @@ public class InputPanel extends JPanel{
 		stepBtnGroup.add(stepBtn3);
 		stepBtnGroup.add(stepBtn4);
 		stepLb.setBounds(START_X, dbmsLb.getY() + dbmsLb.getHeight() + PADDING_Y, LABEL_WIDTH, INPUT_FIELD_HEIGHT);
-		stepBtn1.setBounds(stepLb.getX() + stepLb.getWidth(), stepLb.getY(),80, INPUT_FIELD_HEIGHT);
-		stepBtn2.setBounds(stepBtn1.getX() + stepBtn1.getWidth(), stepLb.getY(),80, INPUT_FIELD_HEIGHT);
-		stepBtn3.setBounds(stepBtn2.getX() + stepBtn2.getWidth(), stepLb.getY(),80, INPUT_FIELD_HEIGHT);
-		stepBtn4.setBounds(stepBtn3.getX() + stepBtn3.getWidth(), stepLb.getY(),80, INPUT_FIELD_HEIGHT);
+		stepBtn1.setBounds(stepLb.getX() + stepLb.getWidth(), stepLb.getY(),RADIO_BUTTON_WIDTH, INPUT_FIELD_HEIGHT);
+		stepBtn2.setBounds(stepBtn1.getX() + stepBtn1.getWidth(), stepLb.getY(),RADIO_BUTTON_WIDTH, INPUT_FIELD_HEIGHT);
+		stepBtn3.setBounds(stepBtn2.getX() + stepBtn2.getWidth(), stepLb.getY(),RADIO_BUTTON_WIDTH, INPUT_FIELD_HEIGHT);
+		stepBtn4.setBounds(stepBtn3.getX() + stepBtn3.getWidth(), stepLb.getY(),RADIO_BUTTON_WIDTH, INPUT_FIELD_HEIGHT);
 		add(stepLb);
 		add(stepBtn1);
 		add(stepBtn2);
