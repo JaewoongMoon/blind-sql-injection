@@ -69,11 +69,11 @@ public class ResultPanel extends JPanel{
 
 	public void clearResults(){
 		// clear db 
-		dbUI.clearResult();
+		//dbUI.clearResult();
 		// clear table 
-		tableUI.clearResult();
+		//tableUI.clearResult();
 		// clear column
-		columnUI.clearResult();
+		//columnUI.clearResult();
 		// clear data
 	}
 	

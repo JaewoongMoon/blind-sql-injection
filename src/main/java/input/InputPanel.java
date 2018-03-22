@@ -76,6 +76,7 @@ public class InputPanel extends JPanel{
 	final int PADDING_Y = Common.PADDING_Y;
 	final int PADDING_X = Common.PADDING_X;
 	final int INPUT_FIELD_HEIGHT = Common.INPUT_FIELD_HEIGHT; 
+	final int LABEL_WIDTH = 200;
 	
 	public InputPanel(){
 		// panel setup
@@ -85,8 +86,8 @@ public class InputPanel extends JPanel{
 		// url
 		urlLb = new JLabel("Target URL : ");
 		urlFld = new JTextField();
-		urlLb.setBounds(START_X, START_Y, 150, INPUT_FIELD_HEIGHT);
-		urlFld.setBounds(urlLb.getX() + urlLb.getWidth(), urlLb.getY(), 400, INPUT_FIELD_HEIGHT);
+		urlLb.setBounds(START_X, START_Y, LABEL_WIDTH, INPUT_FIELD_HEIGHT);
+		urlFld.setBounds(urlLb.getX() + urlLb.getWidth(), urlLb.getY(), 350, INPUT_FIELD_HEIGHT);
 		add(urlLb);
 		add(urlFld);
 		
@@ -96,7 +97,7 @@ public class InputPanel extends JPanel{
 		httpMethods.add(HttpMethod.GET.toString());
 		httpMethods.add(HttpMethod.POST.toString());
 		methodCombo = new JComboBox<>(httpMethods);
-		methodLb.setBounds(START_X, urlLb.getY() + urlLb.getHeight() + PADDING_Y, 150, INPUT_FIELD_HEIGHT);
+		methodLb.setBounds(START_X, urlLb.getY() + urlLb.getHeight() + PADDING_Y, LABEL_WIDTH, INPUT_FIELD_HEIGHT);
 		methodCombo.setBounds(methodLb.getX() + methodLb.getWidth(), methodLb.getY(), 200, INPUT_FIELD_HEIGHT);
 		add(methodLb);
 		add(methodCombo);
@@ -104,7 +105,7 @@ public class InputPanel extends JPanel{
 		// target parameter name
 		targetParamLb = new JLabel("Target Parameter Name :");
 		targetParamFld = new JTextField();
-		targetParamLb.setBounds(START_X, methodLb.getY() + methodLb.getHeight() + PADDING_Y, 150, INPUT_FIELD_HEIGHT);
+		targetParamLb.setBounds(START_X, methodLb.getY() + methodLb.getHeight() + PADDING_Y, LABEL_WIDTH, INPUT_FIELD_HEIGHT);
 		targetParamFld.setBounds(targetParamLb.getX() + targetParamLb.getWidth(), targetParamLb.getY(), 150, INPUT_FIELD_HEIGHT);
 		add(targetParamLb);
 		add(targetParamFld);
@@ -112,7 +113,7 @@ public class InputPanel extends JPanel{
 		// target parameter value
 		targetParamValueLb = new JLabel("Target Parameter Value :");
 		targetParamValueFld = new JTextField();
-		targetParamValueLb.setBounds(START_X, targetParamLb.getY() + targetParamLb.getHeight() + PADDING_Y, 150, INPUT_FIELD_HEIGHT);
+		targetParamValueLb.setBounds(START_X, targetParamLb.getY() + targetParamLb.getHeight() + PADDING_Y, LABEL_WIDTH, INPUT_FIELD_HEIGHT);
 		targetParamValueFld.setBounds(targetParamValueLb.getX() + targetParamValueLb.getWidth(), targetParamValueLb.getY(), 150, INPUT_FIELD_HEIGHT);
 		add(targetParamValueLb);
 		add(targetParamValueFld);
@@ -120,7 +121,7 @@ public class InputPanel extends JPanel{
 		// etc paramter string
 		etcParamLb = new JLabel("Etc Parameter String : "); 
 		etcParamFld = new JTextField();
-		etcParamLb.setBounds(START_X, targetParamValueLb.getY() + targetParamValueLb.getHeight() + PADDING_Y, 150, INPUT_FIELD_HEIGHT);
+		etcParamLb.setBounds(START_X, targetParamValueLb.getY() + targetParamValueLb.getHeight() + PADDING_Y, LABEL_WIDTH, INPUT_FIELD_HEIGHT);
 		etcParamFld.setBounds(etcParamLb.getX() + etcParamLb.getWidth(), etcParamLb.getY(), 250, INPUT_FIELD_HEIGHT);
 		add(etcParamLb);
 		add(etcParamFld);
@@ -128,7 +129,7 @@ public class InputPanel extends JPanel{
 		// match
 		matchLb = new JLabel("Success String (Match) : ");
 		matchFld = new JTextField();
-		matchLb.setBounds(START_X, etcParamLb.getY() + etcParamLb.getHeight() + PADDING_Y, 150, INPUT_FIELD_HEIGHT);
+		matchLb.setBounds(START_X, etcParamLb.getY() + etcParamLb.getHeight() + PADDING_Y, LABEL_WIDTH, INPUT_FIELD_HEIGHT);
 		matchFld.setBounds(matchLb.getX() + matchLb.getWidth(), matchLb.getY(), 250, INPUT_FIELD_HEIGHT);
 		add(matchLb);
 		add(matchFld);
@@ -143,7 +144,7 @@ public class InputPanel extends JPanel{
 		dbmsBtnGroup.add(dbmsBtn1);
 		dbmsBtnGroup.add(dbmsBtn2);
 		dbmsBtnGroup.add(dbmsBtn3);
-		dbmsLb.setBounds(START_X, matchLb.getY() + matchLb.getHeight() + PADDING_Y, 150, INPUT_FIELD_HEIGHT);
+		dbmsLb.setBounds(START_X, matchLb.getY() + matchLb.getHeight() + PADDING_Y, LABEL_WIDTH, INPUT_FIELD_HEIGHT);
 		dbmsBtn1.setBounds(dbmsLb.getX() + dbmsLb.getWidth(), dbmsLb.getY(), 80, INPUT_FIELD_HEIGHT);
 		dbmsBtn2.setBounds(dbmsBtn1.getX() + dbmsBtn1.getWidth(), dbmsLb.getY(), 80, INPUT_FIELD_HEIGHT);
 		dbmsBtn2.setEnabled(false);
@@ -166,7 +167,7 @@ public class InputPanel extends JPanel{
 		stepBtnGroup.add(stepBtn2);
 		stepBtnGroup.add(stepBtn3);
 		stepBtnGroup.add(stepBtn4);
-		stepLb.setBounds(START_X, dbmsLb.getY() + dbmsLb.getHeight() + PADDING_Y, 150, INPUT_FIELD_HEIGHT);
+		stepLb.setBounds(START_X, dbmsLb.getY() + dbmsLb.getHeight() + PADDING_Y, LABEL_WIDTH, INPUT_FIELD_HEIGHT);
 		stepBtn1.setBounds(stepLb.getX() + stepLb.getWidth(), stepLb.getY(),80, INPUT_FIELD_HEIGHT);
 		stepBtn2.setBounds(stepBtn1.getX() + stepBtn1.getWidth(), stepLb.getY(),80, INPUT_FIELD_HEIGHT);
 		stepBtn3.setBounds(stepBtn2.getX() + stepBtn2.getWidth(), stepLb.getY(),80, INPUT_FIELD_HEIGHT);
@@ -180,7 +181,7 @@ public class InputPanel extends JPanel{
 		// db name
 		dbNameLb = new JLabel("DB Name : ");
 		dbNameFld = new JTextField();
-		dbNameLb.setBounds(START_X, stepLb.getY() + stepLb.getHeight() + PADDING_Y, 150, INPUT_FIELD_HEIGHT);
+		dbNameLb.setBounds(START_X, stepLb.getY() + stepLb.getHeight() + PADDING_Y, LABEL_WIDTH, INPUT_FIELD_HEIGHT);
 		dbNameFld.setBounds(dbNameLb.getX() + dbNameLb.getWidth(), dbNameLb.getY(), 200, INPUT_FIELD_HEIGHT);
 		add(dbNameLb);
 		add(dbNameFld);
@@ -188,7 +189,7 @@ public class InputPanel extends JPanel{
 		// table Name
 		tblNameLb = new JLabel("Table Name : ");
 		tblNameFld = new JTextField();
-		tblNameLb.setBounds(START_X, dbNameLb.getY() + dbNameLb.getHeight() + 5, 150, INPUT_FIELD_HEIGHT);
+		tblNameLb.setBounds(START_X, dbNameLb.getY() + dbNameLb.getHeight() + 5, LABEL_WIDTH, INPUT_FIELD_HEIGHT);
 		tblNameFld.setBounds(tblNameLb.getX() + tblNameLb.getWidth(), tblNameLb.getY(), 200, INPUT_FIELD_HEIGHT);
 		add(tblNameLb);
 		add(tblNameFld);
@@ -196,7 +197,7 @@ public class InputPanel extends JPanel{
 		// column Name
 		colNameLb = new JLabel("Column Name : ");
 		colNameFld = new JTextField();
-		colNameLb.setBounds(START_X, tblNameLb.getY() + tblNameLb.getHeight() + 5, 150, INPUT_FIELD_HEIGHT);
+		colNameLb.setBounds(START_X, tblNameLb.getY() + tblNameLb.getHeight() + 5, LABEL_WIDTH, INPUT_FIELD_HEIGHT);
 		colNameFld.setBounds(colNameLb.getX() + colNameLb.getWidth(), colNameLb.getY(), 200, INPUT_FIELD_HEIGHT);
 		add(colNameLb);
 		add(colNameFld);
